@@ -1,12 +1,13 @@
 <template>
-  <b-container>
-    <router-view></router-view>
-  </b-container>
+  <div>
+    <navbar />
+    Home
+  </div>
 </template>
 
 <script>
   export default {
-    name: 'app'
+    name: 'landing-page'
   }
 </script>
 

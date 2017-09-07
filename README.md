@@ -1,4 +1,4 @@
-# Browser RPG
+# Recipe Manager
 
 This app is split between `server` and `client` applications. Both run as a single application.
 
