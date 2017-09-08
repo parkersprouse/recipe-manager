@@ -4,6 +4,7 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import Navbar from './components/Navbar'
+import LoginForm from './components/LoginForm'
 import router from './router'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -16,6 +17,7 @@ Vue.use(BootstrapVue)
 
 // Globally register any components we may need
 Vue.component('navbar', Navbar)
+Vue.component('loginform', LoginForm)
 
 /* eslint-disable no-new */
 new Vue({

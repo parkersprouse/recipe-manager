@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <navbar />
-    Home
-  </div>
+  <b-container>
+    <loginform />
+  </b-container>
 </template>
 
 <script>
