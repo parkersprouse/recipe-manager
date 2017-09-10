@@ -1,6 +1,19 @@
 <template>
   <b-container>
-    <loginform />
+    <div class="row justify-content-md-center align-items-center">
+      <div class="col col-lg-6">
+        <b-card no-body>
+          <b-tabs ref="tabs" card>
+            <b-tab title="Login" active>
+              <login-form />
+            </b-tab>
+            <b-tab title="Register">
+              Register here
+            </b-tab>
+          </b-tabs>
+        </b-card>
+      </div>
+    </div>
   </b-container>
 </template>
 

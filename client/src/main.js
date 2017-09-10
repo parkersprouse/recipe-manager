@@ -17,7 +17,7 @@ Vue.use(BootstrapVue)
 
 // Globally register any components we may need
 Vue.component('navbar', Navbar)
-Vue.component('loginform', LoginForm)
+Vue.component('login-form', LoginForm)
 
 /* eslint-disable no-new */
 new Vue({
