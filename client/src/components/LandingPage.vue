@@ -8,7 +8,7 @@
               <login-form />
             </b-tab>
             <b-tab title="Register">
-              Register here
+              <register-form />
             </b-tab>
           </b-tabs>
         </b-card>

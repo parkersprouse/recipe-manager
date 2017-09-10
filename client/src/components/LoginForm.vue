@@ -2,9 +2,12 @@
   <div>
     <b-form @submit.prevent="onSubmit">
 
+      <b-alert variant="danger" :show="showErrorMsg">
+        {{ errorMsg }}
+      </b-alert>
+
       <b-form-group id="loginEmailGroup" label="Email:" label-for="loginEmailField">
         <b-form-input id="loginEmailField" type="text" v-model="form.email" placeholder="Email" :state="emailState" />
-        <span v-if="!emailValid">Wrong</span>
       </b-form-group>
 
       <b-form-group id="loginPasswordGroup" label="Password:" label-for="loginPasswordField">
@@ -22,6 +25,8 @@
     data: function() {
       return {
         submitted: false,
+        errorMsg: null,
+        showErrorMsg: false,
         form: {
           email: '',
           password: ''
@@ -32,22 +37,42 @@
       anyErrors: function() {
         return !this.emailValid || !this.passwordValid
       },
+      anyEmpty: function() {
+        return this.emailEmpty || this.passwordEmpty
+      },
       emailState: function() {
-        return this.form.email.length > 0 || !this.submitted ? 'valid' : 'invalid'
+        return !this.emailEmpty || !this.submitted ? 'valid' : 'invalid'
       },
       passwordState: function() {
-        return this.form.password.length > 0 || !this.submitted ? 'valid' : 'invalid'
+        return !this.passwordEmpty || !this.submitted ? 'valid' : 'invalid'
       },
       emailValid: function() {
         return this.emailState === 'valid'
       },
       passwordValid: function() {
         return this.passwordState === 'valid'
+      },
+      emailEmpty: function() {
+        return this.form.email.length < 1
+      },
+      passwordEmpty: function() {
+        return this.form.password.length < 1
       }
     },
     methods: {
+      resetErrors() {
+        this.submitted = false
+        this.errorMsg = null
+        this.showErrorMsg = false
+      },
       onSubmit(event) {
+        this.resetErrors()
         this.submitted = true
+
+        if (this.anyEmpty) {
+          this.errorMsg = 'Please make sure all required fields are filled out'
+          this.showErrorMsg = true
+        }
       }
     }
   }
