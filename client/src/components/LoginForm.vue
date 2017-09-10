@@ -3,7 +3,7 @@
     <b-form @submit.prevent="onSubmit">
 
       <b-alert variant="danger" :show="showErrorMsg">
-        {{ errorMsg }}
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
       </b-alert>
 
       <b-form-group id="loginEmailGroup" label="Email:" label-for="loginEmailField">
@@ -15,6 +15,7 @@
       </b-form-group>
 
       <div class="centered-text"><b-button type="submit" variant="primary">Login</b-button></div>
+
     </b-form>
   </div>
 </template>
@@ -77,22 +78,3 @@
     }
   }
 </script>
-
-<style>
-  .was-validated .form-control:valid, .form-control.is-valid, .was-validated .custom-select:valid, .custom-select.is-valid {
-    border: 1px solid rgba(0, 0, 0, 0.15);
-  }
-
-  .was-validated .form-control:valid:focus, .form-control.is-valid:focus, .was-validated .custom-select:valid:focus, .custom-select.is-valid:focus {
-    border-color: #80bdff;
-    box-shadow: none;
-  }
-
-  .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus, .was-validated .custom-select:invalid:focus, .custom-select.is-invalid:focus {
-    box-shadow: none;
-  }
-
-  .centered-text {
-    text-align: center;
-  }
-</style>

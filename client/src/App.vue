@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 20px">
+  <div id="container">
     <router-view></router-view>
   </div>
 </template>
@@ -9,6 +9,3 @@
     name: 'app'
   }
 </script>
-
-<style>
-</style>

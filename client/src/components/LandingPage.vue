@@ -22,6 +22,3 @@
     name: 'landing-page'
   }
 </script>
-
-<style>
-</style>

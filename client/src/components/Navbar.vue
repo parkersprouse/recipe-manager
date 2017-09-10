@@ -28,10 +28,3 @@
     name: 'navbar'
   }
 </script>
-
-<style>
-  #navbar {
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-</style>

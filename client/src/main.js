@@ -8,8 +8,10 @@ import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import router from './router'
 
+import './assets/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import './assets/css/custom.css'
 
 Vue.config.productionTip = false
 
