@@ -14,7 +14,9 @@
         <b-form-input id="loginPasswordField" type="password" v-model="form.password" placeholder="Password" :state="passwordState" />
       </b-form-group>
 
-      <div class="centered-text"><b-button type="submit" variant="primary">Login</b-button></div>
+      <div class="centered-text">
+        <b-button type="submit" variant="primary">Login</b-button>
+      </div>
 
     </b-form>
   </div>

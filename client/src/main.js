@@ -4,11 +4,11 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import App from './App';
-import Navbar from './components/Navbar';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import router from './router';
+import App from '@/App';
+import Navbar from '@/components/Navbar';
+import LoginForm from '@/components/LoginForm';
+import RegisterForm from '@/components/RegisterForm';
+import router from '@/router';
 
 import './assets/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
