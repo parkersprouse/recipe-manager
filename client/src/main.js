@@ -25,10 +25,9 @@ Vue.component('navbar', Navbar);
 Vue.component('login-form', LoginForm);
 Vue.component('register-form', RegisterForm);
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App />',
   components: { App }
-})
+});
