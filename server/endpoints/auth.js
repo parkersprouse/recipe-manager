@@ -103,7 +103,7 @@ function register(req, res, next) {
 
         console.log(err);
 
-        if (err.code == constants.db_err_duplicate) {
+        if (err.code === constants.db_err_duplicate) {
           if (err.constraint === 'username' || err.constraint === 'users_lower_idx')
             msg = 'An account with that username already exists';
           else if (err.constraint === 'email' || err.constraint === 'users_lower_idx1')

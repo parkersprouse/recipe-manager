@@ -34,30 +34,30 @@
     },
     computed: {
       anyErrors: function() {
-        return !this.emailValid || !this.passwordValid || !this.confirmPasswordValid
+        return !this.emailValid || !this.passwordValid || !this.confirmPasswordValid;
       },
       emailState: function() {
-        return this.form.email.length > 0 || !this.submitted ? 'valid' : 'invalid'
+        return this.form.email.length > 0 || !this.submitted ? 'valid' : 'invalid';
       },
       passwordState: function() {
-        return this.form.password.length > 0 || !this.submitted ? 'valid' : 'invalid'
+        return this.form.password.length > 0 || !this.submitted ? 'valid' : 'invalid';
       },
       confirmPasswordState: function() {
-        return this.form.confirmpassword.length > 0 || !this.submitted ? 'valid' : 'invalid'
+        return this.form.confirmpassword.length > 0 || !this.submitted ? 'valid' : 'invalid';
       },
       emailValid: function() {
-        return this.emailState === 'valid'
+        return this.emailState === 'valid';
       },
       passwordValid: function() {
-        return this.passwordState === 'valid'
+        return this.passwordState === 'valid';
       },
       confirmPasswordValid: function() {
-        return this.confirmPasswordState === 'valid'
+        return this.confirmPasswordState === 'valid';
       }
     },
     methods: {
       onSubmit(event) {
-        this.submitted = true
+        this.submitted = true;
       }
     }
   }

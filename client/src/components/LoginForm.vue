@@ -36,43 +36,43 @@
     },
     computed: {
       anyErrors: function() {
-        return !this.emailValid || !this.passwordValid
+        return !this.emailValid || !this.passwordValid;
       },
       anyEmpty: function() {
-        return this.emailEmpty || this.passwordEmpty
+        return this.emailEmpty || this.passwordEmpty;
       },
       emailState: function() {
-        return !this.emailEmpty || !this.submitted ? 'valid' : 'invalid'
+        return !this.emailEmpty || !this.submitted ? 'valid' : 'invalid';
       },
       passwordState: function() {
-        return !this.passwordEmpty || !this.submitted ? 'valid' : 'invalid'
+        return !this.passwordEmpty || !this.submitted ? 'valid' : 'invalid';
       },
       emailValid: function() {
-        return this.emailState === 'valid'
+        return this.emailState === 'valid';
       },
       passwordValid: function() {
-        return this.passwordState === 'valid'
+        return this.passwordState === 'valid';
       },
       emailEmpty: function() {
-        return this.form.email.length < 1
+        return this.form.email.length < 1;
       },
       passwordEmpty: function() {
-        return this.form.password.length < 1
+        return this.form.password.length < 1;
       }
     },
     methods: {
       resetErrors() {
-        this.submitted = false
-        this.errorMsg = null
-        this.showErrorMsg = false
+        this.submitted = false;
+        this.errorMsg = null;
+        this.showErrorMsg = false;
       },
       onSubmit(event) {
-        this.resetErrors()
-        this.submitted = true
+        this.resetErrors();
+        this.submitted = true;
 
         if (this.anyEmpty) {
-          this.errorMsg = 'Please make sure all required fields are filled out'
-          this.showErrorMsg = true
+          this.errorMsg = 'Please make sure all required fields are filled out';
+          this.showErrorMsg = true;
         }
       }
     }

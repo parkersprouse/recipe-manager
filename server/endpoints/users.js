@@ -101,7 +101,7 @@ function updateUser(req, res, next) {
       .catch(function (err) {
         let msg = 'There was an unknown problem when updating your account';
 
-        if (err.code == constants.db_err_duplicate) {
+        if (err.code === constants.db_err_duplicate) {
           if (err.constraint === 'username')
             msg = 'An account with that username already exists';
           else if (err.constraint === 'email')
