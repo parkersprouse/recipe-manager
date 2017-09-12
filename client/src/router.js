@@ -50,4 +50,4 @@ export default new Router({
       component: { template: '<div style="text-align: center;">404 not found</div>' }
     }
   ]
-})
+});

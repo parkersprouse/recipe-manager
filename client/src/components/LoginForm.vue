@@ -15,7 +15,7 @@
       </b-form-group>
 
       <div class="centered-text">
-        <b-button type="submit" variant="primary">Login</b-button>
+        <b-button type="submit" variant="primary" :disabled="submitting">Login</b-button>
       </div>
 
     </b-form>
@@ -29,6 +29,7 @@
     name: 'login-form',
     data: function() {
       return {
+        submitting: false,
         errorMsg: null,
         emailState: 'valid',
         passwordState: 'valid',
@@ -47,6 +48,7 @@
       },
       onSubmit(event) {
         this.resetErrors();
+        this.submitting = true;
 
         api.login(this.form, function(success, response) {
           if (success) {
@@ -56,6 +58,7 @@
             this.errorMsg = response.data.message;
             this.emailState = response.data.content.emailState || 'valid';
             this.passwordState = response.data.content.passwordState || 'valid';
+            this.submitting = false;
           }
         }.bind(this));
       }

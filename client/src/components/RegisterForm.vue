@@ -22,7 +22,10 @@
         <b-form-input id="registerConfirmPasswordField" type="password" v-model="form.confirmpassword" placeholder="Confirm Password" :state="confirmPasswordState" />
       </b-form-group>
 
-      <div class="centered-text"><b-button type="submit" variant="primary">Register</b-button></div>
+      <div class="centered-text">
+        <b-button type="submit" variant="primary" :disabled="submitting">Register</b-button>
+      </div>
+      
     </b-form>
   </div>
 </template>
@@ -34,6 +37,7 @@
     name: 'register-form',
     data: function() {
       return {
+        submitting: false,
         registrationSuccessful: false,
         errorMsg: null,
         emailState: 'valid',
@@ -56,6 +60,7 @@
       },
       onSubmit(event) {
         this.resetErrors();
+        this.submitting = true;
 
         api.register(this.form, function(success, response) {
           if (success) {
@@ -66,6 +71,7 @@
             this.emailState = response.data.content.emailState || 'valid';
             this.passwordState = response.data.content.passwordState || 'valid';
             this.confirmPasswordState = response.data.content.confirmPasswordState || 'valid';
+            this.submitting = false;
           }
         }.bind(this));
       }
