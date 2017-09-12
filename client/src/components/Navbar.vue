@@ -14,7 +14,7 @@
         <b-nav is-nav-bar class="ml-auto">
           <b-nav-item-dropdown text="User" right>
             <b-dropdown-item href="/">Account</b-dropdown-item>
-            <b-dropdown-item href="/">Logout</b-dropdown-item>
+            <b-dropdown-item href="/logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-nav>
 

@@ -6,10 +6,6 @@
         <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
       </b-alert>
 
-      <b-alert variant="success" :show="loginSuccessful">
-        <i class="fa fa-check-circle" aria-hidden="true"></i> You have successfully logged in
-      </b-alert>
-
       <b-form-group id="loginEmailGroup" label="Email:" label-for="loginEmailField">
         <b-form-input id="loginEmailField" type="text" v-model="form.email" placeholder="Email" :state="emailState" />
       </b-form-group>
@@ -27,13 +23,12 @@
 </template>
 
 <script>
-  import api from '../utils/api';
+  import api from '@/utils/api';
 
   export default {
     name: 'login-form',
     data: function() {
       return {
-        loginSuccessful: false,
         errorMsg: null,
         emailState: 'valid',
         passwordState: 'valid',
@@ -55,7 +50,7 @@
 
         api.login(this.form, function(success, response) {
           if (success) {
-            this.loginSuccessful = true;
+            window.location.href = '/home';
           }
           else {
             this.errorMsg = response.data.message;

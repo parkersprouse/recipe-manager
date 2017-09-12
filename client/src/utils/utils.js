@@ -23,10 +23,10 @@ module.exports = {
     }
   },
 
-  logout: function() {
+  logout: function(to, from, next) {
     const cookies = new Cookies();
     cookies.remove('token');
-    window.location.href = '/';
+    next('/');
   },
 
   getCurrentUserInfo: function(callback) {
