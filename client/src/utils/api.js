@@ -1,6 +1,5 @@
 const axios = require('axios');
 const constants = require('./constants');
-require('dotenv').config();
 
 function performGet(endpoint, callback) {
   axios.get(endpoint)

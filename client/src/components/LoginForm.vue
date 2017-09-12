@@ -2,8 +2,12 @@
   <div>
     <b-form @submit.prevent="onSubmit">
 
-      <b-alert variant="danger" :show="showErrorMsg">
+      <b-alert variant="danger" :show="!!errorMsg">
         <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
+      </b-alert>
+
+      <b-alert variant="success" :show="loginSuccessful">
+        <i class="fa fa-check-circle" aria-hidden="true"></i> You have successfully logged in
       </b-alert>
 
       <b-form-group id="loginEmailGroup" label="Email:" label-for="loginEmailField">
@@ -23,59 +27,42 @@
 </template>
 
 <script>
+  import api from '../utils/api';
+
   export default {
     name: 'login-form',
     data: function() {
       return {
-        submitted: false,
+        loginSuccessful: false,
         errorMsg: null,
-        showErrorMsg: false,
+        emailState: 'valid',
+        passwordState: 'valid',
         form: {
           email: '',
           password: ''
         }
       }
     },
-    computed: {
-      anyErrors: function() {
-        return !this.emailValid || !this.passwordValid;
-      },
-      anyEmpty: function() {
-        return this.emailEmpty || this.passwordEmpty;
-      },
-      emailState: function() {
-        return !this.emailEmpty || !this.submitted ? 'valid' : 'invalid';
-      },
-      passwordState: function() {
-        return !this.passwordEmpty || !this.submitted ? 'valid' : 'invalid';
-      },
-      emailValid: function() {
-        return this.emailState === 'valid';
-      },
-      passwordValid: function() {
-        return this.passwordState === 'valid';
-      },
-      emailEmpty: function() {
-        return this.form.email.length < 1;
-      },
-      passwordEmpty: function() {
-        return this.form.password.length < 1;
-      }
-    },
     methods: {
       resetErrors() {
-        this.submitted = false;
         this.errorMsg = null;
         this.showErrorMsg = false;
+        this.emailState = 'valid';
+        this.passwordState = 'valid';
       },
       onSubmit(event) {
         this.resetErrors();
-        this.submitted = true;
 
-        if (this.anyEmpty) {
-          this.errorMsg = 'Please make sure all required fields are filled out';
-          this.showErrorMsg = true;
-        }
+        api.login(this.form, function(success, response) {
+          if (success) {
+            this.loginSuccessful = true;
+          }
+          else {
+            this.errorMsg = response.data.message;
+            this.emailState = response.data.content.emailState || 'valid';
+            this.passwordState = response.data.content.passwordState || 'valid';
+          }
+        }.bind(this));
       }
     }
   }

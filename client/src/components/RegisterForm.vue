@@ -2,8 +2,12 @@
   <div>
     <b-form @submit.prevent="onSubmit">
 
-      <b-alert variant="danger" :show="showErrorMsg">
+      <b-alert variant="danger" :show="!!errorMsg">
         <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
+      </b-alert>
+
+      <b-alert variant="success" :show="registrationSuccessful">
+        <i class="fa fa-check-circle" aria-hidden="true"></i> You have successfully registered! You may now login.
       </b-alert>
 
       <b-form-group id="registerEmailGroup" label="Email:" label-for="registerEmailField">
@@ -30,9 +34,11 @@
     name: 'register-form',
     data: function() {
       return {
-        submitted: false,
+        registrationSuccessful: false,
         errorMsg: null,
-        showErrorMsg: false,
+        emailState: 'valid',
+        passwordState: 'valid',
+        confirmPasswordState: 'valid',
         form: {
           email: '',
           password: '',
@@ -40,55 +46,28 @@
         }
       }
     },
-    computed: {
-      anyErrors: function() {
-        return !this.emailValid || !this.passwordValid || !this.confirmPasswordValid;
-      },
-      anyEmpty: function() {
-        return this.emailEmpty || this.passwordEmpty || this.confirmPasswordEmpty;
-      },
-      emailState: function() {
-        return !this.emailEmpty || !this.submitted ? 'valid' : 'invalid';
-      },
-      passwordState: function() {
-        return !this.passwordEmpty || !this.submitted ? 'valid' : 'invalid';
-      },
-      confirmPasswordState: function() {
-        return !this.confirmPasswordEmpty || !this.submitted ? 'valid' : 'invalid';
-      },
-      emailValid: function() {
-        return this.emailState === 'valid';
-      },
-      passwordValid: function() {
-        return this.passwordState === 'valid';
-      },
-      confirmPasswordValid: function() {
-        return this.confirmPasswordState === 'valid';
-      },
-      emailEmpty: function() {
-        return this.form.email.length < 1;
-      },
-      passwordEmpty: function() {
-        return this.form.password.length < 1;
-      },
-      confirmPasswordEmpty: function() {
-        return this.form.confirmpassword.length < 1;
-      }
-    },
     methods: {
       resetErrors() {
-        this.submitted = false;
         this.errorMsg = null;
         this.showErrorMsg = false;
+        this.emailState = 'valid';
+        this.passwordState = 'valid';
+        this.confirmPasswordState = 'valid';
       },
       onSubmit(event) {
         this.resetErrors();
-        this.submitted = true;
 
-        if (this.anyEmpty) {
-          this.errorMsg = 'Please make sure all required fields are filled out';
-          this.showErrorMsg = true;
-        }
+        api.register(this.form, function(success, response) {
+          if (success) {
+            this.registrationSuccessful = true;
+          }
+          else {
+            this.errorMsg = response.data.message;
+            this.emailState = response.data.content.emailState || 'valid';
+            this.passwordState = response.data.content.passwordState || 'valid';
+            this.confirmPasswordState = response.data.content.confirmPasswordState || 'valid';
+          }
+        }.bind(this));
       }
     }
   }
