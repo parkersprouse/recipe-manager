@@ -9,7 +9,7 @@ Vue.use(Router);
 function mustBeLoggedIn(to, from, next) {
   utils.isLoggedIn(function(loggedIn) {
     if (!loggedIn)
-      next('/');
+      next({ path: '/', query: { n: to.fullPath } });
     else
       next();
   });

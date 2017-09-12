@@ -5,7 +5,7 @@
         <b-card no-body>
           <b-tabs ref="tabs" card>
             <b-tab title="Login" active>
-              <login-form />
+              <login-form :next="next" />
             </b-tab>
             <b-tab title="Register">
               <register-form />
@@ -18,7 +18,13 @@
 </template>
 
 <script>
+
   export default {
-    name: 'landing-page'
+    name: 'landing-page',
+    data: function() {
+      return {
+        next: !!this.$route.query.n ? this.$route.query.n : null
+      }
+    }
   }
 </script>

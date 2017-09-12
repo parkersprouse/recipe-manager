@@ -27,6 +27,7 @@
 
   export default {
     name: 'login-form',
+    props: ['next'],
     data: function() {
       return {
         submitting: false,
@@ -52,7 +53,7 @@
 
         api.login(this.form, function(success, response) {
           if (success) {
-            window.location.href = '/home';
+            window.location.href = this.next || '/home';
           }
           else {
             this.errorMsg = response.data.message;
