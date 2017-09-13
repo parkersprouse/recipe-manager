@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import LandingPage from '@/pages/LandingPage';
 import HomePage from '@/pages/HomePage';
+import ProfilePage from '@/pages/ProfilePage';
+import EditProfilePage from '@/pages/EditProfilePage';
 import utils from '@/utils/utils';
 
 Vue.use(Router);
@@ -29,24 +31,45 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'LandingPage',
       component: LandingPage,
       beforeEnter: mustBeLoggedOut
     },
     {
       path: '/home',
-      name: 'HomePage',
+      component: HomePage,
+      beforeEnter: mustBeLoggedIn
+    },
+    {
+      path: '/profile',
+      component: ProfilePage,
+      beforeEnter: mustBeLoggedIn
+    },
+    {
+      path: '/profile/edit',
+      component: EditProfilePage,
+      beforeEnter: mustBeLoggedIn
+    },
+    {
+      path: '/recipes',
+      component: ProfilePage,
+      beforeEnter: mustBeLoggedIn
+    },
+    {
+      path: '/recipes/add',
+      component: HomePage,
+      beforeEnter: mustBeLoggedIn
+    },
+    {
+      path: '/recipes/:id',
       component: HomePage,
       beforeEnter: mustBeLoggedIn
     },
     {
       path: '/logout',
-      name: 'Logout',
       beforeEnter: utils.logout
     },
     {
       path: '*',
-      name: '404',
       component: { template: '<div style="text-align: center;">404 not found</div>' }
     }
   ]
