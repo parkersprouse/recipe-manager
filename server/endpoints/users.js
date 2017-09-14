@@ -7,6 +7,7 @@ const constants = require('../constants');
 const db = require('../db').db;
 const jwt = require('jwt-simple');
 const utils = require('../utils.js');
+const validator = require('validator');
 
 
 // private functions
@@ -84,47 +85,107 @@ function getUserByEmail(req, res, next) {
 }
 
 function updateUser(req, res, next) {
-  let updates = '';
+  const currentPassword = req.body.currentPassword;
+  const email = req.body.email;
 
-  for (let key in req.body)
-    if (req.body.hasOwnProperty(key) && key !== 'id')
-      updates += key + ' = \'' + req.body[key] + '\', ';
+  const currentPasswordEmpty = validator.isEmpty(currentPassword);
+  const emailEmpty = validator.isEmpty(email);
 
-  if (!!updates) {
-    updates = updates.slice(0, -2);
-
-    let query = 'update users set ' + updates + ' where id = $1 returning *';
-    db.one(query, req.body.id)
-      .then(function (data) {
-        // after updating, we have to re-create the auth token cookie with the new data
-        const payload = utils.generateJwtPayload(data);
-        const token = jwt.encode(payload, config.jwtSecret);
-        res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: false });
-        res.status(constants.http_ok)
-          .json({
-            status: 'success',
-            message: 'Successfully updated your profile'
-          });
-      })
-      .catch(function (err) {
-        let msg = 'There was an unknown problem when updating your account';
-
-        if (err.code === constants.db_err_duplicate && err.constraint === 'email')
-          msg = 'An account with that email address already exists';
-
-        res.status(constants.http_bad_request)
-          .json({
-            status: 'failure',
-            content: err,
-            message: msg
-          });
-      });
-  }
-  else {
+  if (emailEmpty || currentPasswordEmpty) {
     res.status(constants.http_bad_request)
       .json({
         status: 'failure',
-        message: 'You must provide at least one property to update'
+        content: {
+          emailState: emailEmpty ? 'invalid' : 'valid',
+          currentPasswordState: currentPasswordEmpty ? 'invalid' : 'valid'
+        },
+        messages: {
+          emailErr: emailEmpty ? 'Please make sure your email is filled out' : null,
+          verifyErr: currentPasswordEmpty ? 'Please make sure your current password is filled out' : null
+        }
+      });
+  }
+  else if (!validator.isEmail(email)) {
+    res.status(constants.http_bad_request)
+      .json({
+        status: 'failure',
+        content: {
+          emailState: 'invalid',
+          currentPasswordState: 'valid'
+        },
+        messages: {
+          emailErr: 'Please make sure your email is valid',
+          verifyErr: null
+        }
+      });
+  }
+  else {
+    db.one('select * from users where id = $1', req.body.id)
+      .then(function(data) {
+        const match = bcrypt.compareSync(currentPassword, data.pw_hash);
+
+        if (match) {
+
+          let query = 'update users set email = ${email} where id = ${id} returning *';
+          db.one(query, { email: email, id: req.body.id })
+            .then(function (data) {
+              // after updating, we have to re-create the auth token cookie with the new data
+              const payload = utils.generateJwtPayload(data);
+              const token = jwt.encode(payload, config.jwtSecret);
+              res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: false });
+              res.status(constants.http_ok)
+                .json({
+                  status: 'success'
+                });
+            })
+            .catch(function (err) {
+              let msg = 'There was an unknown problem when updating your account';
+
+              if (err.code === constants.db_err_duplicate)
+                msg = 'That email address is already in use';
+
+              res.status(constants.http_bad_request)
+                .json({
+                  status: 'failure',
+                  content: {
+                    emailState: 'invalid',
+                    currentPasswordState: 'valid'
+                  },
+                  messages: {
+                    emailErr: msg,
+                    verifyErr: null
+                  }
+                });
+            });
+        }
+        else {
+          res.status(constants.http_bad_request)
+            .json({
+              status: 'failure',
+              content: {
+                emailState: 'valid',
+                currentPasswordState: 'invalid'
+              },
+              messages: {
+                emailErr: null,
+                verifyErr: 'Your current password was incorrect'
+              }
+            });
+        }
+      })
+      .catch(function (err) {
+        res.status(constants.http_bad_request)
+          .json({
+            status: 'failure',
+            content: {
+              emailState: 'valid',
+              currentPasswordState: 'valid'
+            },
+            messages: {
+              emailErr: 'There was an unknown problem when updating your account',
+              verifyErr: null
+            }
+          });
       });
   }
 }

@@ -43,7 +43,6 @@
     methods: {
       resetErrors() {
         this.errorMsg = null;
-        this.showErrorMsg = false;
         this.emailState = 'valid';
         this.passwordState = 'valid';
       },

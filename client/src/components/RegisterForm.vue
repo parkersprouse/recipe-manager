@@ -25,7 +25,7 @@
       <div class="centered-text">
         <b-button type="submit" variant="primary" :disabled="submitting">Register</b-button>
       </div>
-      
+
     </b-form>
   </div>
 </template>
@@ -53,7 +53,6 @@
     methods: {
       resetErrors() {
         this.errorMsg = null;
-        this.showErrorMsg = false;
         this.emailState = 'valid';
         this.passwordState = 'valid';
         this.confirmPasswordState = 'valid';
