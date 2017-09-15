@@ -9,7 +9,7 @@ module.exports = {
     const token = cookies.get('token');
 
     if (!!token) {
-      api.verifyJWT(token, function(success, response) {
+      api.verifyAuthToken(token, function(success, response) {
         if (success) {
           callback(true);
         }
@@ -34,7 +34,7 @@ module.exports = {
     const token = cookies.get('token');
 
     if (!!token) {
-      api.verifyJWT(token, function(success, response) {
+      api.verifyAuthToken(token, function(success, response) {
         if (success) {
           callback(true, response.content);
         }

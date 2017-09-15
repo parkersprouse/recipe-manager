@@ -78,8 +78,24 @@ module.exports = {
     performPatch('/api/users/updatepw', data, callback);
   },
 
-  verifyJWT: function(token, callback) {
-    performPost('/api/misc/verifytoken', { token: token }, callback)
+  verifyAuthToken: function(token, callback) {
+    performPost('/api/misc/verifyauthtoken', { token: token }, callback)
+  },
+
+  getRecipe: function(id, callback) {
+    performGet('/api/recipe/' + id, callback);
+  },
+
+  addRecipe: function(data, callback) {
+    performPost('/api/recipe/add', data, callback);
+  },
+
+  updateRecipe: function(data, callback) {
+    performPatch('/api/recipe/update', data, callback);
+  },
+
+  deleteRecipe: function(id, callback) {
+    performDelete('/api/recipe/delete/' + id, callback);
   }
 
 }

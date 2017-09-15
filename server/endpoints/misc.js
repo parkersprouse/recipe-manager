@@ -6,7 +6,7 @@ const jwt = require('jwt-simple');
 
 // public functions
 
-function verifyJWT(req, res, next) {
+function verifyAuthToken(req, res, next) {
   try {
     const decoded = jwt.decode(req.body.token, config.jwtSecret);
 
@@ -46,5 +46,5 @@ function verifyJWT(req, res, next) {
 }
 
 module.exports = {
-  verifyJWT: verifyJWT
+  verifyAuthToken: verifyAuthToken
 }
