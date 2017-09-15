@@ -4,6 +4,73 @@ const validator = require('validator');
 const _ = require('lodash');
 
 
+// private functions
+
+function addOrUpdateRecipe(func, req, res, next) {
+  const title = req.body.title;
+  const description = req.body.description || null;
+  const ingredients = req.body.ingredients;
+  const steps = req.body.steps;
+  const id = req.body.id;
+
+  const titleEmpty = !title || validator.isEmpty(title);
+  const ingredientsEmpty = !ingredients || _.isEmpty(ingredients);
+  const stepsEmpty = !steps || _.isEmpty(steps);
+
+  if (titleEmpty || ingredientsEmpty || stepsEmpty) {
+    res.status(constants.http_bad_request)
+      .json({
+        status: 'failure',
+        content: {
+          titleState: titleEmpty ? 'invalid' : 'valid',
+          ingredientsState: ingredientsEmpty ? 'invalid' : 'valid',
+          stepsState: stepsEmpty ? 'invalid' : 'valid'
+        },
+        message: 'Please make sure all required fields are filled out'
+      });
+  }
+  else {
+    const data = {
+      title: title,
+      description: description,
+      ingredients: ingredients,
+      steps: steps,
+      id: id
+    };
+
+    let query = 'insert into recipes ' +
+                '(title, description, ingredients, steps, user_id) ' +
+                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}) ' +
+                'returning *';
+
+    if (func === 'update') {
+      query = 'update recipes set ' +
+              'title = ${title}, description = ${description}, ' +
+              'ingredients = ${ingredients}, steps = ${steps} ' +
+              'where id = ${id} returning *';
+    }
+
+    db.one(query, data)
+      .then(function (data) {
+        res.status(constants.http_ok)
+          .json({
+            status: 'success',
+            content: data
+          });
+      })
+      .catch(function (err) {
+        console.log(err);
+        res.status(constants.http_bad_request)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'There was an unknown problem when attempting to ' + func + ' the recipe'
+          });
+      });
+  }
+}
+
+
 // public functions
 
 function getRecipe(req, res, next) {
@@ -38,65 +105,11 @@ function getRecipe(req, res, next) {
 }
 
 function addRecipe(req, res, next) {
-  const title = req.body.title;
-  const description = req.body.description;
-  const ingredients = req.body.ingredients;
-  const steps = req.body.steps;
-  const user = req.body.user;
-
-  const titleEmpty = validator.isEmpty(title);
-  const ingredientsEmpty = _.isEmpty(ingredients);
-  const stepsEmpty = _.isEmpty(steps);
-  const userEmpty = !user;
-
-  if (titleEmpty || ingredientsEmpty || stepsEmpty || userEmpty) {
-    res.status(constants.http_bad_request)
-      .json({
-        status: 'failure',
-        content: {
-          titleState: titleEmpty ? 'invalid' : 'valid',
-          ingredientsState: ingredientsEmpty ? 'invalid' : 'valid',
-          stepsState: stepsEmpty ? 'invalid' : 'valid',
-          userState: userEmpty ? 'invalid' : 'valid',
-        },
-        message: 'Please make sure all required fields are filled out'
-      });
-  }
-  else {
-    const data = {
-      title: title,
-      description: description,
-      ingredients: ingredients,
-      steps: steps,
-      user: user
-    };
-
-    const query = 'insert into recipes ' +
-                  '(title, description, ingredients, steps, user) ' +
-                  'values(${title}, ${description}, ${ingredients}, ${steps}, ${user}) ' +
-                  'returning id';
-    db.one(query, data)
-      .then(function (data) {
-        res.status(constants.http_ok)
-          .json({
-            status: 'success',
-            content: data,
-            message: 'Added new recipe'
-          });
-      })
-      .catch(function (err) {
-        res.status(constants.http_bad_request)
-          .json({
-            status: 'failure',
-            content: err,
-            message: 'There was an unknown problem when adding your recipe'
-          });
-      });
-  }
+  addOrUpdateRecipe('add', req, res, next);
 }
 
 function updateRecipe(req, res, next) {
-
+  addOrUpdateRecipe('update', req, res, next);
 }
 
 function deleteRecipe(req, res, next) {

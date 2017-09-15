@@ -5,7 +5,7 @@ const router = require('express').Router();
 
 const auth = require('./endpoints/auth');
 const misc = require('./endpoints/misc');
-const recipes = require('./endpoints/recipe');
+const recipes = require('./endpoints/recipes');
 const users = require('./endpoints/users');
 
 // auth endpoints
