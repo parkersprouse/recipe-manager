@@ -84,6 +84,12 @@ function getUserByEmail(req, res, next) {
   getUserBy('email', req.params.email, res, next);
 }
 
+
+
+
+
+
+
 function updateUser(req, res, next) {
   const currentPassword = req.body.currentPassword;
   const email = req.body.email;
@@ -190,41 +196,118 @@ function updateUser(req, res, next) {
   }
 }
 
+
+
+
+
+
 function updateUserPassword(req, res, next) {
-  const body = req.body;
-  const match = bcrypt.compareSync(body.cur_pw, body.hash);
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+  const newPasswordConfirm = req.body.newPasswordConfirm;
 
-  if (match) {
-    const new_salt = bcrypt.genSaltSync();
-    const new_hash = bcrypt.hashSync(body.new_pw, new_salt);
+  const currentPasswordEmpty = validator.isEmpty(currentPassword);
+  const newPasswordEmpty = validator.isEmpty(newPassword);
+  const newPasswordConfirmEmpty = validator.isEmpty(newPasswordConfirm);
 
-    let query = 'update users set pw_hash = ${hash} where id = ${id} returning *';
-    db.one(query, {id: body.id, hash: new_hash})
-      .then(function (data) {
-        // after updating, we have to re-create the auth token cookie with the new data
-        const payload = utils.generateJwtPayload(data);
-        const token = jwt.encode(payload, config.jwtSecret);
-        res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: false });
-        res.status(constants.http_ok)
-          .json({
-            status: 'success',
-            message: 'Successfully updated your password'
-          });
+  if (currentPasswordEmpty || newPasswordEmpty || newPasswordConfirmEmpty) {
+    res.status(constants.http_bad_request)
+      .json({
+        status: 'failure',
+        content: {
+          newPasswordState: newPasswordEmpty ? 'invalid' : 'valid',
+          newPasswordConfirmState: newPasswordConfirmEmpty ? 'invalid' : 'valid',
+          currentPasswordState: currentPasswordEmpty ? 'invalid' : 'valid'
+        },
+        messages: {
+          passwordErr: newPasswordEmpty || newPasswordConfirmEmpty ? 'Please make sure both fields are filled out' : null,
+          verifyErr: currentPasswordEmpty ? 'Please make sure your current password is filled out' : null
+        }
+      });
+  }
+  else if (newPassword.length < 6) {
+    res.status(constants.http_bad_request)
+      .json({
+        status: 'failure',
+        content: {
+          newPasswordState: 'invalid'
+        },
+        messages: {
+          passwordErr: 'Password should be at least 6 characters long',
+          verifyErr: null
+        }
+      });
+  }
+  else if (newPassword !== newPasswordConfirm) {
+    res.status(constants.http_bad_request)
+      .json({
+        status: 'failure',
+        content: {
+          newPasswordState: 'invalid',
+          newPasswordConfirmState: 'invalid'
+        },
+        messages: {
+          passwordErr: 'Your passwords did not match',
+          verifyErr: null
+        }
+      });
+  }
+  else {
+    db.one('select * from users where id = $1', req.body.id)
+      .then(function(data) {
+        const match = bcrypt.compareSync(currentPassword, data.pw_hash);
+
+        if (match) {
+          const salt = bcrypt.genSaltSync();
+          const pw_hash = bcrypt.hashSync(newPassword, salt);
+
+          let query = 'update users set pw_hash = ${pw_hash} where id = ${id} returning *';
+          db.one(query, { pw_hash: pw_hash, id: req.body.id })
+            .then(function (data) {
+              const payload = utils.generateJwtPayload(data);
+              const token = jwt.encode(payload, config.jwtSecret);
+              res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: false });
+              res.status(constants.http_ok)
+                .json({
+                  status: 'success'
+                });
+            })
+            .catch(function (err) {
+              res.status(constants.http_bad_request)
+                .json({
+                  status: 'failure',
+                  content: {},
+                  messages: {
+                    passwordErr: 'There was an unknown problem when updating your password',
+                    verifyErr: null
+                  }
+                });
+            });
+        }
+        else {
+          res.status(constants.http_bad_request)
+            .json({
+              status: 'failure',
+              content: {
+                currentPasswordState: 'invalid'
+              },
+              messages: {
+                passwordErr: null,
+                verifyErr: 'Your current password was incorrect'
+              }
+            });
+        }
       })
       .catch(function (err) {
         res.status(constants.http_bad_request)
           .json({
             status: 'failure',
-            content: err,
-            message: 'There was an unknown problem when updating your password'
+            content: {},
+            messages: {
+              passwordErr: 'There was an unknown problem when updating your password',
+              verifyErr: null
+            }
           });
-      });
-  }
-  else {
-    res.status(constants.http_unauthorized)
-      .json({
-        status: 'failure',
-        message: 'Your current password was incorrect'
       });
   }
 }

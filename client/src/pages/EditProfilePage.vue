@@ -172,12 +172,22 @@
         const data = {
           id: this.user.id,
           newPassword: this.passwordForm.newPassword,
-          newPasswordConfirm: this.passwordForm.newPasswordConfirm
+          newPasswordConfirm: this.passwordForm.newPasswordConfirm,
+          currentPassword: this.verificationForm.currentPassword
         };
 
         api.updateUserPassword(data, function(success, response) {
-          if (success) {}
-          else {}
+          if (success) {
+            this.passwordForm.updateSuccessful = true;
+          }
+          else {
+            this.passwordForm.errorMsg = response.data.messages.passwordErr;
+            this.verificationForm.errorMsg = response.data.messages.verifyErr;
+            this.passwordForm.newPasswordState = response.data.content.newPasswordState || 'valid';
+            this.passwordForm.newPasswordConfirmState = response.data.content.newPasswordConfirmState || 'valid';
+            this.verificationForm.currentPasswordState = response.data.content.currentPasswordState || 'valid';
+          }
+          this.submitting = false;
         }.bind(this));
       }
     }
