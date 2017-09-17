@@ -86,6 +86,10 @@ module.exports = {
     performGet('/api/recipe/' + id, callback);
   },
 
+  getUsersRecipes: function(id, callback) {
+    performGet('/api/recipe/user/' + id, callback);
+  },
+
   addRecipe: function(data, callback) {
     performPost('/api/recipe/add', data, callback);
   },

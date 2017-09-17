@@ -17,6 +17,7 @@ router.post('/misc/verifyauthtoken', misc.verifyAuthToken);
 
 // recipe endpoints
 router.get('/recipe/:id', recipes.getRecipe);
+router.get('/recipe/user/:id', recipes.getUserRecipes);
 router.post('/recipe/add', recipes.addRecipe);
 router.patch('/recipe/update', recipes.updateRecipe);
 router.delete('/recipe/delete/:id', recipes.deleteRecipe);

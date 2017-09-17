@@ -4,6 +4,8 @@ import LandingPage from '@/pages/LandingPage';
 import HomePage from '@/pages/HomePage';
 import ProfilePage from '@/pages/ProfilePage';
 import EditProfilePage from '@/pages/EditProfilePage';
+import RecipesPage from '@/pages/RecipesPage';
+import ViewRecipePage from '@/pages/ViewRecipePage';
 import utils from '@/utils/utils';
 
 Vue.use(Router);
@@ -51,17 +53,22 @@ export default new Router({
     },
     {
       path: '/recipes',
-      component: ProfilePage,
+      component: RecipesPage,
       beforeEnter: mustBeLoggedIn
     },
     {
       path: '/recipes/add',
-      component: HomePage,
+      component: RecipesPage,
       beforeEnter: mustBeLoggedIn
     },
     {
       path: '/recipes/:id',
-      component: HomePage,
+      component: ViewRecipePage,
+      beforeEnter: mustBeLoggedIn
+    },
+    {
+      path: '/recipes/:id/edit',
+      component: RecipesPage,
       beforeEnter: mustBeLoggedIn
     },
     {
