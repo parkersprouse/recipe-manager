@@ -8,6 +8,7 @@ import App from '@/App';
 import Navbar from '@/components/Navbar';
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
+import RecipeForm from '@/components/RecipeForm';
 import router from '@/router';
 
 import './assets/css/font-awesome.min.css';
@@ -24,6 +25,7 @@ Vue.use(BootstrapVue);
 Vue.component('navbar', Navbar);
 Vue.component('login-form', LoginForm);
 Vue.component('register-form', RegisterForm);
+Vue.component('recipe-form', RecipeForm);
 
 new Vue({
   el: '#app',

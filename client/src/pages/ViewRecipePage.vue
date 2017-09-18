@@ -6,10 +6,14 @@
     <div v-else-if="recipe.private && recipe.user_id !== user.id">This recipe has been set to private</div>
     <div v-else>
       <h2>{{ recipe.title }}</h2>
-      <h4 v-if="recipe.description">{{ recipe.description }}</h4>
+      <span v-if="recipe.description">{{ recipe.description }}</span>
+      <br /><br /><br />
+      <h5>Ingredients</h5>
       <ul>
         <li v-for="item in recipe.ingredients">{{ item.amount }} {{ item.measurement }} {{ item.name }}</li>
       </ul>
+      <br /><br />
+      <h5>Steps</h5>
       <ol>
         <li v-for="item in recipe.steps">{{ item }}</li>
       </ol>
