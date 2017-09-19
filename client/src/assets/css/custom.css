@@ -29,8 +29,16 @@
   box-shadow: none;
 }
 
-.centered-text {
+.text-align-center {
   text-align: center;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
 }
 
 .navbar-light {
@@ -48,4 +56,8 @@
 
 .dropdown-toggle:after {
   vertical-align: 0.15em;
+}
+
+.step-input-group {
+  margin-bottom: 10px;
 }

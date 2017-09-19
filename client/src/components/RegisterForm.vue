@@ -22,7 +22,7 @@
         <b-form-input id="registerConfirmPasswordField" type="password" v-model="form.confirmpassword" placeholder="Confirm Password" :state="confirmPasswordState" />
       </b-form-group>
 
-      <div class="centered-text">
+      <div class="text-align-center">
         <b-button type="submit" variant="primary" :disabled="submitting">Register</b-button>
       </div>
 

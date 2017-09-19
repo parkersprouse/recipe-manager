@@ -43,7 +43,7 @@
                   <b-form-input id="editEmailField" type="text" v-model="accountForm.email" placeholder="Email" :state="accountForm.emailState" />
                 </b-input-group>
               </b-form-group>
-              <div class="centered-text">
+              <div class="text-align-center">
                 <b-button type="submit" variant="primary" :disabled="submitting">Edit Account</b-button>
               </div>
             </b-form>
@@ -75,7 +75,7 @@
                   <b-form-input id="editPasswordConfirmField" type="password" v-model="passwordForm.newPasswordConfirm" placeholder="Confirm New Password" :state="passwordForm.newPasswordConfirmState" />
                 </b-input-group>
               </b-form-group>
-              <div class="centered-text">
+              <div class="text-align-center">
                 <b-button type="submit" variant="primary" :disabled="submitting">Edit Password</b-button>
               </div>
             </b-form>
