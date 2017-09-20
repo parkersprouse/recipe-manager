@@ -10,6 +10,10 @@
         <b-button type="submit" variant="primary" :disabled="submitting">Create Recipe</b-button>
       </div>
 
+      <b-form-group id="recipePrivateGroup">
+        <b-form-checkbox id="recipePrivateField" v-model="form.private" value="true" unchecked-value="false">Private recipe</b-form-checkbox>
+      </b-form-group>
+
       <b-form-group id="recipeTitleGroup" label="Title:" label-for="recipeTitleField">
         <b-form-input id="recipeTitleField" type="text" v-model="form.title" placeholder="Title" :state="state.title" />
       </b-form-group>
@@ -87,7 +91,8 @@
             { value: 'pt', text: 'pt' },
             { value: 'tbsp', text: 'tbsp' },
             { value: 'tsp', text: 'tsp' }
-          ]
+          ],
+          private: 'false'
         },
         state: {
           title: 'valid',
@@ -132,7 +137,8 @@
           description: this.form.description,
           steps: this.form.steps,
           ingredients: {},
-          id: this.user.id
+          id: this.user.id,
+          private: this.form.private === 'true' ? true : false
         }
 
         for (let i = 0; i < this.form.ingredients.length; i++) {
