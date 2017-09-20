@@ -22,11 +22,11 @@
         <b-col>
           <b-form-group id="recipeStepGroup" label="Steps:" label-for="recipeStepField">
             <b-input-group v-for="(step, i) in form.steps" class="step-input-group">
-              <b-tooltip :target="'removeBtn' + i" title="Remove Step" triggers="hover" v-if="form.steps.length > 1"></b-tooltip>
+              <b-tooltip :target="'removeStepBtn' + i" title="Remove Step" triggers="hover" v-if="form.steps.length > 1"></b-tooltip>
               <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
               <b-form-textarea id="recipeStepField" v-model="form.steps[i]" rows="1" max-rows="3" :state="state.steps"></b-form-textarea>
               <b-input-group-button v-if="form.steps.length > 1">
-                <b-btn variant="danger" :id="'removeBtn' + i" @click="removeStep(i)"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
+                <b-btn variant="danger" :id="'removeStepBtn' + i" @click="removeStep(i)"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
               </b-input-group-button>
             </b-input-group>
             <div class="text-align-center">
@@ -35,7 +35,25 @@
           </b-form-group>
         </b-col>
 
-        <b-col>2 of 2</b-col>
+        <b-col>
+          <b-form-group id="recipeIngredientGroup" label="Ingredients:" label-for="recipeIngredientField">
+            <b-input-group v-for="(item, i) in form.ingredients" class="step-input-group">
+              <b-tooltip :target="'removeIngredientBtn' + i" title="Remove Ingredient" triggers="hover" v-if="form.ingredients.length > 1"></b-tooltip>
+              <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
+
+              <b-form-input type="text" v-model="form.ingredients[i].amount" />
+              <b-form-select v-model="form.ingredients[i].measurement" :options="form.ingredientOptions"></b-form-select>
+              <b-form-input type="text" v-model="form.ingredients[i].name" />
+
+              <b-input-group-button v-if="form.ingredients.length > 1">
+                <b-btn variant="danger" :id="'removeIngredientBtn' + i" @click="removeIngredient(i)"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
+              </b-input-group-button>
+            </b-input-group>
+            <div class="text-align-center">
+              <b-button type="button" variant="primary" @click="addIngredient">Add Ingredient</b-button>
+            </div>
+          </b-form-group>
+        </b-col>
       </b-row>
     </b-container>
 
@@ -61,7 +79,20 @@
         form: {
           title: '',
           description: '',
-          steps: ['']
+          steps: [''],
+          ingredients: [{name: "", measurement: "", amount: ""}],
+          ingredientOptions: [
+            { value: 'c', text: 'c' },
+            { value: 'g', text: 'g' },
+            { value: 'kg', text: 'kg' },
+            { value: 'l', text: 'l' },
+            { value: 'lb', text: 'lb' },
+            { value: 'ml', text: 'ml' },
+            { value: 'oz', text: 'oz' },
+            { value: 'pt', text: 'pt' },
+            { value: 'tbsp', text: 'tbsp' },
+            { value: 'tsp', text: 'tsp' }
+          ]
         },
         state: {
           title: 'valid',
@@ -73,16 +104,23 @@
       addStep() {
         this.form.steps.push('');
       },
+      removeStep(index) {
+        if (this.form.steps.length > 1)
+          this.form.steps.splice(index, 1);
+      },
+      addIngredient() {
+        this.form.ingredients.push({name: "", measurement: "", amount: ""});
+      },
+      removeIngredient(index) {
+        if (this.form.ingredients.length > 1)
+          this.form.ingredients.splice(index, 1);
+      },
       resetErrors() {
         this.errorMsg = null;
         this.state.title = 'valid';
       },
       onSubmit(event) {
 
-      },
-      removeStep(index) {
-        if (this.form.steps.length > 1)
-          this.form.steps.splice(index, 1);
       }
     }
   }
