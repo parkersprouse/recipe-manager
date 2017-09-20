@@ -13,18 +13,60 @@ function addOrUpdateRecipe(func, req, res, next) {
   const steps = req.body.steps;
   const id = req.body.id;
 
-  const titleEmpty = !title || validator.isEmpty(title);
-  const ingredientsEmpty = !ingredients || _.isEmpty(ingredients);
-  const stepsEmpty = !steps || _.isEmpty(steps);
+  let titleEmpty = !title || validator.isEmpty(title);
+  let ingredientsEmpty = !ingredients || _.isEmpty(ingredients);
+  let stepsEmpty = !steps || _.isEmpty(steps);
+
+  if (!stepsEmpty)
+    for (let i = 0; i < steps.length; i++)
+      if (!steps[i] || validator.isEmpty(steps[i]))
+        stepsEmpty = true;
+
+  if (!ingredientsEmpty) {
+    for (var i in ingredients) {
+      if (ingredients.hasOwnProperty(i)) {
+        const ing = ingredients[i];
+        if ((!ing || _.isEmpty(ing)) ||
+            (!ing.name || validator.isEmpty(ing.name)) ||
+            (!ing.measurement || validator.isEmpty(ing.measurement)) ||
+            (!ing.amount || validator.isEmpty(ing.amount)))
+          ingredientsEmpty = true;
+      }
+    }
+  }
 
   if (titleEmpty || ingredientsEmpty || stepsEmpty) {
+    const stepsState = [];
+    for (let i = 0; i < steps.length; i++)
+      if (!steps[i] || validator.isEmpty(steps[i]))
+        stepsState.push('invalid');
+      else
+        stepsState.push('valid');
+
+    const ingredientsState = [];
+    for (var i in ingredients) {
+      if (ingredients.hasOwnProperty(i)) {
+        const ing = ingredients[i];
+        if ((!ing.name || validator.isEmpty(ing.name)) ||
+            (!ing.measurement || validator.isEmpty(ing.measurement)) ||
+            (!ing.amount || validator.isEmpty(ing.amount)))
+          ingredientsState.push({
+            name: !ing.name || validator.isEmpty(ing.name) ? 'invalid' : 'valid',
+            measurement: !ing.measurement || validator.isEmpty(ing.measurement) ? 'invalid' : 'valid',
+            amount: !ing.amount || validator.isEmpty(ing.amount) ? 'invalid' : 'valid'
+          });
+        else
+          ingredientsState.push({name: 'valid', measurement: 'valid', amount: 'valid'});
+      }
+    }
+
     res.status(constants.http_bad_request)
       .json({
         status: 'failure',
         content: {
           titleState: titleEmpty ? 'invalid' : 'valid',
-          ingredientsState: ingredientsEmpty ? 'invalid' : 'valid',
-          stepsState: stepsEmpty ? 'invalid' : 'valid'
+          ingredientsState: ingredientsState,
+          stepsState: stepsState
         },
         message: 'Please make sure all required fields are filled out'
       });
