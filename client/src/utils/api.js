@@ -90,6 +90,10 @@ module.exports = {
     performGet('/api/recipe/user/' + id, callback);
   },
 
+  getPaginatedUserRecipes: function(id, page, amount, callback) {
+    performGet('/api/recipe/user/'+id+'/'+page+'/'+amount, callback);
+  },
+
   addRecipe: function(data, callback) {
     performPost('/api/recipe/add', data, callback);
   },

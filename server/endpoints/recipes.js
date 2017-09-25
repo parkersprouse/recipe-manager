@@ -167,6 +167,43 @@ function getUserRecipes(req, res, next) {
     });
 }
 
+function getPaginatedUserRecipes(req, res, next) {
+  const data = {
+    id: req.params.id,
+    amount: req.params.amount
+  };
+  data.offset = (req.params.page - 1) * req.params.amount;
+
+  db.many('select * from recipes where user_id = ${id} order by id asc limit ${amount} offset ${offset}', data)
+    .then(function (data) {
+      res.status(constants.http_ok)
+        .json({
+          status: 'success',
+          content: data,
+          message: 'Found recipes'
+        });
+    })
+    .catch(function (err) {
+      if (err instanceof constants.db_query_result_error &&
+          err.code === constants.db_err_no_result) {
+        res.status(constants.http_no_content)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'Recipes not found'
+          });
+      }
+      else {
+        res.status(constants.http_server_error)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'There was an unknown problem when attempting to find the recipes'
+          });
+      }
+    });
+}
+
 function addRecipe(req, res, next) {
   addOrUpdateRecipe('add', req, res, next);
 }
@@ -197,6 +234,7 @@ function deleteRecipe(req, res, next) {
 module.exports = {
   getRecipe: getRecipe,
   getUserRecipes: getUserRecipes,
+  getPaginatedUserRecipes: getPaginatedUserRecipes,
   addRecipe: addRecipe,
   updateRecipe: updateRecipe,
   deleteRecipe: deleteRecipe
