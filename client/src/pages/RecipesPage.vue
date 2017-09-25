@@ -1,9 +1,7 @@
 <template>
   <b-container>
     <navbar />
-    <div>
-      Recipes Page
-    </div>
+    <h3>Your Recipes</h3>
     <span v-if="!recipes"></span>
     <span v-else-if="recipes.length === 0">You don't have any recipes!</span>
     <div v-else>
@@ -12,7 +10,7 @@
       </ul>
     </div>
     <br /><br />
-    <b-pagination-nav base-url="/recipes?p=" :number-of-pages="numPages" v-model="page" />
+    <paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" />
   </b-container>
 </template>
 
@@ -26,9 +24,9 @@
       utils.getCurrentUserInfo(function(success, response) {
         const userid = response.id;
         api.getUsersRecipes(userid, function(success, response) {
-          this.numPages = Math.ceil(response.content.length / 10);
+          this.numPages = Math.ceil(response.content.length / this.perPage);
         }.bind(this));
-        api.getPaginatedUserRecipes(userid, this.page, 10, function(success, response) {
+        api.getPaginatedUserRecipes(userid, this.page, this.perPage, function(success, response) {
           this.recipes = response.content || [];
         }.bind(this));
       }.bind(this));
@@ -38,7 +36,8 @@
         user: null,
         recipes: null,
         numPages: 1,
-        page: !!this.$route.query.p ? this.$route.query.p : 1
+        page: !!this.$route.query.p ? this.$route.query.p : 1,
+        perPage: !!this.$route.query.n ? this.$route.query.n : 10
       }
     }
   }
