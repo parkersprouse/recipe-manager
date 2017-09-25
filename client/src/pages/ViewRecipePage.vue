@@ -5,6 +5,7 @@
     <div v-else-if="recipe === -1">That recipe doesn't exist</div>
     <div v-else-if="recipe.private && recipe.user_id !== user.id">This recipe has been set to private</div>
     <div v-else>
+      <a class="btn btn-primary" :href="'/recipes/' + recipe.id + '/edit'" role="button">Edit Recipe</a>
       <h2>{{ recipe.title }}</h2>
       <span v-if="recipe.description">{{ recipe.description }}</span>
       <br /><br /><br />

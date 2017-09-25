@@ -6,8 +6,12 @@
         <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
       </b-alert>
 
+      <b-alert variant="success" :show="success">
+        <i class="fa fa-check-circle" aria-hidden="true"></i> Your recipe has been successfully updated
+      </b-alert>
+
       <div class="text-align-right">
-        <b-button type="submit" variant="primary" :disabled="submitting">Create Recipe</b-button>
+        <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
       </div>
 
       <b-form-group id="recipePrivateGroup">
@@ -28,11 +32,11 @@
           <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
           <b-form-textarea id="recipeStepField" v-model="form.steps[i]" rows="1" max-rows="3" :state="state.steps[i]"></b-form-textarea>
           <b-input-group-button>
-            <b-btn variant="danger" :id="'removeStepBtn' + i" @click="removeStep(i)" :disabled="form.steps.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
+            <b-btn variant="danger" :id="'removeStepBtn' + i" @click="remove(i, 'steps')" :disabled="form.steps.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
           </b-input-group-button>
         </b-input-group>
         <div class="text-align-center">
-          <b-button type="button" variant="primary" @click="addStep">Add Step</b-button>
+          <b-button type="button" variant="primary" @click="add('steps')">Add Step</b-button>
         </div>
       </b-form-group>
 
@@ -40,17 +44,15 @@
         <b-input-group v-for="(item, i) in form.ingredients" class="step-input-group">
           <b-tooltip :target="'removeIngredientBtn' + i" title="Remove Ingredient" triggers="hover" v-if="form.ingredients.length > 1"></b-tooltip>
           <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
-
           <b-form-input type="text" v-model="form.ingredients[i].amount" :state="state.ingredients[i].amount" />
           <b-form-select v-model="form.ingredients[i].measurement" :options="form.ingredientOptions" :state="state.ingredients[i].measurement"></b-form-select>
           <b-form-input type="text" v-model="form.ingredients[i].name" :state="state.ingredients[i].name" />
-
           <b-input-group-button>
-            <b-btn variant="danger" :id="'removeIngredientBtn' + i" @click="removeIngredient(i)" :disabled="form.ingredients.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
+            <b-btn variant="danger" :id="'removeIngredientBtn' + i" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
           </b-input-group-button>
         </b-input-group>
         <div class="text-align-center">
-          <b-button type="button" variant="primary" @click="addIngredient">Add Ingredient</b-button>
+          <b-button type="button" variant="primary" @click="add('ingredients')">Add Ingredient</b-button>
         </div>
       </b-form-group>
 
@@ -65,33 +67,48 @@
 
   export default {
     name: 'recipe-form',
+    props: ['recipe'],
     mounted: function() {
       utils.getCurrentUserInfo(function(success, response) {
         this.user = response;
       }.bind(this));
+
+      if (!!this.recipe) {
+        this.form.title = this.recipe.title;
+        this.form.description = this.recipe.description;
+        this.form.private = this.recipe.private + '';
+
+        let stepsStates = [];
+        for (let i in this.recipe.steps)
+          stepsStates.push('valid');
+        this.form.steps = this.recipe.steps;
+        this.state.steps = stepsStates;
+
+        let ings = [];
+        let ingsStates = [];
+        for (let i in this.recipe.ingredients) {
+          if (this.recipe.ingredients.hasOwnProperty(i)) {
+            let ing = this.recipe.ingredients[i];
+            ings.push({ name: ing.name, measurement: ing.measurement, amount: ing.amount });
+            ingsStates.push({name: 'valid', measurement: 'valid', amount: 'valid'});
+          }
+        }
+        this.form.ingredients = ings;
+        this.state.ingredients = ingsStates;
+      }
     },
     data: function() {
       return {
         user: null,
         submitting: false,
         errorMsg: null,
+        success: false,
         form: {
           title: '',
           description: '',
           steps: [''],
-          ingredients: [{name: "", measurement: "", amount: ""}],
-          ingredientOptions: [
-            { value: 'c', text: 'c' },
-            { value: 'g', text: 'g' },
-            { value: 'kg', text: 'kg' },
-            { value: 'l', text: 'l' },
-            { value: 'lb', text: 'lb' },
-            { value: 'ml', text: 'ml' },
-            { value: 'oz', text: 'oz' },
-            { value: 'pt', text: 'pt' },
-            { value: 'tbsp', text: 'tbsp' },
-            { value: 'tsp', text: 'tsp' }
-          ],
+          ingredients: [{name: '', measurement: '', amount: ''}],
+          ingredientOptions: ['c', 'g', 'kg', 'l', 'lb', 'ml', 'oz', 'pt', 'tbsp', 'tsp'],
           private: 'false'
         },
         state: {
@@ -102,27 +119,24 @@
       }
     },
     methods: {
-      addStep() {
-        this.form.steps.push('');
-        this.state.steps.push('valid');
-      },
-      removeStep(index) {
-        if (this.form.steps.length > 1) {
-          this.form.steps.splice(index, 1);
-          this.state.steps.splice(index, 1);
+      add(type) {
+        if (type === 'steps') {
+          this.form.steps.push('');
+          this.state.steps.push('valid');
+        }
+        else {
+          this.form.ingredients.push({name: '', measurement: '', amount: ''});
+          this.state.ingredients.push({name: 'valid', measurement: 'valid', amount: 'valid'});
         }
       },
-      addIngredient() {
-        this.form.ingredients.push({name: "", measurement: "", amount: ""});
-        this.state.ingredients.push({name: 'valid', measurement: 'valid', amount: 'valid'});
-      },
-      removeIngredient(index) {
-        if (this.form.ingredients.length > 1) {
-          this.form.ingredients.splice(index, 1);
-          this.state.ingredients.splice(index, 1);
+      remove(index, type) {
+        if (this.form[type].length > 1) {
+          this.form[type].splice(index, 1);
+          this.state[type].splice(index, 1);
         }
       },
       resetErrors() {
+        this.success = false;
         this.errorMsg = null;
         this.state.title = 'valid';
         this.state.steps.fill('valid');
@@ -137,22 +151,24 @@
           description: this.form.description,
           steps: this.form.steps,
           ingredients: {},
-          id: this.user.id,
+          id: !!this.recipe ? this.recipe.id : this.user.id,
           private: this.form.private === 'true' ? true : false
         }
 
         for (let i = 0; i < this.form.ingredients.length; i++) {
           const ing = this.form.ingredients[i];
-          data.ingredients[i] = {
-            name: ing.name,
-            measurement: ing.measurement,
-            amount: ing.amount
-          };
+          data.ingredients[i] = { name: ing.name, measurement: ing.measurement, amount: ing.amount };
         }
 
-        api.addRecipe(data, function(success, response) {
+        const submissionMethod = !!this.recipe ? api.updateRecipe : api.addRecipe;
+        submissionMethod(data, function(success, response) {
           if (success) {
-            window.location.href = '/recipes/' + response.content.id;
+            if (!!this.recipe) {
+              this.success = true;
+              this.submitting = false;
+            }
+            else
+              window.location.href = '/recipes/' + response.content.id;
           }
           else {
             this.state.title = response.data.content.titleState;
