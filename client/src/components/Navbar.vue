@@ -17,7 +17,8 @@
         <!-- Right-aligned items -->
         <b-nav is-nav-bar class="ml-auto">
           <b-nav-item-dropdown text="User" right>
-            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+            <b-dropdown-item href="/profile">View Profile</b-dropdown-item>
+            <b-dropdown-item href="/profile/edit">Edit Profile</b-dropdown-item>
             <b-dropdown-item href="/logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-nav>

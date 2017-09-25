@@ -1,12 +1,12 @@
 <template>
   <b-container>
     <navbar />
-    <div>
-      Profile Page
-    </div>
     <span v-if="!user"></span>
     <span v-else-if="user === -1">Requested user doesn't exist</span>
-    <span v-else>Email: {{ user.email }}</span>
+    <div v-else>
+      <h3>Your Profile</h3>
+      <strong>Email:</strong> {{ user.email }}
+    </div>
   </b-container>
 </template>
 

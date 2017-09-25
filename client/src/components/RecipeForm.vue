@@ -1,23 +1,23 @@
 <template>
   <b-form @submit.prevent="onSubmit">
 
-    <b-container>
-      <b-alert variant="danger" :show="!!errorMsg">
-        <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
-      </b-alert>
+    <b-alert variant="danger" :show="!!errorMsg">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
+    </b-alert>
 
-      <b-alert variant="success" :show="success">
-        <i class="fa fa-check-circle" aria-hidden="true"></i> Your recipe has been successfully updated
-      </b-alert>
+    <b-alert variant="success" :show="success">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> Your recipe has been successfully updated
+    </b-alert>
 
-      <div class="text-align-right">
-        <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
-      </div>
+    <div class="text-align-right float-right">
+      <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
+    </div>
 
-      <b-form-group id="recipePrivateGroup">
-        <b-form-checkbox id="recipePrivateField" v-model="form.private" value="true" unchecked-value="false">Private recipe</b-form-checkbox>
-      </b-form-group>
+    <b-form-group id="recipePrivateGroup">
+      <b-form-checkbox id="recipePrivateField" v-model="form.private" value="true" unchecked-value="false">Make Private?</b-form-checkbox>
+    </b-form-group>
 
+    <b-card>
       <b-form-group id="recipeTitleGroup" label="Title:" label-for="recipeTitleField">
         <b-form-input id="recipeTitleField" type="text" v-model="form.title" placeholder="Title" :state="state.title" />
       </b-form-group>
@@ -25,38 +25,48 @@
       <b-form-group id="recipeDescGroup" label="Description:" label-for="recipeDescField">
         <b-form-textarea id="recipeDescField" v-model="form.description" placeholder="Description" rows="3" max-rows="3" state="valid"></b-form-textarea>
       </b-form-group>
+    </b-card>
 
-      <b-form-group id="recipeStepGroup" label="Steps:" label-for="recipeStepField">
-        <b-input-group v-for="(step, i) in form.steps" class="step-input-group">
-          <b-tooltip :target="'removeStepBtn' + i" title="Remove Step" triggers="hover" v-if="form.steps.length > 1"></b-tooltip>
-          <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
-          <b-form-textarea id="recipeStepField" v-model="form.steps[i]" rows="1" max-rows="3" :state="state.steps[i]"></b-form-textarea>
-          <b-input-group-button>
-            <b-btn variant="danger" :id="'removeStepBtn' + i" @click="remove(i, 'steps')" :disabled="form.steps.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
-          </b-input-group-button>
-        </b-input-group>
-        <div class="text-align-center">
-          <b-button type="button" variant="primary" @click="add('steps')">Add Step</b-button>
-        </div>
-      </b-form-group>
+    <hr />
 
-      <b-form-group id="recipeIngredientGroup" label="Ingredients:" label-for="recipeIngredientField">
-        <b-input-group v-for="(item, i) in form.ingredients" class="step-input-group">
-          <b-tooltip :target="'removeIngredientBtn' + i" title="Remove Ingredient" triggers="hover" v-if="form.ingredients.length > 1"></b-tooltip>
-          <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
-          <b-form-input type="text" v-model="form.ingredients[i].amount" :state="state.ingredients[i].amount" />
-          <b-form-select v-model="form.ingredients[i].measurement" :options="form.ingredientOptions" :state="state.ingredients[i].measurement"></b-form-select>
-          <b-form-input type="text" v-model="form.ingredients[i].name" :state="state.ingredients[i].name" />
-          <b-input-group-button>
-            <b-btn variant="danger" :id="'removeIngredientBtn' + i" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
-          </b-input-group-button>
-        </b-input-group>
-        <div class="text-align-center">
-          <b-button type="button" variant="primary" @click="add('ingredients')">Add Ingredient</b-button>
-        </div>
-      </b-form-group>
-
-    </b-container>
+    <div class="row justify-content-md-center align-items-center">
+      <div class="col col-lg-6">
+        <b-card>
+          <b-form-group id="recipeStepGroup" label="Steps:" label-for="recipeStepField">
+            <b-input-group v-for="(step, i) in form.steps" class="step-input-group">
+              <b-tooltip :target="'removeStepBtn' + i" title="Remove Step" triggers="hover" v-if="form.steps.length > 1"></b-tooltip>
+              <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
+              <b-form-textarea id="recipeStepField" v-model="form.steps[i]" rows="1" max-rows="3" :state="state.steps[i]"></b-form-textarea>
+              <b-input-group-button>
+                <b-btn variant="danger" :id="'removeStepBtn' + i" @click="remove(i, 'steps')" :disabled="form.steps.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
+              </b-input-group-button>
+            </b-input-group>
+            <div class="text-align-center">
+              <b-button type="button" variant="primary" @click="add('steps')">Add Step</b-button>
+            </div>
+          </b-form-group>
+        </b-card>
+      </div>
+      <div class="col col-lg-6">
+        <b-card>
+          <b-form-group id="recipeIngredientGroup" label="Ingredients:" label-for="recipeIngredientField">
+            <b-input-group v-for="(item, i) in form.ingredients" class="step-input-group">
+              <b-tooltip :target="'removeIngredientBtn' + i" title="Remove Ingredient" triggers="hover" v-if="form.ingredients.length > 1"></b-tooltip>
+              <b-input-group-addon>{{ i + 1 }}.</b-input-group-addon>
+              <b-form-input type="text" v-model="form.ingredients[i].amount" :state="state.ingredients[i].amount" />
+              <b-form-select v-model="form.ingredients[i].measurement" :options="form.ingredientOptions" :state="state.ingredients[i].measurement"></b-form-select>
+              <b-form-input type="text" v-model="form.ingredients[i].name" :state="state.ingredients[i].name" />
+              <b-input-group-button>
+                <b-btn variant="danger" :id="'removeIngredientBtn' + i" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2"><i class="fa fa-times" aria-hidden="true"></i></b-btn>
+              </b-input-group-button>
+            </b-input-group>
+            <div class="text-align-center">
+              <b-button type="button" variant="primary" @click="add('ingredients')">Add Ingredient</b-button>
+            </div>
+          </b-form-group>
+        </b-card>
+      </div>
+    </div>
 
   </b-form>
 </template>

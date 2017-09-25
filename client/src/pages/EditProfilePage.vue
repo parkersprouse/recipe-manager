@@ -1,9 +1,7 @@
 <template>
   <b-container>
     <navbar />
-    <div>
-      Edit Profile
-    </div>
+    <h3>Edit Profile</h3>
     <span v-if="!user"></span>
     <span v-else-if="user === -1">Requested user doesn't exist</span>
     <!-- THINK ABOUT MAKING THESE COMPONENTS -->
