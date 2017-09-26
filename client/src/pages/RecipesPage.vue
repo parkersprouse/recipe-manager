@@ -2,15 +2,19 @@
   <b-container>
     <navbar />
     <h3>Your Recipes</h3>
-    <span v-if="!recipes"></span>
-    <span v-else-if="recipes.length === 0">You don't have any recipes!</span>
+    <span v-if="!recipes || !numPages"></span>
     <div v-else>
-      <ul>
-        <li v-for="item in recipes"><a :href="'/recipes/' + item.id">{{ item.title }}</a></li>
-      </ul>
+      <div v-if="recipes.length === 0">
+        This page does not have any recipes.
+      </div>
+      <div v-else>
+        <ul>
+          <li v-for="item in recipes"><a :href="'/recipes/' + item.id">{{ item.title }}</a></li>
+        </ul>
+      </div>
+      <br /><br />
+      <paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" />
     </div>
-    <br /><br />
-    <paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" />
   </b-container>
 </template>
 
@@ -33,9 +37,8 @@
     },
     data: function() {
       return {
-        user: null,
         recipes: null,
-        numPages: 1,
+        numPages: null,
         page: !!this.$route.query.p ? this.$route.query.p : 1,
         perPage: !!this.$route.query.n ? this.$route.query.n : 10
       }
