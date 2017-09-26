@@ -2,14 +2,14 @@
   <b-container>
     <navbar />
     <h3>Your Recipes</h3>
-    <span v-if="!recipes || !numPages"></span>
+    <div v-if="!recipes || !numPages"></div>
     <div v-else>
       <p><paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" /></p>
       <div v-if="recipes.length === 0">
         This page does not have any recipes.
       </div>
       <div v-else>
-        <div v-for="item in recipes" class="card" style="margin-bottom: 1rem; cursor: pointer;" v-on:click="viewRecipe(item.id)">
+        <div v-for="item in recipes" class="card recipe-card" v-on:click="viewRecipe(item.id)">
           <div class="card-body">
             <div class="float-right" style="text-align: right;">
               <a class="btn btn-outline-dark align-middle" :href="'/recipes/' + item.id + '/edit'" role="button">Edit Recipe</a>
@@ -34,11 +34,13 @@
     mounted: function() {
       utils.getCurrentUserInfo(function(success, response) {
         const userid = response.id;
-        api.getUsersRecipes(userid, function(success, response) {
-          this.numPages = Math.ceil(response.content.length / this.perPage);
-        }.bind(this));
         api.getPaginatedUserRecipes(userid, this.page, this.perPage, function(success, response) {
           this.recipes = response.content || [];
+
+          api.getUsersRecipes(userid, function(success, response) {
+            this.numPages = Math.ceil(response.content.length / this.perPage);
+          }.bind(this));
+
         }.bind(this));
       }.bind(this));
     },
@@ -57,3 +59,13 @@
     }
   }
 </script>
+
+<style>
+.recipe-card {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.recipe-card:hover {
+  border-color: #343a40;
+}
+</style>

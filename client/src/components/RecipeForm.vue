@@ -195,6 +195,14 @@
         }.bind(this));
       },
       onDelete(event) {
+        api.deleteRecipe(this.recipe.id, function(success, response) {
+          if (success) {
+            window.location.href = '/recipes';
+          }
+          else {
+            this.errorMsg = 'There was a problem when attempting to delete the recipe';
+          }
+        }.bind(this));
         console.log('deleted')
       }
     }
