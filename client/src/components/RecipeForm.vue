@@ -10,6 +10,7 @@
     </b-alert>
 
     <div class="text-align-right float-right">
+      <b-button v-b-modal.deleteModal type="button" variant="danger" :disabled="submitting">Delete Recipe</b-button>
       <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
     </div>
 
@@ -67,6 +68,10 @@
         </b-card>
       </div>
     </div>
+
+    <b-modal id="deleteModal" ref="deleteModal" title="Delete Recipe?" @ok="onDelete" ok-title="Yes" close-title="No">
+      This cannot be undone!
+    </b-modal>
 
   </b-form>
 </template>
@@ -188,6 +193,9 @@
             this.submitting = false;
           }
         }.bind(this));
+      },
+      onDelete(event) {
+        console.log('deleted')
       }
     }
   }
