@@ -10,7 +10,7 @@
     </b-alert>
 
     <div class="text-align-right float-right">
-      <b-button v-b-modal.deleteModal type="button" variant="danger" :disabled="submitting">Delete Recipe</b-button>
+      <b-button v-b-modal.deleteModal type="button" variant="danger" :disabled="submitting" v-if="!!recipe">Delete Recipe</b-button>
       <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
     </div>
 
