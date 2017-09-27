@@ -9,16 +9,20 @@
       <i class="fa fa-check-circle" aria-hidden="true"></i> Your recipe has been successfully updated
     </b-alert>
 
-    <div class="text-align-right float-right">
-      <b-button v-b-modal.deleteModal type="button" variant="danger" :disabled="submitting" v-if="!!recipe">Delete Recipe</b-button>
-      <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
+    <div style="margin-top: 15px; margin-bottom: 15px;">
+      <div class="text-align-right float-right" v-if="!!recipe">
+        <b-button v-b-modal.deleteModal type="button" variant="danger" :disabled="submitting">Delete Recipe</b-button>
+      </div>
+      <div>
+        <b-button type="submit" variant="primary" :disabled="submitting">{{ !!recipe ? "Update" : "Create" }} Recipe</b-button>
+      </div>
     </div>
 
-    <b-form-group id="recipePrivateGroup">
-      <b-form-checkbox id="recipePrivateField" v-model="form.private" value="true" unchecked-value="false">Make Private?</b-form-checkbox>
-    </b-form-group>
-
     <b-card>
+      <b-form-group id="recipePrivateGroup">
+        <b-form-checkbox id="recipePrivateField" v-model="form.private" value="true" unchecked-value="false">Make Private?</b-form-checkbox>
+      </b-form-group>
+
       <b-form-group id="recipeTitleGroup" label="Title:" label-for="recipeTitleField">
         <b-form-input id="recipeTitleField" type="text" v-model="form.title" placeholder="Title" :state="state.title" />
       </b-form-group>
@@ -30,8 +34,8 @@
 
     <hr />
 
-    <div class="row justify-content-md-center align-items-center">
-      <div class="col col-lg-6">
+    <div class="row align-items-center">
+      <div class="col">
         <b-card>
           <b-form-group id="recipeStepGroup" label="Steps:" label-for="recipeStepField">
             <b-input-group v-for="(step, i) in form.steps" class="step-input-group">
@@ -48,7 +52,7 @@
           </b-form-group>
         </b-card>
       </div>
-      <div class="col col-lg-6">
+      <div class="col">
         <b-card>
           <b-form-group id="recipeIngredientGroup" label="Ingredients:" label-for="recipeIngredientField">
             <b-input-group v-for="(item, i) in form.ingredients" class="step-input-group">

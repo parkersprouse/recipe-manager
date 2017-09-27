@@ -24,7 +24,7 @@ function mustBeLoggedIn(to, from, next) {
 function mustBeLoggedOut(to, from, next) {
   utils.isLoggedIn(function(loggedIn) {
     if (loggedIn)
-      next('/home');
+      next('/recipes');
     else
       next();
   });
@@ -38,15 +38,14 @@ export default new Router({
       component: LandingPage,
       beforeEnter: mustBeLoggedOut
     },
-    {
+    /*{
       path: '/home',
       component: HomePage,
       beforeEnter: mustBeLoggedIn
-    },
+    },*/
     {
       path: '/profile',
-      component: ProfilePage,
-      beforeEnter: mustBeLoggedIn
+      redirect: '/profile/edit'
     },
     {
       path: '/profile/edit',

@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <navbar />
-    <h3>Your Recipes</h3>
+    <h3>My Recipes</h3>
     <div v-if="!recipes || !numPages"></div>
     <div v-else>
       <p><paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" /></p>

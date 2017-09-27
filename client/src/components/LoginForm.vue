@@ -52,7 +52,7 @@
 
         api.login(this.form, function(success, response) {
           if (success) {
-            window.location.href = this.next || '/home';
+            window.location.href = this.next || '/recipes';
           }
           else {
             this.errorMsg = response.data.message;
