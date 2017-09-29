@@ -1,4 +1,6 @@
 <template>
+
+  <!--
   <b-container>
     <div class="row justify-content-md-center align-items-center">
       <div class="col col-lg-6">
@@ -15,6 +17,25 @@
       </div>
     </div>
   </b-container>
+  -->
+
+  <section class="section">
+    <div class="container">
+
+      <div class="card">
+        <div class="card-content">
+          <div class="tabs is-centered is-boxed">
+            <ul>
+              <li class="is-active"><a><span>Login</span></a></li>
+              <li><a><span>Register</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </template>
 
 <script>
