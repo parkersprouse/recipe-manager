@@ -17,16 +17,18 @@ function login(req, res, next) {
   const password = req.body.password;
 
   if (validator.isEmpty(email) || validator.isEmpty(password)) {
-    let data = {
-      emailState: validator.isEmpty(email) ? 'invalid' : 'valid',
-      passwordState: validator.isEmpty(password) ? 'invalid' : 'valid'
-    };
-
     res.status(constants.http_bad_request)
       .json({
         status: 'failure',
-        content: data,
-        message: 'Please make sure all required fields are filled out'
+        content: {
+          emailState: validator.isEmpty(email) ? false : true,
+          passwordState: validator.isEmpty(password) ? false : true
+        },
+        message: {
+          general: 'Please make sure all required fields are filled out',
+          email: validator.isEmpty(email) ? 'Please make sure your email is filled out' : null,
+          password: validator.isEmpty(password) ? 'Please make sure your password is filled out' : null
+        }
       });
   }
   else {
@@ -41,14 +43,18 @@ function login(req, res, next) {
             .json({
               status: 'success',
               content: token,
-              message: 'Successfully logged in'
+              message: {
+                general: 'Successfully logged in'
+              }
             });
         } else {
           res.status(constants.http_unauthorized)
             .json({
               status: 'failure',
               content: data,
-              message: 'Your email or password was incorrect'
+              message: {
+                general: 'Your email or password was incorrect'
+              }
             });
         }
       })
@@ -58,7 +64,9 @@ function login(req, res, next) {
             .json({
               status: 'failure',
               content: err,
-              message: 'Your email or password was incorrect'
+              message: {
+                general: 'Your email or password was incorrect'
+              }
             });
         }
         else {
@@ -66,7 +74,9 @@ function login(req, res, next) {
             .json({
               status: 'failure',
               content: err,
-              message: 'There was an unknown problem when attempting to log you in'
+              message: {
+                general: 'There was an unknown problem when attempting to log you in'
+              }
             });
         }
       });

@@ -1,3 +1,29 @@
+.landing-box {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.landing-box-content {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.notification {
+  padding-top: 1rem;
+  padding-right: 1.5rem;
+  padding-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.notification.is-danger {
+  background-color: rgba(248, 215, 218, 1);
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+
+
+/* The below was written for Bootstrap-Vue
 #container {
   margin-top: 20px;
 }
@@ -74,3 +100,4 @@
 .step-input-group {
   margin-bottom: 10px;
 }
+*/

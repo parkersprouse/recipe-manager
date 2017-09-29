@@ -1,25 +1,40 @@
 <template>
-  <div>
-    <b-form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit">
 
-      <b-alert variant="danger" :show="!!errorMsg">
-        <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ errorMsg }}
-      </b-alert>
+    <div class="notification is-danger" v-if="!!errors.general">
+      <i aria-hidden="true" class="fa fa-exclamation-circle"></i>
+      {{ errors.general }}
+    </div>
 
-      <b-form-group id="loginEmailGroup" label="Email:" label-for="loginEmailField">
-        <b-form-input id="loginEmailField" type="text" v-model="form.email" placeholder="Email" :state="emailState" />
-      </b-form-group>
-
-      <b-form-group id="loginPasswordGroup" label="Password:" label-for="loginPasswordField">
-        <b-form-input id="loginPasswordField" type="password" v-model="form.password" placeholder="Password" :state="passwordState" />
-      </b-form-group>
-
-      <div class="text-align-center">
-        <b-button type="submit" variant="primary" :disabled="submitting">Login</b-button>
+    <div class="field">
+      <div class="control has-icons-left">
+        <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="email" placeholder="Email">
+        <span class="icon is-small is-left">
+          <i class="fa fa-envelope"></i>
+        </span>
       </div>
+      <p class="help is-danger" v-if="!!errors.email">{{ errors.email }}</p>
+    </div>
 
-    </b-form>
-  </div>
+    <div class="field">
+      <div class="control has-icons-left">
+        <input class="input" :class="!state.password ? 'is-danger' : ''" v-model="form.password" type="password" placeholder="Password">
+        <span class="icon is-small is-left">
+          <i class="fa fa-lock"></i>
+        </span>
+      </div>
+      <p class="help is-danger" v-if="!!errors.password">{{ errors.password }}</p>
+    </div>
+
+    <div class="field">
+      <p class="control has-text-centered">
+        <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
+          Login
+        </button>
+      </p>
+    </div>
+
+  </form>
 </template>
 
 <script>
@@ -31,20 +46,28 @@
     data: function() {
       return {
         submitting: false,
-        errorMsg: null,
-        emailState: 'valid',
-        passwordState: 'valid',
         form: {
           email: '',
           password: ''
+        },
+        state: {
+          email: true,
+          password: true
+        },
+        errors: {
+          general: null,
+          email: null,
+          password: null
         }
       }
     },
     methods: {
       resetErrors() {
-        this.errorMsg = null;
-        this.emailState = 'valid';
-        this.passwordState = 'valid';
+        this.errors.general = null;
+        this.errors.email = null;
+        this.errors.password = null;
+        this.state.email = true;
+        this.state.password = true;
       },
       onSubmit(event) {
         this.resetErrors();
@@ -55,9 +78,11 @@
             window.location.href = this.next || '/recipes';
           }
           else {
-            this.errorMsg = response.data.message;
-            this.emailState = response.data.content.emailState || 'valid';
-            this.passwordState = response.data.content.passwordState || 'valid';
+            this.errors.email = response.data.message.email;
+            this.errors.password = response.data.message.password;
+            this.errors.general = response.data.message.general;
+            this.state.email = response.data.content.emailState;
+            this.state.password = response.data.content.passwordState;
             this.submitting = false;
           }
         }.bind(this));
