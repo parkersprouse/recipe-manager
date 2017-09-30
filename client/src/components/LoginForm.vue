@@ -2,11 +2,12 @@
   <form @submit.prevent="onSubmit">
 
     <div class="notification is-danger" v-if="!!errors.general">
-      <i aria-hidden="true" class="fa fa-exclamation-circle"></i>
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
       {{ errors.general }}
     </div>
 
     <div class="field">
+      <label class="label">Email</label>
       <div class="control has-icons-left">
         <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="email" placeholder="Email">
         <span class="icon is-small is-left">
@@ -17,6 +18,7 @@
     </div>
 
     <div class="field">
+      <label class="label">Password</label>
       <div class="control has-icons-left">
         <input class="input" :class="!state.password ? 'is-danger' : ''" v-model="form.password" type="password" placeholder="Password">
         <span class="icon is-small is-left">

@@ -6,8 +6,8 @@
           <div class="box landing-box">
             <div class="tabs is-centered is-boxed">
               <ul>
-                <li :class="displayLogin ? 'is-active' : ''"><a v-on:click="show('login')"><span>Login</span></a></li>
-                <li :class="displayRegister ? 'is-active' : ''"><a v-on:click="show('register')"><span>Register</span></a></li>
+                <li :class="displayLogin ? 'is-active' : ''"><a @click="show('login')"><span>Login</span></a></li>
+                <li :class="displayRegister ? 'is-active' : ''"><a @click="show('register')"><span>Register</span></a></li>
               </ul>
             </div>
             <div class="landing-box-content">
@@ -15,7 +15,7 @@
                 <login-form :next="next" />
               </div>
               <div id="register-container" v-if="displayRegister">
-                <register-form />
+                <register-form @show="show" />
               </div>
             </div>
           </div>

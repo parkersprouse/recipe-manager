@@ -1,38 +1,44 @@
 <template>
-  <div id="navbar">
-    <b-navbar toggleable="md" type="light" variant="light">
-      <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-      <b-navbar-brand href="/recipes">Recipe Manager</b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
-
-        <!-- Left-aligned items -->
-        <b-nav is-nav-bar>
-          <b-nav-item href="/recipes">My Recipes</b-nav-item>
-          <b-nav-item href="/recipes/add">Add Recipe</b-nav-item>
-          <!--
-          <b-nav-item-dropdown text="Recipes">
-            <b-dropdown-item href="/recipes">My Recipes</b-dropdown-item>
-            <b-dropdown-item href="/recipes/add">Add Recipe</b-dropdown-item>
-          </b-nav-item-dropdown>
-          -->
-        </b-nav>
-
-        <!-- Right-aligned items -->
-        <b-nav is-nav-bar class="ml-auto">
-          <b-nav-item-dropdown text="User" right>
-            <!--<b-dropdown-item href="/profile">View Profile</b-dropdown-item>-->
-            <b-dropdown-item href="/profile/edit">Edit Profile</b-dropdown-item>
-            <b-dropdown-item href="/logout">Logout</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-nav>
-
-      </b-collapse>
-    </b-navbar>
-  </div>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-burger burger" :class="isBurgerActive ? 'is-active' : ''" data-target="navigation" @click="toggleBurger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div id="navigation" class="navbar-menu" :class="isBurgerActive ? 'is-active' : ''">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/recipes">My Recipes</a>
+        <a class="navbar-item" href="/recipes/add">Add Recipe</a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            User
+          </a>
+          <div class="navbar-dropdown is-right">
+            <a class="navbar-item" href="/profile/edit">Edit Profile</a>
+            <a class="navbar-item" href="/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script>
   export default {
-    name: 'navbar'
+    name: 'navbar',
+    data: function() {
+      return {
+        isBurgerActive: false
+      }
+    },
+    methods: {
+      toggleBurger() {
+        this.isBurgerActive = !this.isBurgerActive;
+      }
+    }
   }
 </script>

@@ -1,6 +1,6 @@
 .landing-box {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .landing-box-content {
@@ -16,11 +16,16 @@
 }
 
 .notification.is-danger {
-  background-color: rgba(248, 215, 218, 1);
+  background-color: #f8d7da;
   border: 1px solid #f5c6cb;
   color: #721c24;
 }
 
+.notification.is-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
 
 
 /* The below was written for Bootstrap-Vue
