@@ -84,13 +84,13 @@ export default {
       }
       else if (this.current < this.step * 2 + 2) {
         // Case with ellipse breaks at end
-        this.add(1, this.step * 2 + 4);
+        this.add(1, this.step * 2 + 3);
         this.last();
       }
       else if (this.current > this.size - this.step * 3) {
         // Case with ellipse breaks at beginning
         this.first();
-        this.add(this.size - this.step * 2 - 2, this.size + 1);
+        this.add(this.size - this.step * 2 - 1, this.size + 1);
       }
       else {
         // Case with ellipse breaks at beginning and end

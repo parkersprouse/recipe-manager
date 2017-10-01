@@ -15,7 +15,13 @@
               :step="1">
             </pagination>
             <div v-if="recipes.length === 0">
-              This page does not have any recipes.
+              <div class="card">
+                <div class="card-content">
+                  <div class="content has-text-centered">
+                    This page does not have any recipes.
+                  </div>
+                </div>
+              </div>
             </div>
             <div v-else>
               <div class="card recipe-card" v-for="item in recipes" v-on:click="viewRecipe(item.id)">
@@ -30,9 +36,6 @@
                     <span v-else><i>No description</i></span>
                   </div>
                 </div>
-                <footer class="card-footer">
-                  <a :href="'/recipes/' + item.id + '/edit'" class="card-footer-item">Edit Recipe</a>
-                </footer>
               </div>
             </div>
             <pagination

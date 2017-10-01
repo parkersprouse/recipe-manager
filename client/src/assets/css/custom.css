@@ -42,11 +42,16 @@
 }
 
 .card.recipe-card:hover {
-  box-shadow: 0 2px 3px hsla(0,0%,4%,0.5), 0 0 0 1px hsla(0,0%,4%,0.5);
+  box-shadow: 0 2px 3px hsla(0,0%,4%,0.3), 0 0 0 1px hsla(0,0%,4%,0.3);
 }
 
 .card.recipe-card:hover > header > .card-header-title {
   color: #00d1b2;
+}
+
+#pagination {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 
