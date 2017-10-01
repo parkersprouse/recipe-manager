@@ -9,7 +9,7 @@
           <div v-else-if="recipe.private && recipe.user_id !== user.id" class="has-text-centered">This recipe has been set to private</div>
           <div v-else>
 
-            <section class="hero is-light is-bold" style="margin-bottom: 1.5rem;">
+            <section class="hero is-primary is-bold" style="margin-bottom: 1.5rem;">
               <div class="hero-body">
                 <div class="container">
                   <h1 class="title">
@@ -50,6 +50,10 @@
                   </div>
                 </article>
               </div>
+            </div>
+
+            <div>
+              <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
             </div>
 
           </div>
