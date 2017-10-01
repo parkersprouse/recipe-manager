@@ -1,28 +1,52 @@
 <template>
-  <b-container>
-    <navbar />
-    <h3>My Recipes</h3>
-    <div v-if="!recipes || !numPages"></div>
-    <div v-else>
-      <p><paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" /></p>
-      <div v-if="recipes.length === 0">
-        This page does not have any recipes.
-      </div>
-      <div v-else>
-        <div v-for="item in recipes" class="card recipe-card" v-on:click="viewRecipe(item.id)">
-          <div class="card-body">
-            <div class="float-right" style="text-align: right;">
-              <a class="btn btn-outline-dark align-middle" :href="'/recipes/' + item.id + '/edit'" role="button">Edit Recipe</a>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters is-narrow">
+          <navbar />
+          <h3 class="title is-3">My Recipes</h3>
+          <div v-if="!recipes || !numPages"></div>
+          <div v-else>
+            <pagination
+              :current="page"
+              :total="numPages * perPage"
+              :itemsPerPage="perPage"
+              :onChange="onChange"
+              :step="1">
+            </pagination>
+            <div v-if="recipes.length === 0">
+              This page does not have any recipes.
             </div>
-            <h4 class="card-title" style="margin-bottom: 1rem;">{{ item.title }}</h4>
-            <h6 class="card-subtitle mb-2 text-muted" v-if="!!item.description">{{ item.description }}</h6>
-            <h6 class="card-subtitle mb-2 text-muted" v-else><i>No description</i></h6>
+            <div v-else>
+              <div class="card recipe-card" v-for="item in recipes" v-on:click="viewRecipe(item.id)">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    {{ item.title }}
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    <span v-if="!!item.description">{{ item.description }}</span>
+                    <span v-else><i>No description</i></span>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a :href="'/recipes/' + item.id + '/edit'" class="card-footer-item">Edit Recipe</a>
+                </footer>
+              </div>
+            </div>
+            <pagination
+              :current="page"
+              :total="numPages * perPage"
+              :itemsPerPage="perPage"
+              :onChange="onChange"
+              :step="1">
+            </pagination>
           </div>
         </div>
       </div>
-      <p><paginator baseUrl="/recipes?" :toShow="perPage" :numPages="numPages" :page="page" /></p>
     </div>
-  </b-container>
+  </section>
 </template>
 
 <script>
@@ -48,24 +72,17 @@
       return {
         recipes: null,
         numPages: null,
-        page: !!this.$route.query.p ? this.$route.query.p : 1,
-        perPage: !!this.$route.query.n ? this.$route.query.n : 10
+        page: !!this.$route.query.p ? parseInt(this.$route.query.p, 10) : 1,
+        perPage: !!this.$route.query.n ? parseInt(this.$route.query.n, 10) : 10
       }
     },
     methods: {
       viewRecipe(id) {
         window.location.href = '/recipes/' + id;
+      },
+      onChange(page) {
+        window.location.href = '/recipes?p=' + page + '&n=' + this.perPage;
       }
     }
   }
 </script>
-
-<style>
-.recipe-card {
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-.recipe-card:hover {
-  border-color: #343a40;
-}
-</style>

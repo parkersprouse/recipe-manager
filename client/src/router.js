@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LandingPage from '@/pages/LandingPage';
-import HomePage from '@/pages/HomePage';
-import ProfilePage from '@/pages/ProfilePage';
 import EditProfilePage from '@/pages/EditProfilePage';
 import RecipesPage from '@/pages/RecipesPage';
 import ViewRecipePage from '@/pages/ViewRecipePage';
@@ -38,11 +36,6 @@ export default new Router({
       component: LandingPage,
       beforeEnter: mustBeLoggedOut
     },
-    /*{
-      path: '/home',
-      component: HomePage,
-      beforeEnter: mustBeLoggedIn
-    },*/
     {
       path: '/profile',
       redirect: '/profile/edit'

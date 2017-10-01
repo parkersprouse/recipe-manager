@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <div class="navbar-brand">
+    <div class="navbar-brand" :class="isBurgerActive ? 'navbar-open' : ''">
       <div class="navbar-burger burger" :class="isBurgerActive ? 'is-active' : ''" data-target="navigation" @click="toggleBurger">
         <span></span>
         <span></span>
@@ -14,7 +14,7 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
+          <a class="navbar-link" href="/profile">
             User
           </a>
           <div class="navbar-dropdown is-right">
