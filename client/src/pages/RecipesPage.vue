@@ -4,7 +4,8 @@
       <div class="columns is-centered">
         <div class="column is-three-quarters is-narrow">
           <navbar />
-          <h3 class="title is-3">My Recipes</h3>
+          <h3 class="title is-3" style="margin-bottom: 0.5rem;">My Recipes</h3>
+          <h5 class="title is-5" v-if="recipes && numPages">Total recipes: {{ totalNumRecipes }}</h5>
           <div v-if="!recipes || !numPages"></div>
           <div v-else>
             <pagination
@@ -66,6 +67,7 @@
 
           api.getUsersRecipes(userid, function(success, response) {
             this.numPages = Math.ceil(response.content.length / this.perPage);
+            this.totalNumRecipes = response.content.length;
           }.bind(this));
 
         }.bind(this));
@@ -75,6 +77,7 @@
       return {
         recipes: null,
         numPages: null,
+        totalNumRecipes: 0,
         page: !!this.$route.query.p ? parseInt(this.$route.query.p, 10) : 1,
         perPage: !!this.$route.query.n ? parseInt(this.$route.query.n, 10) : 10
       }

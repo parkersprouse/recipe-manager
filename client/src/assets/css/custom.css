@@ -54,6 +54,9 @@
   margin-bottom: 1rem;
 }
 
+.flex-right {
+  justify-content: flex-end;
+}
 
 /* The below was written for Bootstrap-Vue
 #container {

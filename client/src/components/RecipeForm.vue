@@ -6,17 +6,18 @@
       {{ errorMsg }}
     </div>
 
-    <div class="field">
-      <div class="control is-pulled-right" v-if="!!recipe">
-        <button class="button is-danger" :disabled="submitting" type="button">
-          Delete Recipe
-        </button>
-      </div>
-      <div class="control">
-        <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
-          {{ !!recipe ? "Update" : "Create" }} Recipe
-        </button>
-      </div>
+    <div class="notification is-success" v-if="success">
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+      Recipe updated successfully
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)">
+        Delete Recipe
+      </button>
+      <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
+        {{ !!recipe ? "Update" : "Create" }} Recipe
+      </button>
     </div>
 
     <div class="tile is-ancestor">
@@ -72,7 +73,7 @@
           <div class="content">
             <label class="label">Ingredients</label>
 
-            <div class="field has-addons" v-for="(item, i) in form.ingredients">
+            <div class="field is-grouped is-grouped-centered" v-for="(item, i) in form.ingredients">
               <div class="control">
                 <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
               </div>
@@ -99,6 +100,24 @@
         </article>
       </div>
       <!---->
+    </div>
+
+    <div class="modal" :class="showDeleteModal ? 'is-active' : ''">
+      <div class="modal-background" @click="showModal(false)"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Delete Recipe?</p>
+          <button class="delete" aria-label="close" @click="showModal(false)" type="button"></button>
+        </header>
+        <section class="modal-card-body">
+          Are you sure you want to delete this recipe?<br />
+          <strong>This cannot be undone!</strong>
+        </section>
+        <footer class="modal-card-foot flex-right">
+          <button class="button is-danger" @click="onDelete" type="button">Yes</button>
+          <button class="button is-info" @click="showModal(false)" type="button">No</button>
+        </footer>
+      </div>
     </div>
 
   </form>
@@ -142,6 +161,7 @@
     },
     data: function() {
       return {
+        showDeleteModal: false,
         user: null,
         submitting: false,
         errorMsg: null,
@@ -162,6 +182,9 @@
       }
     },
     methods: {
+      showModal(show) {
+        this.showDeleteModal = show;
+      },
       add(type) {
         if (type === 'steps') {
           this.form.steps.push('');
