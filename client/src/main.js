@@ -12,7 +12,7 @@ import RecipeForm from '@/components/RecipeForm';
 import router from '@/router';
 
 import '@/assets/css/font-awesome.min.css';
-import 'bulma/css/bulma.css';
+import '@/assets/css/bulma.css';
 import '@/assets/css/custom.css';
 
 Vue.config.productionTip = false;

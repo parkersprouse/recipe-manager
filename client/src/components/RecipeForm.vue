@@ -25,6 +25,12 @@
         <article class="tile is-child box">
           <div class="content">
             <div class="field">
+              <label class="checkbox">
+                <input type="checkbox" v-model="form.private">
+                Private?
+              </label>
+            </div>
+            <div class="field">
               <label class="label">Title</label>
               <div class="control">
                 <input class="input" :class="!state.title ? 'is-danger' : ''" v-model="form.title" type="text" placeholder="Title">
@@ -47,7 +53,7 @@
         <article class="tile is-child box">
           <div class="content">
             <label class="label">Steps</label>
-            <div class="field has-addons" v-for="(step, i) in form.steps">
+            <div class="field is-grouped is-grouped-centered" v-for="(step, i) in form.steps">
               <div class="control">
                 <a class="button is-static">
                   {{ i + 1 }}
@@ -55,6 +61,11 @@
               </div>
               <div class="control is-expanded">
                 <input class="input" :class="!state.steps[i] ? 'is-danger' : ''" v-model="form.steps[i]" type="text" placeholder="Step" />
+              </div>
+              <div class="control">
+                <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'steps')" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
             <div class="field">
@@ -74,7 +85,7 @@
             <label class="label">Ingredients</label>
 
             <div class="field is-grouped is-grouped-centered" v-for="(item, i) in form.ingredients">
-              <div class="control">
+              <div class="control" style="width: 83px;">
                 <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
               </div>
               <div class="control">
@@ -85,7 +96,12 @@
                 </span>
               </div>
               <div class="control is-expanded">
-                <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Name" />
+                <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
+              </div>
+              <div class="control">
+                <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
 
@@ -138,7 +154,7 @@
       if (!!this.recipe) {
         this.form.title = this.recipe.title;
         this.form.description = this.recipe.description;
-        this.form.private = this.recipe.private + '';
+        this.form.private = this.recipe.private;
 
         let stepsStates = [];
         for (let i in this.recipe.steps)
@@ -172,7 +188,7 @@
           steps: [''],
           ingredients: [{name: '', measurement: '', amount: ''}],
           ingredientOptions: ['c', 'g', 'kg', 'l', 'lb', 'ml', 'oz', 'pt', 'tbsp', 'tsp'],
-          private: 'false'
+          private: false
         },
         state: {
           title: true,
@@ -218,7 +234,7 @@
           steps: this.form.steps,
           ingredients: {},
           id: !!this.recipe ? this.recipe.id : this.user.id,
-          private: this.form.private === 'true' ? true : false
+          private: this.form.private
         }
 
         for (let i = 0; i < this.form.ingredients.length; i++) {

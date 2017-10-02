@@ -58,6 +58,10 @@
   justify-content: flex-end;
 }
 
+.button[disabled] {
+  cursor: default;
+}
+
 /* The below was written for Bootstrap-Vue
 #container {
   margin-top: 20px;
