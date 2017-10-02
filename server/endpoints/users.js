@@ -84,12 +84,6 @@ function getUserByEmail(req, res, next) {
   getUserBy('email', req.params.email, res, next);
 }
 
-
-
-
-
-
-
 function updateUser(req, res, next) {
   const currentPassword = req.body.currentPassword;
   const email = req.body.email;
@@ -102,8 +96,8 @@ function updateUser(req, res, next) {
       .json({
         status: 'failure',
         content: {
-          emailState: emailEmpty ? 'invalid' : 'valid',
-          currentPasswordState: currentPasswordEmpty ? 'invalid' : 'valid'
+          emailState: !emailEmpty,
+          currentPasswordState: !currentPasswordEmpty
         },
         messages: {
           emailErr: emailEmpty ? 'Please make sure your email is filled out' : null,
@@ -116,8 +110,8 @@ function updateUser(req, res, next) {
       .json({
         status: 'failure',
         content: {
-          emailState: 'invalid',
-          currentPasswordState: 'valid'
+          emailState: false,
+          currentPasswordState: true
         },
         messages: {
           emailErr: 'Please make sure your email is valid',
@@ -131,7 +125,6 @@ function updateUser(req, res, next) {
         const match = bcrypt.compareSync(currentPassword, data.pw_hash);
 
         if (match) {
-
           let query = 'update users set email = ${email} where id = ${id} returning *';
           db.one(query, { email: email, id: req.body.id })
             .then(function (data) {
@@ -145,7 +138,7 @@ function updateUser(req, res, next) {
                 });
             })
             .catch(function (err) {
-              let msg = 'There was an unknown problem when updating your account';
+              let msg = 'There was an unknown problem when updating your profile';
 
               if (err.code === constants.db_err_duplicate)
                 msg = 'That email address is already in use';
@@ -154,8 +147,8 @@ function updateUser(req, res, next) {
                 .json({
                   status: 'failure',
                   content: {
-                    emailState: 'invalid',
-                    currentPasswordState: 'valid'
+                    emailState: false,
+                    currentPasswordState: true
                   },
                   messages: {
                     emailErr: msg,
@@ -169,8 +162,8 @@ function updateUser(req, res, next) {
             .json({
               status: 'failure',
               content: {
-                emailState: 'valid',
-                currentPasswordState: 'invalid'
+                emailState: true,
+                currentPasswordState: false
               },
               messages: {
                 emailErr: null,
@@ -184,22 +177,17 @@ function updateUser(req, res, next) {
           .json({
             status: 'failure',
             content: {
-              emailState: 'valid',
-              currentPasswordState: 'valid'
+              emailState: true,
+              currentPasswordState: true
             },
             messages: {
-              emailErr: 'There was an unknown problem when updating your account',
+              emailErr: 'There was an unknown problem when updating your profile',
               verifyErr: null
             }
           });
       });
   }
 }
-
-
-
-
-
 
 function updateUserPassword(req, res, next) {
   const currentPassword = req.body.currentPassword;
@@ -215,9 +203,9 @@ function updateUserPassword(req, res, next) {
       .json({
         status: 'failure',
         content: {
-          newPasswordState: newPasswordEmpty ? 'invalid' : 'valid',
-          newPasswordConfirmState: newPasswordConfirmEmpty ? 'invalid' : 'valid',
-          currentPasswordState: currentPasswordEmpty ? 'invalid' : 'valid'
+          newPasswordState: !newPasswordEmpty,
+          newPasswordConfirmState: !newPasswordConfirmEmpty,
+          currentPasswordState: !currentPasswordEmpty
         },
         messages: {
           passwordErr: newPasswordEmpty || newPasswordConfirmEmpty ? 'Please make sure both fields are filled out' : null,
@@ -230,7 +218,9 @@ function updateUserPassword(req, res, next) {
       .json({
         status: 'failure',
         content: {
-          newPasswordState: 'invalid'
+          newPasswordState: false,
+          newPasswordConfirmState: true,
+          currentPasswordState: true
         },
         messages: {
           passwordErr: 'Password should be at least 6 characters long',
@@ -243,8 +233,9 @@ function updateUserPassword(req, res, next) {
       .json({
         status: 'failure',
         content: {
-          newPasswordState: 'invalid',
-          newPasswordConfirmState: 'invalid'
+          newPasswordState: false,
+          newPasswordConfirmState: false,
+          currentPasswordState: true
         },
         messages: {
           passwordErr: 'Your passwords did not match',
@@ -276,7 +267,11 @@ function updateUserPassword(req, res, next) {
               res.status(constants.http_bad_request)
                 .json({
                   status: 'failure',
-                  content: {},
+                  content: {
+                    newPasswordState: true,
+                    newPasswordConfirmState: true,
+                    currentPasswordState: true
+                  },
                   messages: {
                     passwordErr: 'There was an unknown problem when updating your password',
                     verifyErr: null
@@ -289,7 +284,9 @@ function updateUserPassword(req, res, next) {
             .json({
               status: 'failure',
               content: {
-                currentPasswordState: 'invalid'
+                newPasswordState: true,
+                newPasswordConfirmState: true,
+                currentPasswordState: false
               },
               messages: {
                 passwordErr: null,
@@ -302,7 +299,11 @@ function updateUserPassword(req, res, next) {
         res.status(constants.http_bad_request)
           .json({
             status: 'failure',
-            content: {},
+            content: {
+              newPasswordState: true,
+              newPasswordConfirmState: true,
+              currentPasswordState: true
+            },
             messages: {
               passwordErr: 'There was an unknown problem when updating your password',
               verifyErr: null

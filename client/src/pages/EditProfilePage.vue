@@ -1,88 +1,129 @@
 <template>
-  <b-container>
-    <navbar />
-    <h3>Edit Profile</h3>
-    <span v-if="!user"></span>
-    <span v-else-if="user === -1">Requested user doesn't exist</span>
-    <!-- THINK ABOUT MAKING THESE COMPONENTS -->
-    <div v-else>
-      <div class="row justify-content-md-center align-items-center">
-        <div class="col col-lg-6">
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters is-narrow">
+          <navbar />
+          <div v-if="!user"></div>
+          <div v-else-if="user === -1" class="has-text-centered">Requested user doesn't exist</div>
+          <div v-else>
+            <div class="columns is-centered">
+              <div class="column is-two-thirds is-narrow">
 
-          <b-card>
-            <b-alert variant="danger" :show="!!verificationForm.errorMsg">
-              <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ verificationForm.errorMsg }}
-            </b-alert>
-            <b-form-group id="currentPasswordGroup" label="Current Password:" label-for="currentPasswordField">
-              <b-input-group>
-                <b-input-group-addon>
-                  <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                </b-input-group-addon>
-                <b-form-input id="currentPasswordField" type="password" v-model="verificationForm.currentPassword" placeholder="Current Password" :state="verificationForm.currentPasswordState" />
-              </b-input-group>
-            </b-form-group>
-          </b-card>
+                <!-- Current Password Field -->
+                <div class="tile is-ancestor">
+                  <div class="tile is-parent">
+                    <article class="tile is-child box">
+                      <div class="content">
+                        <div class="notification is-danger" v-if="!!errors.currentPassword">
+                          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                          {{ errors.currentPassword }}
+                        </div>
+                        <div class="field">
+                          <label class="label">Current Password</label>
+                          <div class="control has-icons-left">
+                            <input class="input" :class="!state.currentPassword ? 'is-danger' : ''" v-model="form.currentPassword" type="password" placeholder="Current Password">
+                            <span class="icon is-small is-left">
+                              <i class="fa fa-unlock-alt"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
 
-          <hr />
+                <!-- Account Info Form -->
+                <div class="tile is-ancestor">
+                  <div class="tile is-parent">
+                    <article class="tile is-child box">
+                      <h4 class="title is-4">Edit Account</h4>
+                      <div class="content">
+                        <form @submit.prevent="submitAccount">
+                          <div class="notification is-danger" v-if="!!errors.email">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{ errors.email }}
+                          </div>
+                          <div class="notification is-success" v-if="accountSuccess">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            Your profile has been updated successfully
+                          </div>
+                          <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control has-icons-left">
+                              <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="email" placeholder="Email">
+                              <span class="icon is-small is-left">
+                                <i class="fa fa-envelope"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="field">
+                            <p class="control has-text-centered">
+                              <button class="button is-primary" :class="submitting ? 'is-loading' : ''" :disabled="submitting" type="submit">
+                                Edit Account
+                              </button>
+                            </p>
+                          </div>
+                        </form>
+                      </div>
+                    </article>
+                  </div>
+                </div>
 
-          <b-card>
-            <b-alert variant="danger" :show="!!accountForm.errorMsg">
-              <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ accountForm.errorMsg }}
-            </b-alert>
-            <b-alert variant="success" :show="accountForm.updateSuccessful">
-              <i class="fa fa-check-circle" aria-hidden="true"></i> Your profile has been updated successfully
-            </b-alert>
-            <b-form @submit.prevent="submitAccount">
-              <b-form-group id="editEmailGroup" label="Email:" label-for="editEmailField">
-                <b-input-group>
-                  <b-input-group-addon>
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                  </b-input-group-addon>
-                  <b-form-input id="editEmailField" type="text" v-model="accountForm.email" placeholder="Email" :state="accountForm.emailState" />
-                </b-input-group>
-              </b-form-group>
-              <div class="text-align-center">
-                <b-button type="submit" variant="primary" :disabled="submitting">Edit Account</b-button>
+                <!-- New Password Form -->
+                <div class="tile is-ancestor">
+                  <div class="tile is-parent">
+                    <article class="tile is-child box">
+                      <h4 class="title is-4">Edit Password</h4>
+                      <div class="content">
+                        <form @submit.prevent="submitPassword">
+                          <div class="notification is-danger" v-if="!!errors.newPassword">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{ errors.newPassword }}
+                          </div>
+                          <div class="notification is-success" v-if="passwordSuccess">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            Your password has been updated successfully
+                          </div>
+                          <div class="field">
+                            <label class="label">New Password</label>
+                            <div class="control has-icons-left">
+                              <input class="input" :class="!state.newPassword ? 'is-danger' : ''" v-model="form.newPassword" type="password" placeholder="New Password">
+                              <span class="icon is-small is-left">
+                                <i class="fa fa-lock"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label class="label">Confirm New Password</label>
+                            <div class="control has-icons-left">
+                              <input class="input" :class="!state.newPasswordConfirm ? 'is-danger' : ''" v-model="form.newPasswordConfirm" type="password" placeholder="Confirm New Password">
+                              <span class="icon is-small is-left">
+                                <i class="fa fa-lock"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="field">
+                            <p class="control has-text-centered">
+                              <button class="button is-primary" :class="submitting ? 'is-loading' : ''" :disabled="submitting" type="submit">
+                                Edit Password
+                              </button>
+                            </p>
+                          </div>
+                        </form>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
               </div>
-            </b-form>
-          </b-card>
-
-          <hr />
-
-          <b-card>
-            <b-alert variant="danger" :show="!!passwordForm.errorMsg">
-              <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ passwordForm.errorMsg }}
-            </b-alert>
-            <b-alert variant="success" :show="passwordForm.updateSuccessful">
-              <i class="fa fa-check-circle" aria-hidden="true"></i> Your password has been updated successfully
-            </b-alert>
-            <b-form @submit.prevent="submitPassword">
-              <b-form-group id="editPasswordGroup" label="New Password:" label-for="editPasswordField">
-                <b-input-group>
-                  <b-input-group-addon>
-                    <i class="fa fa-lock" aria-hidden="true"></i>
-                  </b-input-group-addon>
-                  <b-form-input id="editPasswordField" type="password" v-model="passwordForm.newPassword" placeholder="New Password" :state="passwordForm.newPasswordState" />
-                </b-input-group>
-              </b-form-group>
-              <b-form-group id="editPasswordConfirmGroup" label="Confirm New Password:" label-for="editPasswordConfirmField">
-                <b-input-group>
-                  <b-input-group-addon>
-                    <i class="fa fa-lock" aria-hidden="true"></i>
-                  </b-input-group-addon>
-                  <b-form-input id="editPasswordConfirmField" type="password" v-model="passwordForm.newPasswordConfirm" placeholder="Confirm New Password" :state="passwordForm.newPasswordConfirmState" />
-                </b-input-group>
-              </b-form-group>
-              <div class="text-align-center">
-                <b-button type="submit" variant="primary" :disabled="submitting">Edit Password</b-button>
-              </div>
-            </b-form>
-          </b-card>
-
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </b-container>
+  </section>
+
 </template>
 
 <script>
@@ -94,49 +135,50 @@
     mounted: function() {
       utils.getCurrentUserInfo(function(success, response) {
         this.user = success ? response : -1;
-        this.accountForm.email = this.user.email;
+        this.form.email = this.user.email;
       }.bind(this));
     },
     data: function() {
       return {
         user: null,
         submitting: false,
-        verificationForm: {
+        accountSuccess: false,
+        passwordSuccess: false,
+        form: {
           currentPassword: '',
-          currentPasswordState: 'valid',
-          errorMsg: ''
-        },
-        accountForm: {
-          updateSuccessful: false,
           email: '',
-          emailState: 'valid',
-          errorMsg: ''
-        },
-        passwordForm: {
-          updateSuccessful: false,
           newPassword: '',
-          newPasswordConfirm: '',
-          newPasswordState: 'valid',
-          newPasswordConfirmState: 'valid',
-          errorMsg: null
+          newPasswordConfirm: ''
+        },
+        state: {
+          currentPassword: true,
+          email: true,
+          newPassword: true,
+          newPasswordConfirm: true
+        },
+        errors: {
+          general: null,
+          currentPassword: null,
+          email: null,
+          newPassword: null
         }
       }
     },
     methods: {
       resetVerificationErrors() {
-        this.verificationForm.errorMsg = null;
-        this.verificationForm.currentPasswordState = 'valid';
+        this.errors.currentPassword = null;
+        this.state.currentPassword = true;
       },
       resetAccountErrors() {
-        this.accountForm.updateSuccessful = false;
-        this.accountForm.errorMsg = null;
-        this.accountForm.emailState = 'valid';
+        this.accountSuccess = false;
+        this.errors.email = null;
+        this.state.email = true;
       },
       resetPasswordErrors() {
-        this.passwordForm.updateSuccessful = false;
-        this.passwordForm.errorMsg = null;
-        this.passwordForm.newPasswordState = 'valid';
-        this.passwordForm.newPasswordConfirmState = 'valid';
+        this.passwordSuccess = false;
+        this.errors.newPassword = null;
+        this.state.newPassword = true;
+        this.state.newPasswordConfirm = true;
       },
       submitAccount(event) {
         this.resetVerificationErrors();
@@ -145,19 +187,19 @@
 
         const data = {
           id: this.user.id,
-          email: this.accountForm.email,
-          currentPassword: this.verificationForm.currentPassword
+          email: this.form.email,
+          currentPassword: this.form.currentPassword
         };
 
         api.updateUser(data, function(success, response) {
           if (success) {
-            this.accountForm.updateSuccessful = true;
+            this.accountSuccess = true;
           }
           else {
-            this.accountForm.errorMsg = response.data.messages.emailErr;
-            this.verificationForm.errorMsg = response.data.messages.verifyErr;
-            this.accountForm.emailState = response.data.content.emailState || 'valid';
-            this.verificationForm.currentPasswordState = response.data.content.currentPasswordState || 'valid';
+            this.errors.email = response.data.messages.emailErr;
+            this.errors.currentPassword = response.data.messages.verifyErr;
+            this.state.email = response.data.content.emailState;
+            this.state.currentPassword = response.data.content.currentPasswordState;
           }
           this.submitting = false;
         }.bind(this));
@@ -169,21 +211,21 @@
 
         const data = {
           id: this.user.id,
-          newPassword: this.passwordForm.newPassword,
-          newPasswordConfirm: this.passwordForm.newPasswordConfirm,
-          currentPassword: this.verificationForm.currentPassword
+          newPassword: this.form.newPassword,
+          newPasswordConfirm: this.form.newPasswordConfirm,
+          currentPassword: this.form.currentPassword
         };
 
         api.updateUserPassword(data, function(success, response) {
           if (success) {
-            this.passwordForm.updateSuccessful = true;
+            this.passwordSuccess = true;
           }
           else {
-            this.passwordForm.errorMsg = response.data.messages.passwordErr;
-            this.verificationForm.errorMsg = response.data.messages.verifyErr;
-            this.passwordForm.newPasswordState = response.data.content.newPasswordState || 'valid';
-            this.passwordForm.newPasswordConfirmState = response.data.content.newPasswordConfirmState || 'valid';
-            this.verificationForm.currentPasswordState = response.data.content.currentPasswordState || 'valid';
+            this.errors.newPassword = response.data.messages.passwordErr;
+            this.errors.currentPassword = response.data.messages.verifyErr;
+            this.state.newPassword = response.data.content.newPasswordState;
+            this.state.newPasswordConfirm = response.data.content.newPasswordConfirmState;
+            this.state.currentPassword = response.data.content.currentPasswordState;
           }
           this.submitting = false;
         }.bind(this));
