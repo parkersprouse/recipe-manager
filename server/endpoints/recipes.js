@@ -23,11 +23,11 @@ function addOrUpdateRecipe(func, req, res, next) {
 
   for (let i = 0; i < steps.length; i++) {
     if (!steps[i] || validator.isEmpty(steps[i])) {
-      stepsState.push('invalid');
+      stepsState.push(false);
       stepsEmpty = true;
     }
     else {
-      stepsState.push('valid');
+      stepsState.push(true);
     }
   }
 
@@ -36,14 +36,14 @@ function addOrUpdateRecipe(func, req, res, next) {
       const ing = ingredients[i];
       if (!ing.name || validator.isEmpty(ing.name) || !ing.measurement || validator.isEmpty(ing.measurement) || !ing.amount || validator.isEmpty(ing.amount)) {
         ingredientsState.push({
-          name: !ing.name || validator.isEmpty(ing.name) ? 'invalid' : 'valid',
-          measurement: !ing.measurement || validator.isEmpty(ing.measurement) ? 'invalid' : 'valid',
-          amount: !ing.amount || validator.isEmpty(ing.amount) ? 'invalid' : 'valid'
+          name: !ing.name || validator.isEmpty(ing.name) ? false : true,
+          measurement: !ing.measurement || validator.isEmpty(ing.measurement) ? false : true,
+          amount: !ing.amount || validator.isEmpty(ing.amount) ? false : true
         });
         ingredientsEmpty = true;
       }
       else {
-        ingredientsState.push({name: 'valid', measurement: 'valid', amount: 'valid'});
+        ingredientsState.push({name: true, measurement: true, amount: true});
       }
     }
   }
@@ -53,7 +53,7 @@ function addOrUpdateRecipe(func, req, res, next) {
       .json({
         status: 'failure',
         content: {
-          titleState: titleEmpty ? 'invalid' : 'valid',
+          titleState: !titleEmpty,
           ingredientsState: ingredientsState,
           stepsState: stepsState
         },
@@ -95,7 +95,12 @@ function addOrUpdateRecipe(func, req, res, next) {
         res.status(constants.http_bad_request)
           .json({
             status: 'failure',
-            content: err,
+            content: {
+              titleState: true,
+              ingredientsState: true,
+              stepsState: true,
+              err: err
+            },
             message: 'There was an unknown problem when attempting to ' + func + ' the recipe'
           });
       });

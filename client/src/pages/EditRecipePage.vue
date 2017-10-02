@@ -1,13 +1,19 @@
 <template>
-  <b-container>
-    <navbar />
-    <div v-if="!recipe"></div>
-    <div v-else-if="recipe === -1">That recipe doesn't exist</div>
-    <div v-else>
-      <h3>Edit Recipe</h3>
-      <recipe-form :recipe="recipe" />
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters is-narrow">
+          <navbar />
+          <div v-if="!recipe"></div>
+          <div v-else-if="recipe === -1">That recipe doesn't exist</div>
+          <div v-else>
+            <h3 class="title is-3">Edit Recipe</h3>
+            <recipe-form :recipe="recipe" />
+          </div>
+        </div>
+      </div>
     </div>
-  </b-container>
+  </section>
 </template>
 
 <script>
