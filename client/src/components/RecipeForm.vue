@@ -25,10 +25,8 @@
         <article class="tile is-child box">
           <div class="content">
             <div class="field">
-              <label class="checkbox">
-                <input type="checkbox" v-model="form.private">
-                Private?
-              </label>
+              <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private">
+              <label for="private-checkbox">Private?</label>
             </div>
             <div class="field">
               <label class="label">Title</label>
