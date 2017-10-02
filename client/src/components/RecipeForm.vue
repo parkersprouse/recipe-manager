@@ -7,7 +7,7 @@
     </div>
 
     <div class="field">
-      <div class="control is-pulled-right">
+      <div class="control is-pulled-right" v-if="!!recipe">
         <button class="button is-danger" :disabled="submitting" type="button">
           Delete Recipe
         </button>
@@ -41,33 +41,64 @@
     </div>
 
     <div class="tile is-ancestor">
-
+      <!---->
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
-            <div class="field">
-              <label class="label">Steps</label>
+            <label class="label">Steps</label>
+            <div class="field has-addons" v-for="(step, i) in form.steps">
               <div class="control">
-                <textarea class="textarea" :class="!state.description ? 'is-danger' : ''" v-model="form.description" type="text" placeholder="Description" rows="2"></textarea>
+                <a class="button is-static">
+                  {{ i + 1 }}
+                </a>
+              </div>
+              <div class="control is-expanded">
+                <input class="input" :class="!state.steps[i] ? 'is-danger' : ''" v-model="form.steps[i]" type="text" placeholder="Step" />
+              </div>
+            </div>
+            <div class="field">
+              <div class="control has-text-centered">
+                <button class="button is-info" type="button" @click="add('steps')">
+                  Add Step
+                </button>
               </div>
             </div>
           </div>
         </article>
       </div>
-
+      <!---->
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
-            <div class="field">
-              <label class="label">Ingredients</label>
+            <label class="label">Ingredients</label>
+
+            <div class="field has-addons" v-for="(item, i) in form.ingredients">
               <div class="control">
-                <textarea class="textarea" :class="!state.description ? 'is-danger' : ''" v-model="form.description" type="text" placeholder="Description" rows="3"></textarea>
+                <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+              </div>
+              <div class="control">
+                <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
+                  <select v-model="form.ingredients[i].measurement">
+                    <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                  </select>
+                </span>
+              </div>
+              <div class="control is-expanded">
+                <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Name" />
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control has-text-centered">
+                <button class="button is-info" type="button" @click="add('ingredients')">
+                  Add Ingredient
+                </button>
               </div>
             </div>
           </div>
         </article>
       </div>
-
+      <!---->
     </div>
 
   </form>
