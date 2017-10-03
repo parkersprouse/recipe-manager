@@ -77,6 +77,12 @@
   cursor: default;
 }
 
+.view-recipe-body > .tooltip {
+  position: absolute;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
 /* The below was written for Bootstrap-Vue
 #container {
   margin-top: 20px;

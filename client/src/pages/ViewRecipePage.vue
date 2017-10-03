@@ -10,12 +10,12 @@
           <div v-else>
 
             <div class="recipe-top-container">
-              <span class="tag is-info is-pulled-right tooltip is-tooltip-left" data-tooltip="This recipe can only be viewed by you" v-if="recipe.private">Private</span>
-              <span class="tag is-info is-pulled-right tooltip is-tooltip-left" data-tooltip="This recipe can be viewed by anyone" v-else>Public</span>
               <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
             </div>
 
-            <section class="hero is-primary is-bold" style="margin-bottom: 1.5rem;">
+            <section class="hero is-primary is-bold has-ribbon view-recipe-body" style="margin-bottom: 1.5rem;">
+              <div class="ribbon is-info tooltip is-tooltip-left" data-tooltip="This recipe can only be viewed by you" v-if="recipe.private">Private</div>
+              <div class="ribbon is-info tooltip is-tooltip-left" data-tooltip="This recipe can be viewed by anyone" v-else>Public</div>
               <div class="hero-body">
                 <div class="container">
                   <h1 class="title">
