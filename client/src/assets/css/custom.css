@@ -54,11 +54,26 @@
   margin-bottom: 1rem;
 }
 
+.recipe-top-container {
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.recipe-top-container > .tag {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .flex-right {
   justify-content: flex-end;
 }
 
 .button[disabled] {
+  cursor: default;
+}
+
+.tag {
   cursor: default;
 }
 

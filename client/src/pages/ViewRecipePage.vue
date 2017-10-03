@@ -9,6 +9,12 @@
           <div v-else-if="recipe.private && recipe.user_id !== user.id" class="has-text-centered">This recipe has been set to private</div>
           <div v-else>
 
+            <div class="recipe-top-container">
+              <span class="tag is-info is-pulled-right tooltip is-tooltip-left" data-tooltip="This recipe can only be viewed by you" v-if="recipe.private">Private</span>
+              <span class="tag is-info is-pulled-right tooltip is-tooltip-left" data-tooltip="This recipe can be viewed by anyone" v-else>Public</span>
+              <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
+            </div>
+
             <section class="hero is-primary is-bold" style="margin-bottom: 1.5rem;">
               <div class="hero-body">
                 <div class="container">
@@ -50,10 +56,6 @@
                   </div>
                 </article>
               </div>
-            </div>
-
-            <div>
-              <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
             </div>
 
           </div>
