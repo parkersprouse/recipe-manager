@@ -12,7 +12,7 @@
     </div>
 
     <div style="margin-bottom: 1rem;">
-      <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)">
+      <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)" v-if="!!recipe">
         Delete Recipe
       </button>
       <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
@@ -116,7 +116,7 @@
       <!---->
     </div>
 
-    <div class="modal" :class="showDeleteModal ? 'is-active' : ''">
+    <div class="modal" :class="showDeleteModal ? 'is-active' : ''" v-if="!!recipe">
       <div class="modal-background" @click="showModal(false)"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -145,6 +145,11 @@
     name: 'recipe-form',
     props: ['recipe'],
     mounted: function() {
+      this.$nextTick(function() {
+        window.addEventListener('resize', this.getWindowWidth);
+        this.getWindowWidth()
+      });
+
       utils.getCurrentUserInfo(function(success, response) {
         this.user = response;
       }.bind(this));
@@ -175,6 +180,7 @@
     },
     data: function() {
       return {
+        windowWidth: 0,
         showDeleteModal: false,
         user: null,
         submitting: false,
@@ -196,6 +202,9 @@
       }
     },
     methods: {
+      getWindowWidth(event) {
+        this.windowWidth = document.documentElement.clientWidth;
+      },
       showModal(show) {
         this.showDeleteModal = show;
       },
@@ -269,6 +278,9 @@
           }
         }.bind(this));
       }
+    },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.getWindowWidth);
     }
   }
 </script>
