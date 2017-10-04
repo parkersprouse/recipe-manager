@@ -4,8 +4,8 @@
       <div class="columns is-centered">
         <div class="column is-three-quarters is-narrow">
           <navbar />
-          <h3 class="title is-3" style="margin-bottom: 0.5rem;">My Recipes</h3>
-          <h5 class="title is-5" v-if="recipes && numPages">Total recipes: {{ totalNumRecipes }}</h5>
+          <h3 class="title is-3" style="margin-bottom: 0.5rem;">Search Results for "{{ $route.query.q }}"</h3>
+          <h5 class="title is-5" v-if="recipes && numPages">Total results: {{ totalNumRecipes }}</h5>
           <div v-if="!recipes || !numPages"></div>
           <div v-else>
 
@@ -39,7 +39,7 @@
               <div class="card">
                 <div class="card-content">
                   <div class="content has-text-centered">
-                    This page does not have any recipes.
+                    Your search had no results.
                   </div>
                 </div>
               </div>
@@ -78,24 +78,33 @@
   import api from '@/utils/api';
 
   export default {
-    name: 'recipes-page',
+    name: 'recipe-search-results-page',
     mounted: function() {
       utils.getCurrentUserInfo(function(success, response) {
-        const userid = response.id;
-        api.getPaginatedUserRecipes(userid, this.page, this.perPage, function(success, response) {
-          this.recipes = response.content || [];
+        const data = {
+          userid: response.id,
+          query: this.query,
+          page: this.page,
+          amount: this.perPage
+        };
 
-          api.getUsersRecipes(userid, function(success, response) {
+        api.searchRecipes(data, function(success, response) {
+          if (success) {
+            this.recipes = response.content || [];
             this.numPages = Math.ceil(response.content.length / this.perPage);
             this.totalNumRecipes = response.content.length;
-          }.bind(this));
-
+          }
+          else {
+            this.recipes = [];
+            this.numPages = 1;
+            this.totalNumRecipes = 0;
+          }
         }.bind(this));
       }.bind(this));
     },
     data: function() {
       return {
-        query: '',
+        query: this.$route.query.q,
         recipes: null,
         numPages: null,
         totalNumRecipes: 0,
@@ -108,10 +117,10 @@
         window.location.href = '/recipes/' + id;
       },
       onChange(page) {
-        window.location.href = '/recipes?p=' + page + '&n=' + this.perPage;
+        window.location.href = '/recipes/search?q=' + this.query + '&p=' + page + '&n=' + this.perPage;
       },
       performSearch() {
-        window.location.href = '/recipes/search?q=' + this.query;
+        window.location.href = '/recipes/search?q=' + this.query + '&p=' + this.page + '&n=' + this.perPage;
       }
     }
   }

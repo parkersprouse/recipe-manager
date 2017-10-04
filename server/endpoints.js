@@ -21,6 +21,7 @@ router.get('/recipe/user/:id', recipes.getUserRecipes);
 router.get('/recipe/user/:id/:page/:amount', recipes.getPaginatedUserRecipes);
 router.post('/recipe/add', recipes.addRecipe);
 router.patch('/recipe/update', recipes.updateRecipe);
+router.post('/recipe/search', recipes.searchRecipes);
 router.delete('/recipe/delete/:id', recipes.deleteRecipe);
 
 // user endpoints

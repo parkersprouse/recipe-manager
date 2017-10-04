@@ -217,6 +217,53 @@ function updateRecipe(req, res, next) {
   addOrUpdateRecipe('update', req, res, next);
 }
 
+function searchRecipes(req, res, next) {
+  const offset = (req.body.page - 1) * req.body.amount;
+
+  const queries = req.body.query.split(' ');
+  let searchQuery = "";
+  if (queries.length > 1) {
+    queries.forEach(function(string) {
+      searchQuery += "(title ilike '%" + string + "%' or description ilike '%" + string + "%') and ";
+    });
+    searchQuery = searchQuery.slice(0, -5);
+  }
+  else {
+    searchQuery = "(title ilike '%" + queries[0] + "%' or description ilike '%" + queries[0] + "%')";
+  }
+
+  const finalQuery = "select * from recipes where user_id = " + req.body.userid + " and " + searchQuery + " order by id asc limit " + req.body.amount + " offset " + offset;
+  db.many(finalQuery, {})
+    .then(function (data) {
+      res.status(constants.http_ok)
+        .json({
+          status: 'success',
+          content: data,
+          message: 'Found recipes'
+        });
+    })
+    .catch(function (err) {
+      console.log(err)
+      if (err instanceof constants.db_query_result_error &&
+          err.code === constants.db_err_no_result) {
+        res.status(constants.http_no_content)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'Recipes not found'
+          });
+      }
+      else {
+        res.status(constants.http_server_error)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'There was an unknown problem when attempting to find the recipes'
+          });
+      }
+    });
+}
+
 function deleteRecipe(req, res, next) {
   db.none('delete from recipes where id = $1', req.params.id)
     .then(function () {
@@ -242,5 +289,6 @@ module.exports = {
   getPaginatedUserRecipes: getPaginatedUserRecipes,
   addRecipe: addRecipe,
   updateRecipe: updateRecipe,
+  searchRecipes: searchRecipes,
   deleteRecipe: deleteRecipe
 }

@@ -102,6 +102,10 @@ module.exports = {
     performPatch('/api/recipe/update', data, callback);
   },
 
+  searchRecipes: function(data, callback) {
+    performPost('/api/recipe/search', data, callback);
+  },
+
   deleteRecipe: function(id, callback) {
     performDelete('/api/recipe/delete/' + id, callback);
   }
