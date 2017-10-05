@@ -218,8 +218,6 @@ function updateRecipe(req, res, next) {
 }
 
 function searchRecipes(req, res, next) {
-  const offset = (req.body.page - 1) * req.body.amount;
-
   const queries = req.body.query.split(' ');
   let searchQuery = "";
   if (queries.length > 1) {
@@ -232,7 +230,11 @@ function searchRecipes(req, res, next) {
     searchQuery = "(title ilike '%" + queries[0] + "%' or description ilike '%" + queries[0] + "%')";
   }
 
-  const finalQuery = "select * from recipes where user_id = " + req.body.userid + " and " + searchQuery + " order by id asc limit " + req.body.amount + " offset " + offset;
+  let finalQuery = "select * from recipes where user_id = " + req.body.userid + " and " + searchQuery + " order by id";
+  if (req.body.pagniate) {
+    const offset = (req.body.page - 1) * req.body.amount;
+    finalQuery += " limit " + req.body.amount + " offset " + offset;
+  }
   db.many(finalQuery, {})
     .then(function (data) {
       res.status(constants.http_ok)

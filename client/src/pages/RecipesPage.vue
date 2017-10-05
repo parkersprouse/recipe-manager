@@ -69,6 +69,20 @@
               :onChange="onChange"
               :step="1">
             </pagination>
+
+            <div>
+              <span class="select">
+                <select v-model.number="perPage">
+                  <option v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">{{ perPage }}</option>
+                  <option disabled value="" v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">---</option>
+                  <option>5</option>
+                  <option>10</option>
+                  <option>20</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -116,6 +130,11 @@
       performSearch() {
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query;
+      }
+    },
+    watch: {
+      perPage: function(val, oldVal) {
+        window.location.href = '/recipes?p=1&n=' + val;
       }
     }
   }

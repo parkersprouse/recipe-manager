@@ -69,6 +69,20 @@
               :onChange="onChange"
               :step="1">
             </pagination>
+
+            <div>
+              <span class="select">
+                <select v-model.number="perPage">
+                  <option v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">{{ perPage }}</option>
+                  <option disabled value="" v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">---</option>
+                  <option>5</option>
+                  <option>10</option>
+                  <option>20</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -88,20 +102,17 @@
           userid: response.id,
           query: this.query,
           page: this.page,
-          amount: this.perPage
+          amount: this.perPage,
+          pagniate: true
         };
-
         api.searchRecipes(data, function(success, response) {
-          if (success) {
-            this.recipes = response.content || [];
-            this.numPages = Math.ceil(response.content.length / this.perPage);
-            this.totalNumRecipes = response.content.length;
-          }
-          else {
-            this.recipes = [];
-            this.numPages = 1;
-            this.totalNumRecipes = 0;
-          }
+          if (success) this.recipes = response.content;
+          else this.recipes = [];
+          data.pagniate = false;
+          api.searchRecipes(data, function(success, response) {
+            this.numPages = success ? Math.ceil(response.content.length / this.perPage) : 1;
+            this.totalNumRecipes = success ? response.content.length : 0;
+          }.bind(this));
         }.bind(this));
       }.bind(this));
     },
@@ -125,6 +136,11 @@
       performSearch() {
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query + '&p=' + this.page + '&n=' + this.perPage;
+      }
+    },
+    watch: {
+      perPage: function(val, oldVal) {
+        window.location.href = '/recipes/search?q=' + this.query + '&p=1&n=' + val;
       }
     }
   }
