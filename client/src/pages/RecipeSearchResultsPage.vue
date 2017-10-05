@@ -71,7 +71,8 @@
             </pagination>
 
             <div>
-              <span class="select">
+              Show per page:
+              <span class="select is-small">
                 <select v-model.number="perPage">
                   <option v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">{{ perPage }}</option>
                   <option disabled value="" v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">---</option>
