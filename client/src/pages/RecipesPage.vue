@@ -14,8 +14,11 @@
               <div class="column is-half is-narrow">
                 <form @submit.prevent="performSearch">
                   <div class="field has-addons">
-                    <div class="control is-expanded">
+                    <div class="control is-expanded has-icons-left">
                       <input class="input" type="text" placeholder="Search Recipes" v-model="query">
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                      </span>
                     </div>
                     <div class="control">
                       <button class="button is-info" type="submit">
@@ -111,7 +114,8 @@
         window.location.href = '/recipes?p=' + page + '&n=' + this.perPage;
       },
       performSearch() {
-        window.location.href = '/recipes/search?q=' + this.query;
+        if (this.query !== '')
+          window.location.href = '/recipes/search?q=' + this.query;
       }
     }
   }
