@@ -74,8 +74,8 @@
               Show per page:
               <span class="select is-small">
                 <select v-model.number="perPage">
-                  <option v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">{{ perPage }}</option>
-                  <option disabled value="" v-if="[5, 10, 20, 50, 100].indexOf(perPage) === -1">---</option>
+                  <option v-if="!perPageInList">{{ perPage }}</option>
+                  <option disabled value="" v-if="!perPageInList">---</option>
                   <option>5</option>
                   <option>10</option>
                   <option>20</option>
@@ -121,6 +121,11 @@
         perPage: !!this.$route.query.n ? parseInt(this.$route.query.n, 10) : 10
       }
     },
+    computed: {
+      perPageInList: function() {
+        return [5, 10, 20, 50, 100].indexOf(this.perPage) > -1;
+      }
+    },
     methods: {
       viewRecipe(id) {
         window.location.href = '/recipes/' + id;
@@ -130,7 +135,7 @@
       },
       performSearch() {
         if (this.query !== '')
-          window.location.href = '/recipes/search?q=' + this.query;
+          window.location.href = '/recipes/search?q=' + this.query + '&n=' + this.perPage;
       }
     },
     watch: {
