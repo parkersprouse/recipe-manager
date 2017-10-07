@@ -4,13 +4,29 @@
       <div class="columns is-centered">
         <div class="column is-three-quarters is-narrow">
           <navbar />
+
+          <form @submit.prevent="performSearch" class="is-pulled-right" v-if="!isMobile">
+            <div class="field has-addons">
+              <div class="control is-expanded has-icons-left">
+                <input class="input" type="text" placeholder="Search Recipes" v-model="query">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div class="control">
+                <button class="button is-info" type="submit">
+                  Search
+                </button>
+              </div>
+            </div>
+          </form>
+
           <h3 class="title is-3" style="margin-bottom: 0.5rem;">Search Results for "{{ $route.query.q }}"</h3>
           <h5 class="title is-5" v-if="recipes && numPages">Total results: {{ totalNumRecipes }}</h5>
           <div v-if="!recipes || !numPages"></div>
           <div v-else>
 
-            <hr />
-            <div class="columns is-centered" style="margin-bottom: -0.75rem;">
+            <div class="columns is-centered" style="margin-bottom: -0.75rem;" v-if="isMobile">
               <div class="column is-half is-narrow">
                 <form @submit.prevent="performSearch">
                   <div class="field has-addons">
@@ -29,7 +45,6 @@
                 </form>
               </div>
             </div>
-            <hr />
 
             <pagination
               :current="page"
@@ -131,6 +146,9 @@
     computed: {
       perPageInList: function() {
         return [5, 10, 20, 50, 100].indexOf(this.perPage) > -1;
+      },
+      isMobile: function() {
+        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
     methods: {
