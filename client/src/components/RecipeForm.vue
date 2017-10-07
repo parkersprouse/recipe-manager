@@ -82,53 +82,65 @@
           <div class="content">
             <label class="label">Ingredients</label>
 
-
-            <div class="field is-grouped is-grouped-centered" v-if="!isMobile" v-for="(item, i) in form.ingredients">
-              <div class="control" style="width: 83px;">
-                <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+            <div v-for="(item, i) in form.ingredients">
+              <div v-if="isMobile" style="margin-bottom: 0.75rem;">
+                <div class="field is-grouped is-grouped-centered">
+                  <div class="control">
+                    <a class="button is-static">
+                      {{ i + 1 }}
+                    </a>
+                  </div>
+                  <div class="control is-expanded" style="width: 83px;">
+                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+                  </div>
+                  <div class="control">
+                    <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
+                      <select v-model="form.ingredients[i].measurement">
+                        <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                      </select>
+                    </span>
+                  </div>
+                </div>
+                <div class="field is-grouped is-grouped-centered">
+                  <div class="control is-expanded">
+                    <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
+                  </div>
+                  <div class="control">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+                <hr />
               </div>
-              <div class="control">
-                <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
-                  <select v-model="form.ingredients[i].measurement">
-                    <option v-for="item in form.ingredientOptions">{{ item }}</option>
-                  </select>
-                </span>
-              </div>
-              <div class="control is-expanded">
-                <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
-              </div>
-              <div class="control">
-                <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
+              <div v-else style="margin-bottom: 0.75rem;">
+                <div class="field is-grouped is-grouped-centered">
+                  <div class="control">
+                    <a class="button is-static">
+                      {{ i + 1 }}
+                    </a>
+                  </div>
+                  <div class="control" style="width: 83px;">
+                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+                  </div>
+                  <div class="control">
+                    <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
+                      <select v-model="form.ingredients[i].measurement">
+                        <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                      </select>
+                    </span>
+                  </div>
+                  <div class="control is-expanded">
+                    <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
+                  </div>
+                  <div class="control">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div v-else v-for="(item, i) in form.ingredients">
-              <div class="field is-grouped is-grouped-centered">
-                <div class="control is-expanded" style="width: 83px;">
-                  <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
-                </div>
-                <div class="control">
-                  <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
-                    <select v-model="form.ingredients[i].measurement">
-                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
-                    </select>
-                  </span>
-                </div>
-              </div>
-              <div class="field is-grouped is-grouped-centered">
-                <div class="control is-expanded">
-                  <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
-                </div>
-                <div class="control">
-                  <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
 
             <div class="field">
               <div class="control has-text-centered">
