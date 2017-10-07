@@ -71,7 +71,7 @@
             </pagination>
 
             <div>
-              Show per page:
+              Show
               <span class="select is-small">
                 <select v-model.number="perPage">
                   <option v-if="!perPageInList">{{ perPage }}</option>
@@ -83,6 +83,7 @@
                   <option>100</option>
                 </select>
               </span>
+              per page
             </div>
           </div>
         </div>

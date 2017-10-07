@@ -82,7 +82,8 @@
           <div class="content">
             <label class="label">Ingredients</label>
 
-            <div class="field is-grouped is-grouped-centered" v-for="(item, i) in form.ingredients">
+
+            <div class="field is-grouped is-grouped-centered" v-if="!isMobile" v-for="(item, i) in form.ingredients">
               <div class="control" style="width: 83px;">
                 <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
               </div>
@@ -102,6 +103,32 @@
                 </button>
               </div>
             </div>
+
+            <div v-else v-for="(item, i) in form.ingredients">
+              <div class="field is-grouped is-grouped-centered">
+                <div class="control is-expanded" style="width: 83px;">
+                  <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+                </div>
+                <div class="control">
+                  <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
+                    <select v-model="form.ingredients[i].measurement">
+                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div class="field is-grouped is-grouped-centered">
+                <div class="control is-expanded">
+                  <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
+                </div>
+                <div class="control">
+                  <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
 
             <div class="field">
               <div class="control has-text-centered">
@@ -171,7 +198,7 @@
           if (this.recipe.ingredients.hasOwnProperty(i)) {
             let ing = this.recipe.ingredients[i];
             ings.push({ name: ing.name, measurement: ing.measurement, amount: ing.amount });
-            ingsStates.push({name: true, measurement: true, amount: true});
+            ingsStates.push({ name: true, measurement: true, amount: true });
           }
         }
         this.form.ingredients = ings;
@@ -190,15 +217,20 @@
           title: '',
           description: '',
           steps: [''],
-          ingredients: [{name: '', measurement: '', amount: ''}],
+          ingredients: [{ name: '', measurement: '', amount: '' }],
           ingredientOptions: ['c', 'g', 'kg', 'l', 'lb', 'ml', 'oz', 'pt', 'tbsp', 'tsp'],
           private: false
         },
         state: {
           title: true,
           steps: [true],
-          ingredients: [{name: true, measurement: true, amount: true}]
+          ingredients: [{ name: true, measurement: true, amount: true }]
         }
+      }
+    },
+    computed: {
+      isMobile: function() {
+        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
     methods: {
@@ -214,8 +246,8 @@
           this.state.steps.push(true);
         }
         else {
-          this.form.ingredients.push({name: '', measurement: '', amount: ''});
-          this.state.ingredients.push({name: true, measurement: true, amount: true});
+          this.form.ingredients.push({ name: '', measurement: '', amount: '' });
+          this.state.ingredients.push({ name: true, measurement: true, amount: true });
         }
       },
       remove(index, type) {
@@ -229,7 +261,7 @@
         this.errorMsg = null;
         this.state.title = true;
         this.state.steps.fill(true);
-        this.state.ingredients.fill({name: true, measurement: true, amount: true});
+        this.state.ingredients.fill({ name: true, measurement: true, amount: true });
       },
       onSubmit(event) {
         this.resetErrors();
