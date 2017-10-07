@@ -116,6 +116,10 @@ html, body {
   border-bottom-left-radius: 3px;
 }
 
+.textarea {
+  padding: calc(.375em - 1px) calc(.625em - 1px);
+}
+
 /* The below was written for Bootstrap-Vue
 #container {
   margin-top: 20px;

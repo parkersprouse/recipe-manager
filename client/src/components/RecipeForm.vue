@@ -58,7 +58,8 @@
                 </a>
               </div>
               <div class="control is-expanded">
-                <input class="input" :class="!state.steps[i] ? 'is-danger' : ''" v-model="form.steps[i]" type="text" placeholder="Step" />
+                <!-- <input class="input" :class="!state.steps[i] ? 'is-danger' : ''" v-model="form.steps[i]" type="text" placeholder="Step" /> -->
+                <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea>
               </div>
               <div class="control">
                 <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'steps')" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
