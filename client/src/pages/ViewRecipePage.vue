@@ -50,7 +50,7 @@
                   <div class="content">
                     <p>
                       <ol>
-                        <li v-for="item in recipe.steps">{{ item }}</li>
+                        <li v-for="item in recipe.steps" style="white-space: pre-line;">{{ item }}</li>
                       </ol>
                     </p>
                   </div>

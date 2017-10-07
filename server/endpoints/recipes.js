@@ -22,7 +22,7 @@ function addOrUpdateRecipe(func, req, res, next) {
   let ingredientsState = [];
 
   for (let i = 0; i < steps.length; i++) {
-    if (!steps[i] || validator.isEmpty(steps[i])) {
+    if (!steps[i] || validator.isEmpty(steps[i]) || validator.blacklist(steps[i], "\n ").length < 1) {
       stepsState.push(false);
       stepsEmpty = true;
     }
@@ -34,11 +34,14 @@ function addOrUpdateRecipe(func, req, res, next) {
   for (var i in ingredients) {
     if (ingredients.hasOwnProperty(i)) {
       const ing = ingredients[i];
-      if (!ing.name || validator.isEmpty(ing.name) || !ing.measurement || validator.isEmpty(ing.measurement) || !ing.amount || validator.isEmpty(ing.amount)) {
+      const nameEmpty = !ing.name || validator.isEmpty(ing.name) || validator.blacklist(ing.name, "\n ").length < 1;
+      const measurementEmpty = !ing.measurement || validator.isEmpty(ing.measurement);
+      const amountEmpty = !ing.amount || validator.isEmpty(ing.amount) || validator.blacklist(ing.amount, "\n ").length < 1;
+      if (nameEmpty || measurementEmpty || amountEmpty) {
         ingredientsState.push({
-          name: !ing.name || validator.isEmpty(ing.name) ? false : true,
-          measurement: !ing.measurement || validator.isEmpty(ing.measurement) ? false : true,
-          amount: !ing.amount || validator.isEmpty(ing.amount) ? false : true
+          name: !nameEmpty,
+          measurement: !measurementEmpty,
+          amount: !amountEmpty
         });
         ingredientsEmpty = true;
       }
