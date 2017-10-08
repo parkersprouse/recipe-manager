@@ -37,7 +37,7 @@ html, body {
 }
 
 .navbar-end {
-  margin-right: -0.05rem;
+  margin-right: -0.01rem;
 }
 
 .navbar-open {
@@ -131,6 +131,11 @@ html, body {
 .required-field-marker {
   color: #ff3860;
   font-weight: 700;
+}
+
+p.title {
+  border-bottom: 1px solid rgb(119, 119, 119);
+  padding-bottom: 0.5rem;
 }
 
 /* The below was written for Bootstrap-Vue
