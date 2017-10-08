@@ -133,6 +133,11 @@ html, body {
   font-weight: 700;
 }
 
+p.title {
+  border-bottom: 1px solid rgb(119, 119, 119);
+  padding-bottom: 0.5rem;
+}
+
 /* The below was written for Bootstrap-Vue
 #container {
   margin-top: 20px;
