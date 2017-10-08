@@ -58,6 +58,17 @@
               </div>
             </div>
 
+            <div class="tile is-ancestor" v-if="!!recipe.notes">
+              <div class="tile is-parent">
+                <article class="tile is-child box">
+                  <p class="title">Additional Notes</p>
+                  <div class="content">
+                    <p style="white-space: pre-line;">{{ recipe.notes }}</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

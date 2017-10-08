@@ -29,11 +29,15 @@ html, body {
 
 .navbar {
   margin-bottom: 2rem;
-  /*box-shadow: 0 2px 3px hsla(0,0%,4%,0.1), 0 0 0 0 hsla(0,0%,4%,0.1);*/
+  /*box-shadow: 0 2px 3px hsla(0, 0%, 4%, 0.1), 0 0 0 1px hsla(0, 0%, 4%, 0.1);*/
   border-top: 1px solid rgb(219, 219, 219);
   border-bottom: 1px solid rgb(219, 219, 219);
   margin-left: -0.75rem;
   margin-right: -0.75rem;
+}
+
+.navbar-end {
+  margin-right: -0.05rem;
 }
 
 .navbar-open {
@@ -118,6 +122,15 @@ html, body {
 
 .textarea {
   padding: calc(.375em - 1px) calc(.625em - 1px);
+}
+
+.require-field-notice {
+  text-align: right;
+}
+
+.required-field-marker {
+  color: #ff3860;
+  font-weight: 700;
 }
 
 /* The below was written for Bootstrap-Vue

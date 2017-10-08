@@ -19,6 +19,9 @@
               </div>
             </div>
           </div>
+          <div class="require-field-notice">
+            <span class="required-field-marker">*</span> Required Field
+          </div>
         </div>
       </div>
     </div>

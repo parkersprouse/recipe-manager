@@ -29,7 +29,7 @@
               <label for="private-checkbox">Private?</label>
             </div>
             <div class="field">
-              <label class="label">Title</label>
+              <label class="label">Title <span class="required-field-marker">*</span></label>
               <div class="control">
                 <input class="input" :class="!state.title ? 'is-danger' : ''" v-model="form.title" type="text" placeholder="Title">
               </div>
@@ -50,7 +50,7 @@
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
-            <label class="label">Steps</label>
+            <label class="label">Steps <span class="required-field-marker">*</span></label>
             <div class="field is-grouped is-grouped-centered" v-for="(step, i) in form.steps">
               <div class="control">
                 <a class="button is-static">
@@ -81,7 +81,7 @@
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
-            <label class="label">Ingredients</label>
+            <label class="label">Ingredients <span class="required-field-marker">*</span></label>
 
             <div v-for="(item, i) in form.ingredients">
               <div v-if="isMobile" style="margin-bottom: 0.75rem;">
@@ -156,6 +156,25 @@
       <!---->
     </div>
 
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <div class="content">
+            <div class="field">
+              <label class="label">Additional Notes</label>
+              <div class="control">
+                <textarea class="textarea" v-model="form.notes" type="text" placeholder="Additional Notes" rows="5"></textarea>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="require-field-notice">
+      <span class="required-field-marker">*</span> Required Field
+    </div>
+
     <div class="modal" :class="showDeleteModal ? 'is-active' : ''" v-if="!!recipe">
       <div class="modal-background" @click="showModal(false)"></div>
       <div class="modal-card">
@@ -185,11 +204,6 @@
     name: 'recipe-form',
     props: ['recipe'],
     mounted: function() {
-      this.$nextTick(function() {
-        window.addEventListener('resize', this.getWindowWidth);
-        this.getWindowWidth()
-      });
-
       utils.getCurrentUserInfo(function(success, response) {
         this.user = response;
       }.bind(this));
@@ -198,6 +212,7 @@
         this.form.title = this.recipe.title;
         this.form.description = this.recipe.description;
         this.form.private = this.recipe.private;
+        this.form.notes = this.recipe.notes;
 
         let stepsStates = [];
         for (let i in this.recipe.steps)
@@ -220,7 +235,6 @@
     },
     data: function() {
       return {
-        windowWidth: 0,
         showDeleteModal: false,
         user: null,
         submitting: false,
@@ -232,7 +246,8 @@
           steps: [''],
           ingredients: [{ name: '', measurement: '', amount: '' }],
           ingredientOptions: ['c', 'g', 'kg', 'l', 'lb', 'ml', 'oz', 'pt', 'tbsp', 'tsp'],
-          private: false
+          private: false,
+          notes: ''
         },
         state: {
           title: true,
@@ -247,9 +262,6 @@
       }
     },
     methods: {
-      getWindowWidth(event) {
-        this.windowWidth = document.documentElement.clientWidth;
-      },
       showModal(show) {
         this.showDeleteModal = show;
       },
@@ -286,7 +298,8 @@
           steps: this.form.steps,
           ingredients: {},
           id: !!this.recipe ? this.recipe.id : this.user.id,
-          private: this.form.private
+          private: this.form.private,
+          notes: this.form.notes
         }
 
         for (let i = 0; i < this.form.ingredients.length; i++) {
@@ -323,9 +336,6 @@
           }
         }.bind(this));
       }
-    },
-    beforeDestroy() {
-      window.removeEventListener('resize', this.getWindowWidth);
     }
   }
 </script>

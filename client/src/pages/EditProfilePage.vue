@@ -20,7 +20,7 @@
                           {{ errors.currentPassword }}
                         </div>
                         <div class="field">
-                          <label class="label">Current Password</label>
+                          <label class="label">Current Password <span class="required-field-marker">*</span></label>
                           <div class="control has-icons-left">
                             <input class="input" :class="!state.currentPassword ? 'is-danger' : ''" v-model="form.currentPassword" type="password" placeholder="Current Password">
                             <span class="icon is-small is-left">
@@ -49,7 +49,7 @@
                             Your profile has been updated successfully
                           </div>
                           <div class="field">
-                            <label class="label">Email</label>
+                            <label class="label">Email <span class="required-field-marker">*</span></label>
                             <div class="control has-icons-left">
                               <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="email" placeholder="Email">
                               <span class="icon is-small is-left">
@@ -86,7 +86,7 @@
                             Your password has been updated successfully
                           </div>
                           <div class="field">
-                            <label class="label">New Password</label>
+                            <label class="label">New Password <span class="required-field-marker">*</span></label>
                             <div class="control has-icons-left">
                               <input class="input" :class="!state.newPassword ? 'is-danger' : ''" v-model="form.newPassword" type="password" placeholder="New Password">
                               <span class="icon is-small is-left">
@@ -95,7 +95,7 @@
                             </div>
                           </div>
                           <div class="field">
-                            <label class="label">Confirm New Password</label>
+                            <label class="label">Confirm New Password <span class="required-field-marker">*</span></label>
                             <div class="control has-icons-left">
                               <input class="input" :class="!state.newPasswordConfirm ? 'is-danger' : ''" v-model="form.newPasswordConfirm" type="password" placeholder="Confirm New Password">
                               <span class="icon is-small is-left">
@@ -114,6 +114,10 @@
                       </div>
                     </article>
                   </div>
+                </div>
+
+                <div class="require-field-notice">
+                  <span class="required-field-marker">*</span> Required Field
                 </div>
 
               </div>
