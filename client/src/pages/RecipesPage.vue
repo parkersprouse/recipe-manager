@@ -71,10 +71,13 @@
                 </header>
                 <div class="card-content">
                   <div class="content">
-                    <span v-if="!!item.description">{{ item.description }}</span>
-                    <span v-else><i>No description</i></span>
+                    <div v-if="!!item.description">{{ item.description }}</div>
+                    <div v-else><i>No description</i></div>
                   </div>
                 </div>
+                <footer class="card-footer">
+                  <div class="card-footer-item recipe-card-date" v-if="!!item.date">{{ convertDate(item.date) }}</div>
+                </footer>
               </div>
             </div>
             <pagination
@@ -110,6 +113,7 @@
 <script>
   import utils from '@/utils/utils';
   import api from '@/utils/api';
+  import moment from 'moment';
 
   export default {
     name: 'recipes-page',
@@ -155,6 +159,9 @@
       performSearch() {
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query + '&n=' + this.perPage;
+      },
+      convertDate(date) {
+        return moment(date).format("MMMM Do, YYYY")
       }
     },
     watch: {
