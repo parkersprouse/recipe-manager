@@ -15,7 +15,7 @@
               </div>
               <div v-if="!!recipe.date" class="top-right">
                 <span class="tag">
-                  {{ convertDate(recipe.date) }}
+                  {{ makeDateReadable(recipe.date) }}
                 </span>
               </div>
             </div>
@@ -86,7 +86,6 @@
 <script>
   import utils from '@/utils/utils';
   import api from '@/utils/api';
-  import moment from 'moment';
 
   export default {
     name: 'view-recipe-page',
@@ -105,8 +104,8 @@
       }
     },
     methods: {
-      convertDate(date) {
-        return moment(date).format("MMMM Do, YYYY")
+      makeDateReadable(date) {
+        return utils.makeDateReadable(date);
       }
     }
   }

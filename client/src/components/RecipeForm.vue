@@ -205,8 +205,6 @@
     name: 'recipe-form',
     props: ['recipe'],
     mounted: function() {
-      console.log (moment(moment().toISOString()).format("MMMM Do, YYYY"))
-
       utils.getCurrentUserInfo(function(success, response) {
         this.user = response;
       }.bind(this));
@@ -238,6 +236,7 @@
     },
     data: function() {
       return {
+        isMobile: utils.isMobile(),
         showDeleteModal: false,
         user: null,
         submitting: false,
@@ -257,11 +256,6 @@
           steps: [true],
           ingredients: [{ name: true, measurement: true, amount: true }]
         }
-      }
-    },
-    computed: {
-      isMobile: function() {
-        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
     methods: {

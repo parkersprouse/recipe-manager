@@ -78,7 +78,7 @@
                 <footer class="card-footer">
                   <div class="card-footer-item recipe-card-date" v-if="!!item.date">
                     <span class="tag">
-                      {{ convertDate(item.date) }}
+                      {{ makeDateReadable(item.date) }}
                     </span>
                   </div>
                 </footer>
@@ -142,15 +142,13 @@
         numPages: null,
         totalNumRecipes: 0,
         page: !!this.$route.query.p ? parseInt(this.$route.query.p, 10) : 1,
-        perPage: !!this.$route.query.n ? parseInt(this.$route.query.n, 10) : 10
+        perPage: !!this.$route.query.n ? parseInt(this.$route.query.n, 10) : 10,
+        isMobile: utils.isMobile()
       }
     },
     computed: {
       perPageInList: function() {
         return [5, 10, 20, 50, 100].indexOf(this.perPage) > -1;
-      },
-      isMobile: function() {
-        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
       }
     },
     methods: {
@@ -164,8 +162,8 @@
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query + '&n=' + this.perPage;
       },
-      convertDate(date) {
-        return moment(date).format("MMMM Do, YYYY")
+      makeDateReadable(date) {
+        return utils.makeDateReadable(date);
       }
     },
     watch: {
