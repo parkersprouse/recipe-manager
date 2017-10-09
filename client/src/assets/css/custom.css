@@ -145,6 +145,7 @@ html, body {
 p.title {
   border-bottom: 1px solid rgb(119, 119, 119);
   padding-bottom: 0.5rem;
+  font-size: 1.75rem;
 }
 
 .recipe-card-date {
@@ -152,6 +153,10 @@ p.title {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.title-icon {
+  font-size: 1.25rem;
 }
 
 /* The below was written for Bootstrap-Vue

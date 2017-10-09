@@ -41,7 +41,7 @@
             <div class="tile is-ancestor">
               <div class="tile is-parent">
                 <article class="tile is-child box">
-                  <p class="title">Ingredients</p>
+                  <p class="title"><i class="fa fa-list-ul title-icon" aria-hidden="true"></i> Ingredients</p>
                   <div class="content">
                     <p>
                       <ul>
@@ -53,7 +53,7 @@
               </div>
               <div class="tile is-parent">
                 <article class="tile is-child box">
-                  <p class="title">Directions</p>
+                  <p class="title"><i class="fa fa-list-ul title-icon" aria-hidden="true"></i> Directions</p>
                   <div class="content">
                     <p>
                       <ol>
@@ -68,7 +68,7 @@
             <div class="tile is-ancestor" v-if="!!recipe.notes">
               <div class="tile is-parent">
                 <article class="tile is-child box">
-                  <p class="title">Additional Notes</p>
+                  <p class="title"><i class="fa fa-pencil-square-o title-icon" aria-hidden="true"></i> Additional Notes</p>
                   <div class="content">
                     <p style="white-space: pre-line;">{{ recipe.notes }}</p>
                   </div>
