@@ -1,25 +1,86 @@
 <template>
-  <b-container>
-    <navbar />
-    <div v-if="!recipe"></div>
-    <div v-else-if="recipe === -1">That recipe doesn't exist</div>
-    <div v-else-if="recipe.private && recipe.user_id !== user.id">This recipe has been set to private</div>
-    <div v-else>
-      <a class="btn btn-primary" :href="'/recipes/' + recipe.id + '/edit'" role="button">Edit Recipe</a>
-      <h2>{{ recipe.title }}</h2>
-      <span v-if="recipe.description">{{ recipe.description }}</span>
-      <br /><br /><br />
-      <h5>Ingredients</h5>
-      <ul>
-        <li v-for="item in recipe.ingredients">{{ item.amount }} {{ item.measurement }} {{ item.name }}</li>
-      </ul>
-      <br /><br />
-      <h5>Steps</h5>
-      <ol>
-        <li v-for="item in recipe.steps">{{ item }}</li>
-      </ol>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters is-narrow">
+          <navbar />
+          <div v-if="!recipe"></div>
+          <div v-else-if="recipe === -1" class="has-text-centered">That recipe doesn't exist</div>
+          <div v-else-if="recipe.private && recipe.user_id !== user.id" class="has-text-centered">This recipe has been set to private</div>
+          <div v-else>
+
+            <div class="recipe-top-container">
+              <div>
+                <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
+              </div>
+              <div v-if="!!recipe.date" class="top-right">
+                <span class="tag">
+                  {{ makeDateReadable(recipe.date) }}
+                </span>
+              </div>
+            </div>
+
+            <section class="hero is-primary is-bold has-ribbon view-recipe-body" style="margin-bottom: 1.5rem;">
+              <div class="ribbon is-info tooltip is-tooltip-left" data-tooltip="This recipe can only be viewed by you" v-if="recipe.private">Private</div>
+              <div class="ribbon is-info tooltip is-tooltip-left" data-tooltip="This recipe can be viewed by anyone" v-else>Public</div>
+              <div class="hero-body">
+                <div class="container">
+                  <h1 class="title">
+                    {{ recipe.title }}
+                  </h1>
+                  <h2 class="subtitle" v-if="recipe.description">
+                    {{ recipe.description }}
+                  </h2>
+                  <h2 class="subtitle" v-else>
+                    <i>No description</i>
+                  </h2>
+                </div>
+              </div>
+            </section>
+
+            <div class="tile is-ancestor">
+              <div class="tile is-parent">
+                <article class="tile is-child box">
+                  <p class="title"><i class="fa fa-list-ul title-icon" aria-hidden="true"></i> Ingredients</p>
+                  <div class="content">
+                    <p>
+                      <ul>
+                        <li v-for="item in recipe.ingredients">{{ item.amount }} {{ item.measurement }} {{ item.name }}</li>
+                      </ul>
+                    </p>
+                  </div>
+                </article>
+              </div>
+              <div class="tile is-parent">
+                <article class="tile is-child box">
+                  <p class="title"><i class="fa fa-list-ul title-icon" aria-hidden="true"></i> Directions</p>
+                  <div class="content">
+                    <p>
+                      <ol>
+                        <li v-for="item in recipe.steps" style="white-space: pre-line;">{{ item }}</li>
+                      </ol>
+                    </p>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="tile is-ancestor" v-if="!!recipe.notes">
+              <div class="tile is-parent">
+                <article class="tile is-child box">
+                  <p class="title"><i class="fa fa-pencil-square-o title-icon" aria-hidden="true"></i> Additional Notes</p>
+                  <div class="content">
+                    <p style="white-space: pre-line;">{{ recipe.notes }}</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
-  </b-container>
+  </section>
 </template>
 
 <script>
@@ -40,6 +101,11 @@
       return {
         user: null,
         recipe: null
+      }
+    },
+    methods: {
+      makeDateReadable(date) {
+        return utils.makeDateReadable(date);
       }
     }
   }

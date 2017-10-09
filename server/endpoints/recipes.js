@@ -13,6 +13,8 @@ function addOrUpdateRecipe(func, req, res, next) {
   const steps = req.body.steps;
   const id = req.body.id;
   const private = req.body.private;
+  const notes = req.body.notes || null;
+  const date = req.body.date;
 
   let titleEmpty = !title || validator.isEmpty(title);
   let ingredientsEmpty = !ingredients || _.isEmpty(ingredients);
@@ -22,28 +24,31 @@ function addOrUpdateRecipe(func, req, res, next) {
   let ingredientsState = [];
 
   for (let i = 0; i < steps.length; i++) {
-    if (!steps[i] || validator.isEmpty(steps[i])) {
-      stepsState.push('invalid');
+    if (!steps[i] || validator.isEmpty(steps[i]) || validator.blacklist(steps[i], "\n ").length < 1) {
+      stepsState.push(false);
       stepsEmpty = true;
     }
     else {
-      stepsState.push('valid');
+      stepsState.push(true);
     }
   }
 
   for (var i in ingredients) {
     if (ingredients.hasOwnProperty(i)) {
       const ing = ingredients[i];
-      if (!ing.name || validator.isEmpty(ing.name) || !ing.measurement || validator.isEmpty(ing.measurement) || !ing.amount || validator.isEmpty(ing.amount)) {
+      const nameEmpty = !ing.name || validator.isEmpty(ing.name) || validator.blacklist(ing.name, "\n ").length < 1;
+      const measurementEmpty = !ing.measurement || validator.isEmpty(ing.measurement);
+      const amountEmpty = !ing.amount || validator.isEmpty(ing.amount) || validator.blacklist(ing.amount, "\n ").length < 1;
+      if (nameEmpty || measurementEmpty || amountEmpty) {
         ingredientsState.push({
-          name: !ing.name || validator.isEmpty(ing.name) ? 'invalid' : 'valid',
-          measurement: !ing.measurement || validator.isEmpty(ing.measurement) ? 'invalid' : 'valid',
-          amount: !ing.amount || validator.isEmpty(ing.amount) ? 'invalid' : 'valid'
+          name: !nameEmpty,
+          measurement: !measurementEmpty,
+          amount: !amountEmpty
         });
         ingredientsEmpty = true;
       }
       else {
-        ingredientsState.push({name: 'valid', measurement: 'valid', amount: 'valid'});
+        ingredientsState.push({name: true, measurement: true, amount: true});
       }
     }
   }
@@ -53,7 +58,7 @@ function addOrUpdateRecipe(func, req, res, next) {
       .json({
         status: 'failure',
         content: {
-          titleState: titleEmpty ? 'invalid' : 'valid',
+          titleState: !titleEmpty,
           ingredientsState: ingredientsState,
           stepsState: stepsState
         },
@@ -67,18 +72,20 @@ function addOrUpdateRecipe(func, req, res, next) {
       ingredients: ingredients,
       steps: steps,
       id: id,
-      private: private
+      private: private,
+      notes: notes,
+      date: date
     };
 
     let query = 'insert into recipes ' +
-                '(title, description, ingredients, steps, user_id, private) ' +
-                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}, ${private}) ' +
+                '(title, description, ingredients, steps, user_id, private, notes, date) ' +
+                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}, ${private}, ${notes}, ${date}) ' +
                 'returning *';
 
     if (func === 'update') {
       query = 'update recipes set ' +
-              'title = ${title}, description = ${description}, ' +
-              'ingredients = ${ingredients}, steps = ${steps}, private = ${private} ' +
+              'title = ${title}, description = ${description}, ingredients = ${ingredients}, ' +
+              'steps = ${steps}, private = ${private}, notes = ${notes} ' +
               'where id = ${id} returning *';
     }
 
@@ -95,7 +102,12 @@ function addOrUpdateRecipe(func, req, res, next) {
         res.status(constants.http_bad_request)
           .json({
             status: 'failure',
-            content: err,
+            content: {
+              titleState: true,
+              ingredientsState: true,
+              stepsState: true,
+              err: err
+            },
             message: 'There was an unknown problem when attempting to ' + func + ' the recipe'
           });
       });
@@ -212,6 +224,55 @@ function updateRecipe(req, res, next) {
   addOrUpdateRecipe('update', req, res, next);
 }
 
+function searchRecipes(req, res, next) {
+  const queries = req.body.query.split(' ');
+  let searchQuery = "";
+  if (queries.length > 1) {
+    queries.forEach(function(string) {
+      searchQuery += "(title ilike '%" + string + "%' or description ilike '%" + string + "%') and ";
+    });
+    searchQuery = searchQuery.slice(0, -5);
+  }
+  else {
+    searchQuery = "(title ilike '%" + queries[0] + "%' or description ilike '%" + queries[0] + "%')";
+  }
+
+  let finalQuery = "select * from recipes where user_id = " + req.body.userid + " and " + searchQuery + " order by id";
+  if (req.body.pagniate) {
+    const offset = (req.body.page - 1) * req.body.amount;
+    finalQuery += " limit " + req.body.amount + " offset " + offset;
+  }
+  db.many(finalQuery, {})
+    .then(function (data) {
+      res.status(constants.http_ok)
+        .json({
+          status: 'success',
+          content: data,
+          message: 'Found recipes'
+        });
+    })
+    .catch(function (err) {
+      console.log(err)
+      if (err instanceof constants.db_query_result_error &&
+          err.code === constants.db_err_no_result) {
+        res.status(constants.http_no_content)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'Recipes not found'
+          });
+      }
+      else {
+        res.status(constants.http_server_error)
+          .json({
+            status: 'failure',
+            content: err,
+            message: 'There was an unknown problem when attempting to find the recipes'
+          });
+      }
+    });
+}
+
 function deleteRecipe(req, res, next) {
   db.none('delete from recipes where id = $1', req.params.id)
     .then(function () {
@@ -237,5 +298,6 @@ module.exports = {
   getPaginatedUserRecipes: getPaginatedUserRecipes,
   addRecipe: addRecipe,
   updateRecipe: updateRecipe,
+  searchRecipes: searchRecipes,
   deleteRecipe: deleteRecipe
 }

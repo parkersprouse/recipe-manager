@@ -21,12 +21,12 @@
             </div>
           </form>
 
-          <h3 class="title is-3" style="margin-bottom: 0.5rem;">My Recipes</h3>
-          <h5 class="title is-5" v-if="recipes && numPages">Total recipes: {{ totalNumRecipes }}</h5>
+          <h3 class="title is-3" style="margin-bottom: 0.5rem;">Search Results for "{{ $route.query.q }}"</h3>
+          <h5 class="title is-5" v-if="recipes && numPages">Total results: {{ totalNumRecipes }}</h5>
           <div v-if="!recipes || !numPages"></div>
           <div v-else>
 
-            <div class="columns is-centered" v-if="isMobile">
+            <div class="columns is-centered" style="margin-bottom: -0.75rem;" v-if="isMobile">
               <div class="column is-half is-narrow">
                 <form @submit.prevent="performSearch">
                   <div class="field has-addons">
@@ -57,7 +57,7 @@
               <div class="card">
                 <div class="card-content">
                   <div class="content has-text-centered">
-                    This page does not have any recipes.
+                    Your search had no results.
                   </div>
                 </div>
               </div>
@@ -71,17 +71,10 @@
                 </header>
                 <div class="card-content">
                   <div class="content">
-                    <div v-if="!!item.description">{{ item.description }}</div>
-                    <div v-else><i>No description</i></div>
+                    <span v-if="!!item.description">{{ item.description }}</span>
+                    <span v-else><i>No description</i></span>
                   </div>
                 </div>
-                <footer class="card-footer">
-                  <div class="card-footer-item recipe-card-date" v-if="!!item.date">
-                    <span class="tag">
-                      {{ makeDateReadable(item.date) }}
-                    </span>
-                  </div>
-                </footer>
               </div>
             </div>
             <pagination
@@ -117,27 +110,32 @@
 <script>
   import utils from '@/utils/utils';
   import api from '@/utils/api';
-  import moment from 'moment';
 
   export default {
-    name: 'recipes-page',
+    name: 'recipe-search-results-page',
     mounted: function() {
       utils.getCurrentUserInfo(function(success, response) {
-        const userid = response.id;
-        api.getPaginatedUserRecipes(userid, this.page, this.perPage, function(success, response) {
-          this.recipes = response.content || [];
-
-          api.getUsersRecipes(userid, function(success, response) {
-            this.numPages = Math.ceil(response.content.length / this.perPage);
-            this.totalNumRecipes = response.content.length;
+        const data = {
+          userid: response.id,
+          query: this.query,
+          page: this.page,
+          amount: this.perPage,
+          pagniate: true
+        };
+        api.searchRecipes(data, function(success, response) {
+          if (success) this.recipes = response.content;
+          else this.recipes = [];
+          data.pagniate = false;
+          api.searchRecipes(data, function(success, response) {
+            this.numPages = success ? Math.ceil(response.content.length / this.perPage) : 1;
+            this.totalNumRecipes = success ? response.content.length : 0;
           }.bind(this));
-
         }.bind(this));
       }.bind(this));
     },
     data: function() {
       return {
-        query: '',
+        query: this.$route.query.q,
         recipes: null,
         numPages: null,
         totalNumRecipes: 0,
@@ -156,19 +154,16 @@
         window.location.href = '/recipes/' + id;
       },
       onChange(page) {
-        window.location.href = '/recipes?p=' + page + '&n=' + this.perPage;
+        window.location.href = '/recipes/search?q=' + this.query + '&p=' + page + '&n=' + this.perPage;
       },
       performSearch() {
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query + '&n=' + this.perPage;
-      },
-      makeDateReadable(date) {
-        return utils.makeDateReadable(date);
       }
     },
     watch: {
       perPage: function(val, oldVal) {
-        window.location.href = '/recipes?p=1&n=' + val;
+        window.location.href = '/recipes/search?q=' + this.query + '&p=1&n=' + val;
       }
     }
   }

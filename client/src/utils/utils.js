@@ -1,6 +1,7 @@
 const api = require('./api');
 const Cookies = require('universal-cookie');
 const constants = require('./constants');
+const moment = require('moment');
 
 module.exports = {
 
@@ -46,6 +47,14 @@ module.exports = {
     else {
       callback(false);
     }
+  },
+
+  makeDateReadable: function(date) {
+    return moment(date).format("MMMM Do, YYYY");
+  },
+
+  isMobile: function() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
   }
 
 }
