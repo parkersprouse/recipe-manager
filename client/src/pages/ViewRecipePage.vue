@@ -10,7 +10,14 @@
           <div v-else>
 
             <div class="recipe-top-container">
-              <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
+              <div>
+                <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
+              </div>
+              <div v-if="!!recipe.date" class="top-right">
+                <span class="tag">
+                  {{ convertDate(recipe.date) }}
+                </span>
+              </div>
             </div>
 
             <section class="hero is-primary is-bold has-ribbon view-recipe-body" style="margin-bottom: 1.5rem;">
@@ -79,6 +86,7 @@
 <script>
   import utils from '@/utils/utils';
   import api from '@/utils/api';
+  import moment from 'moment';
 
   export default {
     name: 'view-recipe-page',
@@ -94,6 +102,11 @@
       return {
         user: null,
         recipe: null
+      }
+    },
+    methods: {
+      convertDate(date) {
+        return moment(date).format("MMMM Do, YYYY")
       }
     }
   }

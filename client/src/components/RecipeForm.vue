@@ -199,11 +199,14 @@
 <script>
   import utils from '@/utils/utils';
   import api from '@/utils/api';
+  import moment from 'moment';
 
   export default {
     name: 'recipe-form',
     props: ['recipe'],
     mounted: function() {
+      console.log (moment(moment().toISOString()).format("MMMM Do, YYYY"))
+
       utils.getCurrentUserInfo(function(success, response) {
         this.user = response;
       }.bind(this));
@@ -299,7 +302,8 @@
           ingredients: {},
           id: !!this.recipe ? this.recipe.id : this.user.id,
           private: this.form.private,
-          notes: this.form.notes
+          notes: this.form.notes,
+          date: moment().toISOString()
         }
 
         for (let i = 0; i < this.form.ingredients.length; i++) {

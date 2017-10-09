@@ -14,6 +14,7 @@ function addOrUpdateRecipe(func, req, res, next) {
   const id = req.body.id;
   const private = req.body.private;
   const notes = req.body.notes || null;
+  const date = req.body.date;
 
   let titleEmpty = !title || validator.isEmpty(title);
   let ingredientsEmpty = !ingredients || _.isEmpty(ingredients);
@@ -72,12 +73,13 @@ function addOrUpdateRecipe(func, req, res, next) {
       steps: steps,
       id: id,
       private: private,
-      notes: notes
+      notes: notes,
+      date: date
     };
 
     let query = 'insert into recipes ' +
-                '(title, description, ingredients, steps, user_id, private, notes) ' +
-                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}, ${private}, ${notes}) ' +
+                '(title, description, ingredients, steps, user_id, private, notes, date) ' +
+                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}, ${private}, ${notes}, ${date}) ' +
                 'returning *';
 
     if (func === 'update') {
