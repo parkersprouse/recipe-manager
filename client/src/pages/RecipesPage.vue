@@ -76,7 +76,11 @@
                   </div>
                 </div>
                 <footer class="card-footer">
-                  <div class="card-footer-item recipe-card-date" v-if="!!item.date">{{ convertDate(item.date) }}</div>
+                  <div class="card-footer-item recipe-card-date" v-if="!!item.date">
+                    <span class="tag">
+                      {{ convertDate(item.date) }}
+                    </span>
+                  </div>
                 </footer>
               </div>
             </div>

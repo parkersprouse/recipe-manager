@@ -151,11 +151,7 @@ p.title {
   text-align: left;
   justify-content: flex-start;
   align-items: flex-start;
-  font-size: smaller;
-  /*margin-top: 1.5rem;
-  margin-bottom: -1rem;
-  margin-right: -1rem;*/
-  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 /* The below was written for Bootstrap-Vue
