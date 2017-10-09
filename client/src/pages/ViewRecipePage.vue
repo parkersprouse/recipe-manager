@@ -14,7 +14,7 @@
                 <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
               </div>
               <div v-if="!!recipe.date" class="top-right">
-                <span class="tag">
+                <span class="tag is-white">
                   {{ makeDateReadable(recipe.date) }}
                 </span>
               </div>
@@ -41,7 +41,7 @@
             <div class="tile is-ancestor">
               <div class="tile is-parent">
                 <article class="tile is-child box">
-                  <p class="title"><i class="fa fa-list-ul title-icon" aria-hidden="true"></i> Ingredients</p>
+                  <p class="title"><!--<i class="fa fa-list-ul title-icon" aria-hidden="true"></i>-->Ingredients</p>
                   <div class="content">
                     <p>
                       <ul>
@@ -53,7 +53,7 @@
               </div>
               <div class="tile is-parent">
                 <article class="tile is-child box">
-                  <p class="title"><i class="fa fa-list-ul title-icon" aria-hidden="true"></i> Directions</p>
+                  <p class="title"><!--<i class="fa fa-list-ul title-icon" aria-hidden="true"></i>-->Directions</p>
                   <div class="content">
                     <p>
                       <ol>
@@ -68,7 +68,7 @@
             <div class="tile is-ancestor" v-if="!!recipe.notes">
               <div class="tile is-parent">
                 <article class="tile is-child box">
-                  <p class="title"><i class="fa fa-pencil-square-o title-icon" aria-hidden="true"></i> Additional Notes</p>
+                  <p class="title"><!--<i class="fa fa-pencil-square-o title-icon" aria-hidden="true"></i>-->Additional Notes</p>
                   <div class="content">
                     <p style="white-space: pre-line;">{{ recipe.notes }}</p>
                   </div>
