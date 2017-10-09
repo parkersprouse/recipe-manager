@@ -13,18 +13,41 @@ html, body {
   padding: 0;
 }
 
-.section {
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+p.title {
+  border-bottom: 1px solid rgb(119, 119, 119);
+  padding-bottom: 0.5rem;
+  font-size: 1.75rem;
 }
 
-.section > .container > .columns > .column {
-  background-color: #ffffff;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  border: 1px solid rgb(219, 219, 219);
+.button[disabled] {
+  cursor: default;
+}
+
+.card.recipe-card {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.card.recipe-card:hover > header > .card-header-title {
+  color: #00d1b2;
+}
+
+.card.recipe-card:hover {
+  box-shadow: 0 2px 3px hsla(0,0%,4%,0.3), 0 0 0 1px hsla(0,0%,4%,0.3);
+}
+
+.flex-right {
+  justify-content: flex-end;
+}
+
+.landing-box {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.landing-box-content {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .navbar {
@@ -42,16 +65,6 @@ html, body {
 
 .navbar-open {
   border-bottom: 1px solid hsla(0,0%,4%,.1);
-}
-
-.landing-box {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.landing-box-content {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
 }
 
 .notification {
@@ -73,28 +86,17 @@ html, body {
   color: #155724;
 }
 
-.card.recipe-card {
-  margin-bottom: 1rem;
-  cursor: pointer;
+.recipe-card-date {
+  text-align: left;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.card.recipe-card:hover {
-  box-shadow: 0 2px 3px hsla(0,0%,4%,0.3), 0 0 0 1px hsla(0,0%,4%,0.3);
-}
-
-.card.recipe-card:hover > header > .card-header-title {
-  color: #00d1b2;
-}
-
-#pagination {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.recipe-top-container {
-  margin-bottom: 0.5rem;
-  position: relative;
-  display: flex;
+.recipe-top-container > .tag {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .recipe-top-container > .top-right {
@@ -104,33 +106,10 @@ html, body {
   margin-left: auto;
 }
 
-.recipe-top-container > .tag {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-.flex-right {
-  justify-content: flex-end;
-}
-
-.button[disabled] {
-  cursor: default;
-}
-
-.tag {
-  cursor: default;
-}
-
-.view-recipe-body > .tooltip {
-  position: absolute;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-  cursor: default;
-}
-
-.textarea {
-  padding: calc(.375em - 1px) calc(.625em - 1px);
+.recipe-top-container {
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: flex;
 }
 
 .require-field-notice {
@@ -142,22 +121,45 @@ html, body {
   font-weight: 700;
 }
 
-p.title {
-  border-bottom: 1px solid rgb(119, 119, 119);
-  padding-bottom: 0.5rem;
-  font-size: 1.75rem;
+.section > .container > .columns > .column {
+  background-color: #ffffff;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  border: 1px solid rgb(219, 219, 219);
 }
 
-.recipe-card-date {
-  text-align: left;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+.section {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tag {
+  cursor: default;
+}
+
+.textarea {
+  padding: calc(.375em - 1px) calc(.625em - 1px);
 }
 
 .title-icon {
   font-size: 1.25rem;
 }
+
+.view-recipe-body > .tooltip {
+  position: absolute;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  cursor: default;
+}
+
+#pagination {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
 
 /* The below was written for Bootstrap-Vue
 #container {
