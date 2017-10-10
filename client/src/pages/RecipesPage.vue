@@ -56,8 +56,11 @@
             <div v-if="recipes.length === 0">
               <div class="card">
                 <div class="card-content">
-                  <div class="content has-text-centered">
+                  <div class="content has-text-centered" v-if="totalNumRecipes > 0">
                     This page does not have any recipes.
+                  </div>
+                  <div class="content has-text-centered" v-else>
+                    You don't have any recipes yet. Why don't you <a href="/recipes/add">add one</a>?
                   </div>
                 </div>
               </div>
@@ -128,8 +131,14 @@
           this.recipes = response.content || [];
 
           api.getUsersRecipes(userid, function(success, response) {
-            this.numPages = Math.ceil(response.content.length / this.perPage);
-            this.totalNumRecipes = response.content.length;
+            if (success) {
+              this.numPages = Math.ceil(response.content.length / this.perPage);
+              this.totalNumRecipes = response.content.length;
+            }
+            else {
+              this.numPages = 1;
+              this.totalNumRecipes = 0;
+            }
           }.bind(this));
 
         }.bind(this));

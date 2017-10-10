@@ -4,7 +4,7 @@ body,
 .section > .container,
 .section > .container > .columns,
 .section > .container > .columns > .column {
-  min-height: 100vh;
+  min-height: 97vh;
 }
 
 html, body {
@@ -40,6 +40,19 @@ p.title {
   justify-content: flex-end;
 }
 
+.header-title {
+  margin-bottom: 2rem !important;
+  text-align: center;
+}
+
+.header-title a,
+.header-title a:hover,
+.header-title a:focus {
+  color: #363636;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .landing-box {
   padding-left: 0;
   padding-right: 0;
@@ -50,12 +63,18 @@ p.title {
   padding-right: 1.25rem;
 }
 
+.landing-container {
+  margin-top: 3rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
 .navbar {
   margin-bottom: 2rem;
   border-top: 1px solid rgb(219, 219, 219);
   border-bottom: 1px solid rgb(219, 219, 219);
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
+  margin-left: -2rem;
+  margin-right: -2rem;
 }
 
 .navbar-end {
@@ -126,8 +145,7 @@ p.title {
 
 .section > .container > .columns > .column {
   background-color: #ffffff;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding: 2rem;
   border: 1px solid rgb(219, 219, 219);
 }
 
