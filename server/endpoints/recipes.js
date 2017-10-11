@@ -149,7 +149,7 @@ function getRecipe(req, res, next) {
 }
 
 function getUserRecipes(req, res, next) {
-  db.many('select * from recipes where user_id = $1 order by id asc', req.params.id)
+  db.many('select * from recipes where user_id = $1', req.params.id)
     .then(function (data) {
       res.status(constants.http_ok)
         .json({
@@ -186,7 +186,7 @@ function getPaginatedUserRecipes(req, res, next) {
   };
   data.offset = (req.params.page - 1) * req.params.amount;
 
-  db.many('select * from recipes where user_id = ${id} order by id asc limit ${amount} offset ${offset}', data)
+  db.many('select * from recipes where user_id = ${id} order by id desc limit ${amount} offset ${offset}', data)
     .then(function (data) {
       res.status(constants.http_ok)
         .json({

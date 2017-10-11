@@ -14,11 +14,8 @@
                 <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
               </div>
               <div class="top-right">
-                <span class="tag is-dark" v-if="!!recipe.date">
-                  {{ makeDateReadable(recipe.date) }}
-                </span>
-                <span class="tag is-dark">
-                  {{ recipe.private ? 'Private' : 'Public' }}
+                <span class="tag is-white" v-if="!!recipe.date">
+                  {{ readableDate }}
                 </span>
               </div>
             </div>
@@ -104,9 +101,9 @@
         recipe: null
       }
     },
-    methods: {
-      makeDateReadable(date) {
-        return utils.makeDateReadable(date);
+    computed: {
+      readableDate: function() {
+        return utils.makeDateReadable(this.recipe.date);
       }
     }
   }

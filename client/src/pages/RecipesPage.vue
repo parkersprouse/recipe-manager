@@ -131,14 +131,8 @@
           this.recipes = response.content || [];
 
           api.getUsersRecipes(userid, function(success, response) {
-            if (success) {
-              this.numPages = Math.ceil(response.content.length / this.perPage);
-              this.totalNumRecipes = response.content.length;
-            }
-            else {
-              this.numPages = 1;
-              this.totalNumRecipes = 0;
-            }
+            this.numPages = success ? Math.ceil(response.content.length / this.perPage) : 1;
+            this.totalNumRecipes = success ? response.content.length : 0;
           }.bind(this));
 
         }.bind(this));
