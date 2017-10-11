@@ -1,3 +1,7 @@
+a {
+  color: #209cee;
+}
+
 html,
 body,
 .section,
@@ -23,13 +27,17 @@ p.title {
   cursor: default;
 }
 
+.button.is-info {
+  background-color: #209cee;
+}
+
 .card.recipe-card {
   margin-bottom: 1rem;
   cursor: pointer;
 }
 
 .card.recipe-card:hover > header > .card-header-title {
-  color: #00d1b2;
+  color: #209cee;
 }
 
 .card.recipe-card:hover {
@@ -83,6 +91,50 @@ p.title {
 
 .navbar-open {
   border-bottom: 1px solid hsla(0,0%,4%,.1);
+}
+
+.navbar-link.is-active,
+.navbar-link:hover,
+a.navbar-item.is-active,
+a.navbar-item:hover {
+  color: #f5f5f5 !important;
+  background-color: #209cee !important;
+}
+
+@media screen and (min-width: 1024px) {
+  .navbar-link:after {
+    border: 1px solid #209cee;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: .5em;
+    pointer-events: none;
+    position: absolute;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    width: .5em;
+    margin-top: -.375em;
+    right: 1.125em;
+    top: 50%;
+  }
+
+  .navbar-link:hover:after {
+    border: 1px solid #f5f5f5;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: .5em;
+    pointer-events: none;
+    position: absolute;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    width: .5em;
+    margin-top: -.375em;
+    right: 1.125em;
+    top: 50%;
+  }
 }
 
 .notification {
@@ -143,6 +195,10 @@ p.title {
   font-weight: 700;
 }
 
+.ribbon.is-info:not(.is-outlined) {
+  background-color: #209cee;
+}
+
 .section > .container > .columns > .column {
   background-color: #ffffff;
   padding: 2rem;
@@ -154,6 +210,11 @@ p.title {
   padding-bottom: 0;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
+}
+
+.tabs li.is-active a {
+  border-bottom-color: #209cee;
+  color: #209cee;
 }
 
 .tag {
