@@ -10,9 +10,6 @@
           <div v-else>
 
             <div class="recipe-top-container">
-              <div>
-                <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">Edit Recipe</a>
-              </div>
               <div class="top-right">
                 <span class="tag is-white" v-if="!!recipe.date">
                   {{ readableDate }}
@@ -72,6 +69,10 @@
                   </div>
                 </article>
               </div>
+            </div>
+
+            <div>
+              <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info"><i class="fa fa-pencil-square-o btn-icon"></i> Edit Recipe</a>
             </div>
 
           </div>

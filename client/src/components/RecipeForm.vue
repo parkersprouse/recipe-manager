@@ -13,10 +13,10 @@
 
     <div style="margin-bottom: 1rem;">
       <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)" v-if="!!recipe">
-        Delete Recipe
+        <i class="fa fa-times btn-icon"></i> Delete Recipe
       </button>
       <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
-        {{ !!recipe ? "Update" : "Create" }} Recipe
+        <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Update" : "Create" }} Recipe
       </button>
     </div>
 
@@ -25,8 +25,10 @@
         <article class="tile is-child box">
           <div class="content">
             <div class="field">
-              <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private">
-              <label for="private-checkbox">Private?</label>
+              <div class="tooltip is-tooltip-right" style="display: inline-block;" data-tooltip="Should the recipe only be visible to you?">
+                <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private" />
+                <label for="private-checkbox" style="margin-right: 0.25rem; padding-right: 0;">Private?</label>
+              </div>
             </div>
             <div class="field">
               <label class="label">Title <span class="required-field-marker">*</span></label>
@@ -70,7 +72,7 @@
             <div class="field">
               <div class="control has-text-centered">
                 <button class="button is-info" type="button" @click="add('steps')">
-                  Add Step
+                  <i class="fa fa-plus btn-icon"></i> Add Step
                 </button>
               </div>
             </div>
@@ -146,7 +148,7 @@
             <div class="field">
               <div class="control has-text-centered">
                 <button class="button is-info" type="button" @click="add('ingredients')">
-                  Add Ingredient
+                  <i class="fa fa-plus btn-icon"></i> Add Ingredient
                 </button>
               </div>
             </div>
@@ -180,7 +182,7 @@
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Delete Recipe?</p>
-          <button class="delete" aria-label="close" @click="showModal(false)" type="button"></button>
+          <!-- <button class="delete" aria-label="close" @click="showModal(false)" type="button"></button> -->
         </header>
         <section class="modal-card-body">
           Are you sure you want to delete this recipe?<br />

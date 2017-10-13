@@ -23,12 +23,26 @@ p.title {
   font-size: 1.75rem;
 }
 
+.btn-icon {
+  margin-right: 0.35rem;
+}
+
 .button[disabled] {
   cursor: default;
 }
 
 .button.is-info {
   background-color: #209cee;
+}
+
+.button.is-danger.is-hovered,
+.button.is-danger:hover {
+  background-color: #e0284d;
+}
+
+.button.is-danger[disabled].is-hovered,
+.button.is-danger[disabled]:hover {
+  background-color: #ff3860;
 }
 
 .flex-right {
@@ -84,20 +98,36 @@ p.title {
 .navbar-link:hover,
 a.navbar-item.is-active,
 a.navbar-item:hover {
-  color: #209cee !important;
   background-color: transparent !important;
+  /*border-top: 1px solid #209cee !important;*/
+  color: #209cee !important;
+  /*margin-top: -1px !important;*/
 }
 
 @media screen and (min-width: 1024px) {
   .navbar-item.has-dropdown.is-active .navbar-link,
   .navbar-item.has-dropdown:hover .navbar-link {
     background-color: transparent !important;
+    /*border-top: 1px solid #209cee !important;*/
     color: #209cee !important;
+    /*margin-top: -1px !important;*/
+  }
+
+  .navbar-dropdown > a.navbar-item.is-active,
+  .navbar-dropdown > a.navbar-item:hover {
+    background-color: #209cee !important;
+    /*border-top: 0px solid transparent !important;*/
+    color: #fff !important;
+    /*margin-top: 0 !important;*/
   }
 
   .navbar-link:after,
   .navbar-link:hover:after {
     display: none;
+  }
+
+  .navbar-dropdown {
+    border: 1px solid #dbdbdb;
   }
 }
 
