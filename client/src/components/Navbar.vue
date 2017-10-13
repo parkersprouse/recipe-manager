@@ -19,7 +19,7 @@
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link" href="/profile">
-              User
+              User <i class="fa fa-angle-down" aria-hidden="true" style="margin-left: 0.35rem;"></i>
             </a>
             <div class="navbar-dropdown is-right">
               <a class="navbar-item" href="/profile/edit">Edit Profile</a>
