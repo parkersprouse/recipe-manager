@@ -2,7 +2,7 @@
 
   <div class="landing-container">
     <div class="columns is-centered">
-      <div class="column is-3 is-narrow">
+      <div class="column is-4 is-narrow">
         <div class="box landing-box">
           <div class="tabs is-centered is-boxed">
             <ul>

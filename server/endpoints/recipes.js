@@ -238,7 +238,7 @@ function searchRecipes(req, res, next) {
   }
 
   let finalQuery = "select * from recipes where user_id = " + req.body.userid + " and " + searchQuery + " order by id";
-  if (req.body.pagniate) {
+  if (req.body.paginate) {
     const offset = (req.body.page - 1) * req.body.amount;
     finalQuery += " limit " + req.body.amount + " offset " + offset;
   }
