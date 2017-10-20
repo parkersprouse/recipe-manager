@@ -13,12 +13,21 @@
 
     <div style="margin-bottom: 1rem;">
       <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)" v-if="!!recipe">
-        <i class="fa fa-times btn-icon"></i> Delete Recipe
+        <i class="fa fa-times btn-icon"></i> Delete
       </button>
       <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
-        <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Update" : "Create" }} Recipe
+        <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Save" : "Create" }}
       </button>
     </div>
+
+    <!-- <div style="margin-bottom: 1rem;" v-else>
+      <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)" v-if="!!recipe">
+        <i class="fa fa-times btn-icon" style="margin-right: 0;"></i>
+      </button>
+      <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
+        <i class="fa fa-check btn-icon" style="margin-right: 0;"></i>
+      </button>
+    </div> -->
 
     <div class="tile is-ancestor">
       <div class="tile is-parent">
