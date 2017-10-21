@@ -19,26 +19,11 @@
         <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Save" : "Create" }}
       </button>
     </div>
-
-    <!-- <div style="margin-bottom: 1rem;" v-else>
-      <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)" v-if="!!recipe">
-        <i class="fa fa-times btn-icon" style="margin-right: 0;"></i>
-      </button>
-      <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
-        <i class="fa fa-check btn-icon" style="margin-right: 0;"></i>
-      </button>
-    </div> -->
-
+    
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
-            <div class="field">
-              <div class="tooltip is-tooltip-right" style="display: inline-block;" data-tooltip="Should the recipe only be visible to you?">
-                <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private" />
-                <label for="private-checkbox" style="margin-right: 0.25rem; padding-right: 0;">Private?</label>
-              </div>
-            </div>
             <div class="field">
               <label class="label">Title <span class="required-field-marker">*</span></label>
               <div class="control">
@@ -49,6 +34,12 @@
               <label class="label">Description</label>
               <div class="control">
                 <textarea class="textarea" v-model="form.description" type="text" placeholder="Description" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="field">
+              <div style="display: inline-block;">
+                <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private" />
+                <label for="private-checkbox" style="margin-right: 0.25rem; padding-right: 0;">Private?</label>
               </div>
             </div>
           </div>
