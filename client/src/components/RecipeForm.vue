@@ -19,7 +19,7 @@
         <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Save" : "Create" }}
       </button>
     </div>
-    
+
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
@@ -85,6 +85,7 @@
           <div class="content">
             <label class="label">Ingredients <span class="required-field-marker">*</span></label>
             <div v-for="(item, i) in form.ingredients">
+
               <div v-if="isMobile" style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
                   <div class="control">
@@ -92,15 +93,14 @@
                       {{ i + 1 }}
                     </a>
                   </div>
-                  <div class="control is-expanded" style="width: 83px;">
+                  <div class="control is-expanded">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
                   </div>
-                  <div class="control">
-                    <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
-                      <select v-model="form.ingredients[i].measurement">
-                        <option v-for="item in form.ingredientOptions">{{ item }}</option>
-                      </select>
-                    </span>
+                  <div class="control" style="width: 83px;">
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" v-model="form.ingredients[i].measurement" />
+                    <datalist id="ingreds">
+                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                    </datalist>
                   </div>
                 </div>
                 <div class="field is-grouped is-grouped-centered">
@@ -115,6 +115,7 @@
                 </div>
                 <hr />
               </div>
+
               <div v-else style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
                   <div class="control">
@@ -125,12 +126,11 @@
                   <div class="control" style="width: 83px;">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
                   </div>
-                  <div class="control">
-                    <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
-                      <select v-model="form.ingredients[i].measurement">
-                        <option v-for="item in form.ingredientOptions">{{ item }}</option>
-                      </select>
-                    </span>
+                  <div class="control" style="width: 83px;">
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" v-model="form.ingredients[i].measurement" />
+                    <datalist id="ingreds">
+                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                    </datalist>
                   </div>
                   <div class="control is-expanded">
                     <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
