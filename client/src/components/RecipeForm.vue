@@ -94,10 +94,10 @@
                     </a>
                   </div>
                   <div class="control is-expanded">
-                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="#" />
                   </div>
-                  <div class="control" style="width: 83px;">
-                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" v-model="form.ingredients[i].measurement" />
+                  <div class="control" style="width: 110px;">
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
                       <option v-for="item in form.ingredientOptions">{{ item }}</option>
                     </datalist>
@@ -123,11 +123,11 @@
                       {{ i + 1 }}
                     </a>
                   </div>
-                  <div class="control" style="width: 83px;">
+                  <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
                   </div>
-                  <div class="control" style="width: 83px;">
-                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" v-model="form.ingredients[i].measurement" />
+                  <div class="control" style="width: 110px;">
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
                       <option v-for="item in form.ingredientOptions">{{ item }}</option>
                     </datalist>
