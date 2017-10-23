@@ -62,14 +62,14 @@
                 <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea>
               </div>
               <div class="control">
-                <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'steps')" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
+                <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.STEP)" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
                   <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
             <div class="field">
               <div class="control has-text-centered">
-                <button class="button is-info" type="button" @click="add('steps')">
+                <button class="button is-info" type="button" @click="add(elementType.STEP)">
                   <i class="fa fa-plus btn-icon"></i> Add Step
                 </button>
               </div>
@@ -108,7 +108,7 @@
                     <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
                   </div>
                   <div class="control">
-                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -136,7 +136,7 @@
                     <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
                   </div>
                   <div class="control">
-                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -146,7 +146,7 @@
 
             <div class="field">
               <div class="control has-text-centered">
-                <button class="button is-info" type="button" @click="add('ingredients')">
+                <button class="button is-info" type="button" @click="add(elementType.INGREDIENT)">
                   <i class="fa fa-plus btn-icon"></i> Add Ingredient
                 </button>
               </div>
@@ -197,8 +197,8 @@
 </template>
 
 <script>
-  import utils from '@/utils/utils';
   import api from '@/utils/api';
+  import utils from '@/utils/utils';
   import moment from 'moment';
 
   export default {
@@ -236,6 +236,7 @@
     },
     data: function() {
       return {
+        elementType: Object.freeze({ STEP: 'steps', INGREDIENT: 'ingredients' }), // js enum
         isMobile: utils.isMobile(),
         showDeleteModal: false,
         user: null,
@@ -263,7 +264,7 @@
         this.showDeleteModal = show;
       },
       add(type) {
-        if (type === 'steps') {
+        if (type === this.elementType.STEP) {
           this.form.steps.push('');
           this.state.steps.push(true);
         }
