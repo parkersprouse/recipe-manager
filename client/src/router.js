@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Container from '@/Container';
 import LandingPage from '@/pages/LandingPage';
 import EditProfilePage from '@/pages/EditProfilePage';
 import RecipesPage from '@/pages/RecipesPage';
@@ -43,33 +44,39 @@ export default new Router({
     },
     {
       path: '/profile/edit',
-      component: EditProfilePage,
-      beforeEnter: mustBeLoggedIn
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({content: EditProfilePage})
     },
     {
       path: '/recipes',
-      component: RecipesPage,
-      beforeEnter: mustBeLoggedIn
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({content: RecipesPage})
     },
     {
       path: '/recipes/add',
-      component: AddRecipePage,
-      beforeEnter: mustBeLoggedIn
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({content: AddRecipePage})
     },
     {
       path: '/recipes/search',
-      component: RecipeSearchResultsPage,
-      beforeEnter: mustBeLoggedIn
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({content: RecipeSearchResultsPage})
     },
     {
       path: '/recipes/:id',
-      component: ViewRecipePage,
-      beforeEnter: mustBeLoggedIn
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({content: ViewRecipePage})
     },
     {
       path: '/recipes/:id/edit',
-      component: EditRecipePage,
-      beforeEnter: mustBeLoggedIn
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({content: EditRecipePage})
     },
     {
       path: '/logout',

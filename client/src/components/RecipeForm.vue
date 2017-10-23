@@ -13,10 +13,10 @@
 
     <div style="margin-bottom: 1rem;">
       <button class="button is-danger is-pulled-right" :disabled="submitting" type="button" @click="showModal(true)" v-if="!!recipe">
-        <i class="fa fa-times btn-icon"></i> Delete Recipe
+        <i class="fa fa-times btn-icon"></i> Delete
       </button>
       <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
-        <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Update" : "Create" }} Recipe
+        <i class="fa fa-check btn-icon"></i> {{ !!recipe ? "Save" : "Create" }}
       </button>
     </div>
 
@@ -24,12 +24,6 @@
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
-            <div class="field">
-              <div class="tooltip is-tooltip-right" style="display: inline-block;" data-tooltip="Should the recipe only be visible to you?">
-                <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private" />
-                <label for="private-checkbox" style="margin-right: 0.25rem; padding-right: 0;">Private?</label>
-              </div>
-            </div>
             <div class="field">
               <label class="label">Title <span class="required-field-marker">*</span></label>
               <div class="control">
@@ -42,13 +36,18 @@
                 <textarea class="textarea" v-model="form.description" type="text" placeholder="Description" rows="3"></textarea>
               </div>
             </div>
+            <div class="field">
+              <div style="display: inline-block;">
+                <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private" />
+                <label for="private-checkbox" style="margin-right: 0.25rem; padding-right: 0;">Private?</label>
+              </div>
+            </div>
           </div>
         </article>
       </div>
     </div>
 
     <div class="tile is-ancestor">
-      <!---->
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
@@ -60,18 +59,17 @@
                 </a>
               </div>
               <div class="control is-expanded">
-                <!-- <input class="input" :class="!state.steps[i] ? 'is-danger' : ''" v-model="form.steps[i]" type="text" placeholder="Step" /> -->
                 <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea>
               </div>
               <div class="control">
-                <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'steps')" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
+                <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.STEP)" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
                   <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
             <div class="field">
               <div class="control has-text-centered">
-                <button class="button is-info" type="button" @click="add('steps')">
+                <button class="button is-info" type="button" @click="add(elementType.STEP)">
                   <i class="fa fa-plus btn-icon"></i> Add Step
                 </button>
               </div>
@@ -79,13 +77,15 @@
           </div>
         </article>
       </div>
-      <!---->
+    </div>
+
+    <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
           <div class="content">
             <label class="label">Ingredients <span class="required-field-marker">*</span></label>
-
             <div v-for="(item, i) in form.ingredients">
+
               <div v-if="isMobile" style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
                   <div class="control">
@@ -93,15 +93,14 @@
                       {{ i + 1 }}
                     </a>
                   </div>
-                  <div class="control is-expanded" style="width: 83px;">
-                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+                  <div class="control is-expanded">
+                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="#" />
                   </div>
-                  <div class="control">
-                    <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
-                      <select v-model="form.ingredients[i].measurement">
-                        <option v-for="item in form.ingredientOptions">{{ item }}</option>
-                      </select>
-                    </span>
+                  <div class="control" style="width: 110px;">
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
+                    <datalist id="ingreds">
+                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                    </datalist>
                   </div>
                 </div>
                 <div class="field is-grouped is-grouped-centered">
@@ -109,13 +108,14 @@
                     <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
                   </div>
                   <div class="control">
-                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>
                 <hr />
               </div>
+
               <div v-else style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
                   <div class="control">
@@ -123,21 +123,20 @@
                       {{ i + 1 }}
                     </a>
                   </div>
-                  <div class="control" style="width: 83px;">
+                  <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
                   </div>
-                  <div class="control">
-                    <span class="select" :class="!state.ingredients[i].measurement ? 'is-danger' : ''">
-                      <select v-model="form.ingredients[i].measurement">
-                        <option v-for="item in form.ingredientOptions">{{ item }}</option>
-                      </select>
-                    </span>
+                  <div class="control" style="width: 110px;">
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
+                    <datalist id="ingreds">
+                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                    </datalist>
                   </div>
                   <div class="control is-expanded">
                     <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
                   </div>
                   <div class="control">
-                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, 'ingredients')" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -147,7 +146,7 @@
 
             <div class="field">
               <div class="control has-text-centered">
-                <button class="button is-info" type="button" @click="add('ingredients')">
+                <button class="button is-info" type="button" @click="add(elementType.INGREDIENT)">
                   <i class="fa fa-plus btn-icon"></i> Add Ingredient
                 </button>
               </div>
@@ -155,7 +154,6 @@
           </div>
         </article>
       </div>
-      <!---->
     </div>
 
     <div class="tile is-ancestor">
@@ -199,8 +197,8 @@
 </template>
 
 <script>
-  import utils from '@/utils/utils';
   import api from '@/utils/api';
+  import utils from '@/utils/utils';
   import moment from 'moment';
 
   export default {
@@ -238,6 +236,7 @@
     },
     data: function() {
       return {
+        elementType: Object.freeze({ STEP: 'steps', INGREDIENT: 'ingredients' }), // js enum
         isMobile: utils.isMobile(),
         showDeleteModal: false,
         user: null,
@@ -265,7 +264,7 @@
         this.showDeleteModal = show;
       },
       add(type) {
-        if (type === 'steps') {
+        if (type === this.elementType.STEP) {
           this.form.steps.push('');
           this.state.steps.push(true);
         }

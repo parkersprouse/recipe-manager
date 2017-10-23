@@ -1,85 +1,78 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-three-quarters is-narrow">
-          <navbar />
-          <div v-if="!recipe"></div>
-          <div v-else-if="recipe === -1" class="has-text-centered">That recipe doesn't exist</div>
-          <div v-else-if="recipe.private && recipe.user_id !== user.id" class="has-text-centered">This recipe has been set to private</div>
-          <div v-else>
+  <div>
+    <div v-if="!recipe"></div>
+    <div v-else-if="recipe === -1" class="has-text-centered">That recipe doesn't exist</div>
+    <div v-else-if="recipe.private && recipe.user_id !== user.id" class="has-text-centered">This recipe has been set to private</div>
+    <div v-else>
 
-            <div class="recipe-top-container">
-              <div class="top-right">
-                <span class="tag is-white" v-if="!!recipe.date">
-                  {{ readableDate }}
-                </span>
-              </div>
-            </div>
-
-            <section class="hero is-primary view-recipe-body" style="margin-bottom: 1.5rem;">
-              <div class="hero-body">
-                <div class="container">
-                  <h1 class="title">
-                    {{ recipe.title }}
-                  </h1>
-                  <h2 class="subtitle" v-if="recipe.description">
-                    {{ recipe.description }}
-                  </h2>
-                  <h2 class="subtitle" v-else>
-                    <i>No description</i>
-                  </h2>
-                </div>
-              </div>
-            </section>
-
-            <div class="tile is-ancestor">
-              <div class="tile is-parent">
-                <article class="tile is-child box">
-                  <p class="title"><!--<i class="fa fa-list-ul title-icon" aria-hidden="true"></i>-->Ingredients</p>
-                  <div class="content">
-                    <p>
-                      <ul>
-                        <li v-for="item in recipe.ingredients">{{ item.amount }} {{ item.measurement }} {{ item.name }}</li>
-                      </ul>
-                    </p>
-                  </div>
-                </article>
-              </div>
-              <div class="tile is-parent">
-                <article class="tile is-child box">
-                  <p class="title"><!--<i class="fa fa-list-ul title-icon" aria-hidden="true"></i>-->Directions</p>
-                  <div class="content">
-                    <p>
-                      <ol>
-                        <li v-for="item in recipe.steps" style="white-space: pre-line;">{{ item }}</li>
-                      </ol>
-                    </p>
-                  </div>
-                </article>
-              </div>
-            </div>
-
-            <div class="tile is-ancestor" v-if="!!recipe.notes">
-              <div class="tile is-parent">
-                <article class="tile is-child box">
-                  <p class="title"><!--<i class="fa fa-pencil-square-o title-icon" aria-hidden="true"></i>-->Additional Notes</p>
-                  <div class="content">
-                    <p style="white-space: pre-line;">{{ recipe.notes }}</p>
-                  </div>
-                </article>
-              </div>
-            </div>
-
-            <div>
-              <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info"><i class="fa fa-pencil-square-o btn-icon"></i> Edit Recipe</a>
-            </div>
-
-          </div>
+      <div class="recipe-top-container">
+        <div class="top-right">
+          <span class="tag is-white" v-if="!!recipe.date">
+            {{ readableDate }}
+          </span>
         </div>
       </div>
+
+      <section class="hero is-primary view-recipe-body" style="margin-bottom: 1.5rem;">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              {{ recipe.title }}
+            </h1>
+            <h2 class="subtitle" v-if="recipe.description">
+              {{ recipe.description }}
+            </h2>
+            <h2 class="subtitle" v-else>
+              <i>No description</i>
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title"><!--<i class="fa fa-list-ul title-icon" aria-hidden="true"></i>-->Ingredients</p>
+            <div class="content">
+              <p>
+                <ul>
+                  <li v-for="item in recipe.ingredients">{{ item.amount }} {{ item.measurement }} {{ item.name }}</li>
+                </ul>
+              </p>
+            </div>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title"><!--<i class="fa fa-list-ul title-icon" aria-hidden="true"></i>-->Directions</p>
+            <div class="content">
+              <p>
+                <ol>
+                  <li v-for="item in recipe.steps" style="white-space: pre-line;">{{ item }}</li>
+                </ol>
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tile is-ancestor" v-if="!!recipe.notes">
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title"><!--<i class="fa fa-pencil-square-o title-icon" aria-hidden="true"></i>-->Additional Notes</p>
+            <div class="content">
+              <p style="white-space: pre-line;">{{ recipe.notes }}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info"><i class="fa fa-pencil-square-o btn-icon"></i> Edit Recipe</a>
+      </div>
+
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
