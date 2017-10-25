@@ -8,6 +8,7 @@ import ViewRecipePage from '@/pages/ViewRecipePage';
 import AddRecipePage from '@/pages/AddRecipePage';
 import EditRecipePage from '@/pages/EditRecipePage';
 import RecipeSearchResultsPage from '@/pages/RecipeSearchResultsPage';
+import NotFound from '@/pages/404.vue';
 import utils from '@/utils/utils';
 
 Vue.use(Router);
@@ -84,7 +85,7 @@ export default new Router({
     },
     {
       path: '*',
-      component: { template: '<div style="text-align: center;">404 not found</div>' }
+      component: NotFound
     }
   ]
 });

@@ -99,7 +99,7 @@
                   <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
-                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                      <option v-for="item in form.ingredientOptions" :title="item.title">{{ item.value }}</option>
                     </datalist>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
                   <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
-                      <option v-for="item in form.ingredientOptions">{{ item }}</option>
+                      <option v-for="item in form.ingredientOptions" :value="item.value" :title="item.title">{{ item.value }}</option>
                     </datalist>
                   </div>
                   <div class="control is-expanded">
@@ -248,7 +248,18 @@
           description: '',
           steps: [''],
           ingredients: [{ name: '', measurement: '', amount: '' }],
-          ingredientOptions: ['c', 'g', 'kg', 'l', 'lb', 'ml', 'oz', 'pt', 'tbsp', 'tsp'],
+          ingredientOptions: [
+            { value: 'c', title: 'Cup' },
+            { value: 'g', title: 'Gram' },
+            { value: 'kg', title: 'Kilogram' },
+            { value: 'l', title: 'Liter' },
+            { value: 'lb', title: 'Pound' },
+            { value: 'ml', title: 'Milliliter' },
+            { value: 'oz', title: 'Ounce' },
+            { value: 'pt', title: 'Pint' },
+            { value: 'tbsp', title: 'Tablespoon' },
+            { value: 'tsp', title: 'Teaspoon' }
+          ],
           private: false,
           notes: ''
         },
