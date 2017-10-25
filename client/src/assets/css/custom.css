@@ -47,7 +47,7 @@ input::-webkit-calendar-picker-indicator:before {
 }
 
 input::-webkit-calendar-picker-indicator:hover {
-	background: none;
+	background: #ddd;
 }
 
 .btn-icon {
