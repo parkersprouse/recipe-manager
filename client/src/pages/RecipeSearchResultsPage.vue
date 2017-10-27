@@ -114,8 +114,8 @@
         recipes: null,
         numPages: null,
         totalNumRecipes: 0,
-        page: !!this.$route.query.p ? parseInt(this.$route.query.p, 10) : 1,
-        perPage: !!this.$route.query.n ? parseInt(this.$route.query.n, 10) : 10,
+        page: !!this.$route.query.p && !Number.isNaN(parseInt(this.$route.query.p, 10)) ? parseInt(this.$route.query.p, 10) : 1,
+        perPage: !!this.$route.query.n && !Number.isNaN(parseInt(this.$route.query.n, 10)) ? parseInt(this.$route.query.n, 10) : 10,
         isMobile: utils.isMobile()
       }
     },
