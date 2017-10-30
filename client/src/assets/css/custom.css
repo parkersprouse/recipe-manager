@@ -1,3 +1,11 @@
+body,
+button,
+input,
+select,
+textarea {
+  font-family: 'Nunito', sans-serif;
+}
+
 a {
   color: #209cee;
 }
@@ -276,8 +284,8 @@ a.navbar-item:hover {
 }
 
 .tabs li.is-active a {
-  border-bottom-color: #209cee;
-  color: #209cee;
+  border-bottom-color: #00d1b2; /*#209cee;*/
+  color: #00d1b2; /*#209cee;*/
 }
 
 .tag {

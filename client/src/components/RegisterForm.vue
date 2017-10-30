@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent="onSubmit">
 
-    <div class="notification is-danger" v-if="!!errors.general">
+    <div class="notification is-danger" v-if="!!error">
       <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-      {{ errors.general }}
+      {{ error }}
     </div>
 
     <div class="notification is-success" v-if="!!success">
@@ -71,12 +71,7 @@
           password: true,
           confirmpassword: true
         },
-        errors: {
-          general: null,
-          email: null,
-          password: null,
-          confirmpassword: null
-        }
+        error: null
       }
     },
     methods: {
@@ -84,10 +79,7 @@
         this.$emit('backToLogin', 'login');
       },
       resetErrors() {
-        this.errors.general = null;
-        this.errors.email = null;
-        this.errors.password = null;
-        this.errors.confirmpassword = null;
+        this.error = null;
         this.state.email = true;
         this.state.password = true;
         this.state.confirmpassword = true;
@@ -101,10 +93,7 @@
             this.success = true;
           }
           else {
-            this.errors.email = response.data.message.email;
-            this.errors.password = response.data.message.password;
-            this.errors.confirmpassword = response.data.message.confirmpassword;
-            this.errors.general = response.data.message.general;
+            this.error = response.data.message;
             this.state.email = response.data.content.emailState;
             this.state.password = response.data.content.passwordState;
             this.state.confirmpassword = response.data.content.confirmPasswordState;

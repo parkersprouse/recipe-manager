@@ -97,12 +97,7 @@ function register(req, res, next) {
           passwordState: validator.isEmpty(password) ? false : true,
           confirmPasswordState: validator.isEmpty(confirmpassword) ? false : true
         },
-        message: {
-          general: 'Please make sure all required fields are filled out',
-          email: validator.isEmpty(email) ? 'Please make sure your email is filled out' : null,
-          password: validator.isEmpty(password) ? 'Please make sure your password is filled out' : null,
-          confirmpassword: validator.isEmpty(confirmpassword) ? 'Please make sure your password confirmation is filled out' : null
-        }
+        message: 'Please make sure all required fields are filled out'
       });
   }
   else if (!validator.isEmail(email)) {
@@ -114,9 +109,7 @@ function register(req, res, next) {
           passwordState: true,
           confirmPasswordState: true
         },
-        message: {
-          email: 'Please make sure your email is valid'
-        }
+        message: 'Please make sure your email is valid'
       });
   }
   else if (password.length < 6) {
@@ -128,9 +121,7 @@ function register(req, res, next) {
           passwordState: false,
           confirmPasswordState: true
         },
-        message: {
-          password: 'Password should be at least 6 characters long'
-        }
+        message: 'Password should be at least 6 characters long'
       });
   }
   else if (password !== confirmpassword) {
@@ -142,10 +133,7 @@ function register(req, res, next) {
           passwordState: false,
           confirmPasswordState: false
         },
-        message: {
-          password: 'Your passwords did not match',
-          confirmpassword: 'Your passwords did not match'
-        }
+        message: 'Your passwords did not match'
       });
   }
   else {
@@ -165,9 +153,7 @@ function register(req, res, next) {
         res.status(constants.http_ok)
           .json({
             status: 'success',
-            message: {
-              general: 'Registration Successful'
-            }
+            message: 'Registration Successful'
           });
       })
       .catch(function (err) {
@@ -175,15 +161,12 @@ function register(req, res, next) {
           emailState: true,
           passwordState: true,
           confirmPasswordState: true
-        }
-        const message = {}
+        };
+        let message = 'There was an unknown problem when creating your account';
 
         if (err.code === constants.db_err_duplicate) {
-          message.email = 'An account with that email address already exists';
+          message = 'An account with that email address already exists';
           content.emailState = false;
-        }
-        else {
-          message.general = 'There was an unknown problem when creating your account';
         }
 
         res.status(constants.http_bad_request)
