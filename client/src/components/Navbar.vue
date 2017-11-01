@@ -34,7 +34,7 @@
 
 <script>
   export default {
-    name: 'navbar',
+    name: 'navigation-bar',
     data: function() {
       return {
         isBurgerActive: false

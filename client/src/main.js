@@ -19,7 +19,7 @@ import '@/assets/css/custom.css';
 Vue.config.productionTip = false;
 
 // Globally register any components we may need
-Vue.component('navbar', Navbar);
+Vue.component('navigation-bar', Navbar);
 Vue.component('pagination', Pagination);
 Vue.component('dynamic-textarea', DynamicTextArea);
 Vue.component('login-form', LoginForm);

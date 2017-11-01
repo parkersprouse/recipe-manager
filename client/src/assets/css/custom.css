@@ -228,9 +228,9 @@ a.navbar-item:hover {
 }
 
 .recipe-card-date {
-  text-align: left;
-  justify-content: flex-start;
-  align-items: flex-start;
+  text-align: right;
+  justify-content: flex-end;
+  align-items: flex-end;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 

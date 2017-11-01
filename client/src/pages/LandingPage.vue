@@ -1,8 +1,7 @@
 <template>
-
   <div class="landing-container">
     <div class="columns is-centered">
-      <div class="column is-4 is-narrow">
+      <div class="column is-4 is-narrow" style="max-width: 650px;">
         <div class="box landing-box">
           <div class="tabs is-centered is-boxed">
             <ul>
@@ -11,11 +10,15 @@
             </ul>
           </div>
           <div class="landing-box-content">
-            <div id="login-container" v-if="displayLogin">
-              <login-form :next="next" />
-            </div>
-            <div id="register-container" v-if="displayRegister">
-              <register-form @show="show" />
+            <div class="columns is-centered">
+              <div class="column is-8 is-narrow">
+                <div id="login-container" v-if="displayLogin">
+                  <login-form :next="next" />
+                </div>
+                <div id="register-container" v-if="displayRegister">
+                  <register-form @show="show" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -25,7 +28,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>

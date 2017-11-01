@@ -6,7 +6,7 @@
       {{ error }}
     </div>
 
-    <div class="notification is-success" v-if="!!success">
+    <div class="notification is-success" v-if="!success">
       <i class="fa fa-check-circle" aria-hidden="true"></i>
       You have successfully registered! You may now <a v-on:click="$emit('show', 'login')">login</a>.
     </div>
@@ -75,9 +75,6 @@
       }
     },
     methods: {
-      showLogin() {
-        this.$emit('backToLogin', 'login');
-      },
       resetErrors() {
         this.error = null;
         this.state.email = true;

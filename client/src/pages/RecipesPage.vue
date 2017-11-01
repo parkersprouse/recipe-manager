@@ -60,7 +60,7 @@
           <footer class="card-footer">
             <div class="card-footer-item recipe-card-date" v-if="!!item.date">
               <span class="tag is-white">
-                {{ makeDateReadable(item.date) }}
+                Added {{ makeDateReadable(item.date) }}
               </span>
             </div>
           </footer>

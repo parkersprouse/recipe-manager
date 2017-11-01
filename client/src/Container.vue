@@ -3,7 +3,7 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-three-quarters is-narrow">
-          <navbar />
+          <navigation-bar />
           <div class="columns is-centered">
             <div class="column is-8 is-narrow">
               <component :is="content" :props="props"></component>

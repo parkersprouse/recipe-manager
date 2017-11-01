@@ -54,6 +54,13 @@
               <span v-else><i>No description</i></span>
             </div>
           </div>
+          <footer class="card-footer">
+            <div class="card-footer-item recipe-card-date" v-if="!!item.date">
+              <span class="tag is-white">
+                Added {{ makeDateReadable(item.date) }}
+              </span>
+            </div>
+          </footer>
         </div>
       </div>
       <pagination
@@ -134,6 +141,9 @@
       performSearch() {
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query + '&n=' + this.perPage;
+      },
+      makeDateReadable(date) {
+        return utils.makeDateReadable(date);
       }
     },
     watch: {
