@@ -9,10 +9,6 @@
     "dev": "cd client && npm run build && cd .. && node server",
     "heroku-postbuild": "npm install --only=dev && cd client && npm install && npm run build"
   },
-  "engines": {
-    "node": ">= 6.11.0",
-    "npm": ">= 3.10.10"
-  },
   "dependencies": {
     "axios": "^0.16.2",
     "bcrypt-nodejs": "0.0.3",
