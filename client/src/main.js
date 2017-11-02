@@ -6,6 +6,7 @@ import Vue from 'vue';
 import App from '@/App';
 import Navbar from '@/components/Navbar';
 import Pagination from '@/components/Pagination/Pagination';
+import ChecklistToggle from '@/components/ChecklistToggle';
 import DynamicTextArea from '@/components/DynamicTextArea';
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
@@ -21,6 +22,7 @@ Vue.config.productionTip = false;
 // Globally register any components we may need
 Vue.component('navigation-bar', Navbar);
 Vue.component('pagination', Pagination);
+Vue.component('checklist-toggle', ChecklistToggle);
 Vue.component('dynamic-textarea', DynamicTextArea);
 Vue.component('login-form', LoginForm);
 Vue.component('register-form', RegisterForm);

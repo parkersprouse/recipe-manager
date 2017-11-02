@@ -34,11 +34,9 @@
           <article class="tile is-child box">
             <p class="title">Ingredients</p>
             <div class="content">
-              <p>
-                <ul>
-                  <li v-for="item in recipe.ingredients">{{ item.amount }} {{ item.measurement }} {{ item.name }}</li>
-                </ul>
-              </p>
+              <div v-for="item in recipe.ingredients" style="margin-bottom: 0.5rem;">
+                <checklist-toggle>&bull; {{ item.amount }} {{ item.measurement }} {{ item.name }}</checklist-toggle>
+              </div>
             </div>
           </article>
         </div>
@@ -46,11 +44,9 @@
           <article class="tile is-child box">
             <p class="title">Directions</p>
             <div class="content">
-              <p>
-                <ol>
-                  <li v-for="item in recipe.steps" style="white-space: pre-line;">{{ item }}</li>
-                </ol>
-              </p>
+              <div v-for="(item, index) in recipe.steps" style="white-space: pre-line; margin-bottom: 0.5rem;">
+                <checklist-toggle>{{ index + 1 }}. {{ item }}</checklist-toggle>
+              </div>
             </div>
           </article>
         </div>
