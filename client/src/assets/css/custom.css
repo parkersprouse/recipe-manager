@@ -300,6 +300,10 @@ a.navbar-item:hover {
   font-size: 1.25rem;
 }
 
+.view-recipe-body {
+  margin-bottom: 1.5rem;
+}
+
 .view-recipe-body > .tooltip {
   position: absolute;
   border-top-left-radius: 3px;
@@ -314,4 +318,48 @@ a.navbar-item:hover {
 #pagination {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+@media print {
+  input,
+  button,
+  a,
+  .button,
+  .navbar,
+  .recipe-top-container,
+  .header-title {
+    display: none;
+  }
+
+  .section {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .hero-body {
+    padding: none;
+  }
+
+  .hero-body > .container > .title {
+    color: black;
+  }
+
+  .section>.container>.columns>.column {
+    padding: none;
+    border: none;
+  }
+
+  .view-recipe-body {
+    margin-bottom: 0.5rem;
+  }
+
+  .column.is-three-quarters,
+  .column.is-8,
+  .container {
+    margin-left: 0;
+    margin-right: 0;
+    padding: none;
+    width: 100%;
+    max-width: 100%;
+  }
 }
