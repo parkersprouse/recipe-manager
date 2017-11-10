@@ -11,7 +11,7 @@
           </div>
           <div class="landing-box-content">
             <div class="columns is-centered">
-              <div class="column is-8 is-narrow">
+              <div class="column is-9 is-narrow">
                 <div id="login-container" v-if="displayLogin">
                   <login-form :next="next" />
                 </div>

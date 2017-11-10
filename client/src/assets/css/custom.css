@@ -16,7 +16,7 @@ body,
 .section > .container,
 .section > .container > .columns,
 .section > .container > .columns > .column {
-  min-height: 97vh;
+  min-height: 98vh;
 }
 
 html, body {

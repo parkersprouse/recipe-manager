@@ -17,7 +17,9 @@
           <a class="navbar-item" href="/recipes/add">Add Recipe</a>
         </div>
         <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-item" href="/profile/edit" v-if="isBurgerActive">Edit Profile</a>
+          <a class="navbar-item" href="/logout" v-if="isBurgerActive">Logout</a>
+          <div class="navbar-item has-dropdown is-hoverable" v-if="!isBurgerActive">
             <a class="navbar-link" href="/profile">
               User <i class="fa fa-angle-down" aria-hidden="true" style="margin-left: 0.35rem;"></i>
             </a>

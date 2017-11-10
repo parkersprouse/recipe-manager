@@ -62,7 +62,7 @@
                 <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea>
               </div>
               <div class="control">
-                <button class="button is-danger" :class="form.steps.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.STEP)" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
+                <button class="button is-danger" :class="form.steps.length > 1 && !isMobile ? 'tooltip' : ''" type="button" @click="remove(i, elementType.STEP)" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
                   <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
               </div>
@@ -108,7 +108,7 @@
                     <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
                   </div>
                   <div class="control">
-                    <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
+                    <button class="button is-danger" :class="form.ingredients.length > 1 && !isMobile ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </button>
                   </div>
