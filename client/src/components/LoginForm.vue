@@ -1,37 +1,30 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form class="p-form p-form--stacked" @submit.prevent="onSubmit">
 
-    <div class="notification is-danger" v-if="!!errors.general">
-      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-      {{ errors.general }}
-    </div>
-
-    <div class="field">
-      <label class="label">Email <span class="required-field-marker">*</span></label>
-      <div class="control has-icons-left">
-        <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="email" placeholder="Email">
-        <span class="icon is-small is-left">
-          <i class="fa fa-envelope"></i>
-        </span>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Password <span class="required-field-marker">*</span></label>
-      <div class="control has-icons-left">
-        <input class="input" :class="!state.password ? 'is-danger' : ''" v-model="form.password" type="password" placeholder="Password">
-        <span class="icon is-small is-left">
-          <i class="fa fa-lock"></i>
-        </span>
-      </div>
-    </div>
-
-    <div class="field">
-      <p class="control has-text-centered">
-        <button class="button is-primary" :class="submitting ? 'is-loading' : ''" type="submit">
-          Login
-        </button>
+    <div class="p-notification--negative" v-if="!!errors.general">
+      <p class="p-notification__response">
+        <span class="p-notification__status">{{ errors.general }}</span>
       </p>
+    </div>
+
+    <div class="p-form__group" :class="!state.email ? 'p-form-validation is-error' : ''">
+      <label for="email" class="p-form__label">Email *</label>
+      <div class="p-form__control">
+        <input id="email" class="p-form-validation__input" v-model="form.email" type="text" placeholder="Email"
+               :aria-invalid="!state.email" :aria-describedby="!state.email ? 'input-error-message-stacked' : ''" />
+      </div>
+    </div>
+
+    <div class="p-form__group" :class="!state.password ? 'p-form-validation is-error' : ''">
+      <label for="password" class="p-form__label">Password *</label>
+      <div class="p-form__control">
+        <input id="password" class="p-form-validation__input" v-model="form.password" type="password" placeholder="Password"
+               :aria-invalid="!state.password" :aria-describedby="!state.password ? 'input-error-message-stacked' : ''" />
+      </div>
+    </div>
+
+    <div class="u-align--center">
+      <button class="p-button--positive">Login</button>
     </div>
 
   </form>

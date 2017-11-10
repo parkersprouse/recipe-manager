@@ -1,31 +1,16 @@
 <template>
-  <div class="landing-container">
-    <div class="columns is-centered">
-      <div class="column is-4 is-narrow" style="max-width: 650px;">
-        <div class="box landing-box">
-          <div class="tabs is-centered is-boxed">
-            <ul>
-              <li :class="displayLogin ? 'is-active' : ''"><a @click="show('login')"><span>Login</span></a></li>
-              <li :class="displayRegister ? 'is-active' : ''"><a @click="show('register')"><span>Register</span></a></li>
-            </ul>
-          </div>
-          <div class="landing-box-content">
-            <div class="columns is-centered">
-              <div class="column is-8 is-narrow">
-                <div id="login-container" v-if="displayLogin">
-                  <login-form :next="next" />
-                </div>
-                <div id="register-container" v-if="displayRegister">
-                  <register-form @show="show" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="require-field-notice">
-          <span class="required-field-marker">*</span> Required Field
-        </div>
-      </div>
+  <div class="row p-divider" style="margin-top: 3rem;">
+    <div class="col-6 p-divider__block">
+      <header style="border-bottom: 1px solid #cdcdcd; margin-bottom: .75rem; padding-bottom: .75rem;">
+        <h3>Login</h3>
+      </header>
+      <login-form :next="next" />
+    </div>
+    <div class="col-6 p-divider__block">
+      <header style="border-bottom: 1px solid #cdcdcd; margin-bottom: .75rem; padding-bottom: .75rem;">
+        <h3>Register</h3>
+      </header>
+      <!--<register-form />--> Register
     </div>
   </div>
 </template>
