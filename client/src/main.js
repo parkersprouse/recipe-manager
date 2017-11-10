@@ -15,6 +15,7 @@ import router from '@/router';
 
 import '@/assets/css/font-awesome.min.css';
 import '@/assets/css/bulma.css';
+import '@/assets/css/vanilla.min.css';
 import '@/assets/css/custom.css';
 
 Vue.config.productionTip = false;
