@@ -14,7 +14,7 @@
     <div class="field">
       <label class="label">Email <span class="required-field-marker">*</span></label>
       <div class="control has-icons-left">
-        <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="email" placeholder="Email">
+        <input class="input" :class="!state.email ? 'is-danger' : ''" v-model="form.email" type="text" placeholder="Email" />
         <span class="icon is-small is-left">
           <i class="fa fa-envelope"></i>
         </span>
@@ -24,7 +24,7 @@
     <div class="field">
       <label class="label">Password <span class="required-field-marker">*</span></label>
       <div class="control has-icons-left">
-        <input class="input" :class="!state.password ? 'is-danger' : ''" v-model="form.password" type="password" placeholder="Password">
+        <input class="input" :class="!state.password ? 'is-danger' : ''" v-model="form.password" type="password" placeholder="Password" />
         <span class="icon is-small is-left">
           <i class="fa fa-lock"></i>
         </span>
@@ -34,7 +34,7 @@
     <div class="field">
       <label class="label">Confirm Password <span class="required-field-marker">*</span></label>
       <div class="control has-icons-left">
-        <input class="input" :class="!state.confirmpassword ? 'is-danger' : ''" v-model="form.confirmpassword" type="password" placeholder="Confirm Password">
+        <input class="input" :class="!state.confirmpassword ? 'is-danger' : ''" v-model="form.confirmpassword" type="password" placeholder="Confirm Password" />
         <span class="icon is-small is-left">
           <i class="fa fa-lock"></i>
         </span>

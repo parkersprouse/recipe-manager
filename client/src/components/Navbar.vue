@@ -11,7 +11,7 @@
           <span></span>
         </div>
       </div>
-      <div id="navigation" class="navbar-menu" :class="isBurgerActive ? 'is-active' : ''">
+      <div id="navigation" class="navbar-menu" :class="isBurgerActive ? 'is-active has-text-right' : ''">
         <div class="navbar-start">
           <a class="navbar-item" href="/recipes">My Recipes</a>
           <a class="navbar-item" href="/recipes/add">Add Recipe</a>
