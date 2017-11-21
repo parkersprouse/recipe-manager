@@ -5,7 +5,7 @@
         <div class="column is-three-quarters is-narrow">
           <navigation-bar />
           <div class="columns is-centered">
-            <div class="column is-8 is-narrow">
+            <div class="column is-10 is-narrow">
               <component :is="content" :props="props"></component>
             </div>
           </div>

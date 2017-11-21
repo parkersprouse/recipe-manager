@@ -62,10 +62,6 @@
             </div>
           </article>
         </div>
-      </div>
-
-      <!-- New Password Form -->
-      <div class="tile is-ancestor">
         <div class="tile is-parent">
           <article class="tile is-child box">
             <h4 class="title is-4">Edit Password</h4>
