@@ -61,13 +61,14 @@
           <div class="content">
             <label class="label">Steps <span class="required-field-marker">*</span></label>
             <div class="field is-grouped is-grouped-centered" v-for="(step, i) in form.steps">
-              <!-- <div class="control">
+              <div class="control">
                 <a class="button is-static">
                   {{ i + 1 }}
                 </a>
-              </div> -->
+              </div>
               <div class="control is-expanded">
-                <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea>
+                <!-- <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea> -->
+                <input v-model="form.steps[i]" type="input" class="input" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step" />
               </div>
               <div class="control">
                 <button class="button is-danger" :class="form.steps.length > 1 && !isMobile ? 'tooltip' : ''" type="button" @click="remove(i, elementType.STEP)" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
@@ -96,11 +97,11 @@
 
               <div v-if="isMobile" style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
-                  <!-- <div class="control">
+                  <div class="control">
                     <a class="button is-static">
                       {{ i + 1 }}
                     </a>
-                  </div> -->
+                  </div>
                   <div class="control is-expanded">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="#" />
                   </div>
@@ -126,11 +127,11 @@
 
               <div v-else style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
-                  <!-- <div class="control">
+                  <div class="control">
                     <a class="button is-static">
                       {{ i + 1 }}
                     </a>
-                  </div> -->
+                  </div>
                   <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
                   </div>
