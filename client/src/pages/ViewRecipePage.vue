@@ -57,7 +57,7 @@
           <article class="tile is-child box">
             <p class="title">Additional Notes</p>
             <div class="content">
-              <p style="white-space: pre-line;">{{ recipe.notes }}</p>
+              <p style="white-space: pre-line;" v-html="linkifyString(recipe.notes)"></p>
             </div>
           </article>
         </div>
@@ -90,7 +90,8 @@
     data: function() {
       return {
         user: null,
-        recipe: null
+        recipe: null,
+        linkifyString: utils.linkifyString
       }
     },
     computed: {
