@@ -19,9 +19,9 @@
   export default {
     name: 'edit-recipe-page',
     mounted: function() {
-      utils.getCurrentUserInfo(function(success, response) {
+      utils.getCurrentUserInfo((success, response) => {
         this.user = response;
-        api.getRecipe(this.$route.params.id, function(success, response) {
+        api.getRecipe(this.$route.params.id, (success, response) => {
           if (success) {
             if (response.content.user_id !== this.user.id)
               window.location.href = "/recipes";
@@ -30,8 +30,8 @@
           }
           else
             this.recipe = -1;
-        }.bind(this));
-      }.bind(this));
+        });
+      });
     },
     data: function() {
       return {

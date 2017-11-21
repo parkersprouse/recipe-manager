@@ -97,7 +97,7 @@
   export default {
     name: 'recipe-search-results-page',
     mounted: function() {
-      utils.getCurrentUserInfo(function(success, response) {
+      utils.getCurrentUserInfo((success, response) => {
         const data = {
           userid: response.id,
           query: this.query,
@@ -105,15 +105,15 @@
           amount: this.perPage,
           paginate: true
         };
-        api.searchRecipes(data, function(success, response) {
+        api.searchRecipes(data, (success, response) => {
           this.recipes = success ? response.content : [];
           data.paginate = false;
-          api.searchRecipes(data, function(success, response) {
+          api.searchRecipes(data, (success, response) => {
             this.numPages = success ? Math.ceil(response.content.length / this.perPage) : 1;
             this.totalNumRecipes = success ? response.content.length : 0;
-          }.bind(this));
-        }.bind(this));
-      }.bind(this));
+          });
+        });
+      });
     },
     data: function() {
       return {

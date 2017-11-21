@@ -101,16 +101,16 @@
   export default {
     name: 'recipes-page',
     mounted: function() {
-      utils.getCurrentUserInfo(function(success, response) {
+      utils.getCurrentUserInfo((success, response) => {
         const userid = response.id;
-        api.getPaginatedUserRecipes(userid, this.page, this.perPage, function(success, response) {
+        api.getPaginatedUserRecipes(userid, this.page, this.perPage, (success, response) => {
           this.recipes = response.content || [];
-          api.getUsersRecipes(userid, function(success, response) {
+          api.getUsersRecipes(userid, (success, response) => {
             this.numPages = success ? Math.ceil(response.content.length / this.perPage) : 1;
             this.totalNumRecipes = success ? response.content.length : 0;
-          }.bind(this));
-        }.bind(this));
-      }.bind(this));
+          });
+        });
+      });
     },
     data: function() {
       return {

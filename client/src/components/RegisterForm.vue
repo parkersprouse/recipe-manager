@@ -85,7 +85,7 @@
         this.resetErrors();
         this.submitting = true;
 
-        api.register(this.form, function(success, response) {
+        api.register(this.form, (success, response) => {
           if (success) {
             this.success = true;
           }
@@ -96,7 +96,7 @@
             this.state.confirmpassword = response.data.content.confirmPasswordState;
             this.submitting = false;
           }
-        }.bind(this));
+        });
       }
     }
   }

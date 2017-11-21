@@ -122,10 +122,10 @@
   export default {
     name: 'edit-profile-page',
     mounted: function() {
-      utils.getCurrentUserInfo(function(success, response) {
+      utils.getCurrentUserInfo((success, response) => {
         this.user = success ? response : -1;
         this.form.email = this.user.email;
-      }.bind(this));
+      });
     },
     data: function() {
       return {
@@ -180,7 +180,7 @@
           currentPassword: this.form.currentPassword
         };
 
-        api.updateUser(data, function(success, response) {
+        api.updateUser(data, (success, response) => {
           if (success) {
             this.accountSuccess = true;
           }
@@ -191,7 +191,7 @@
             this.state.currentPassword = response.data.content.currentPasswordState;
           }
           this.submitting = false;
-        }.bind(this));
+        });
       },
       submitPassword(event) {
         this.resetVerificationErrors();
@@ -205,7 +205,7 @@
           currentPassword: this.form.currentPassword
         };
 
-        api.updateUserPassword(data, function(success, response) {
+        api.updateUserPassword(data, (success, response) => {
           if (success) {
             this.passwordSuccess = true;
           }
@@ -217,7 +217,7 @@
             this.state.currentPassword = response.data.content.currentPasswordState;
           }
           this.submitting = false;
-        }.bind(this));
+        });
       }
     }
   }

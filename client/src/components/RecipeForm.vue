@@ -214,9 +214,9 @@
     name: 'recipe-form',
     props: ['recipe'],
     mounted: function() {
-      utils.getCurrentUserInfo(function(success, response) {
+      utils.getCurrentUserInfo((success, response) => {
         this.user = response;
-      }.bind(this));
+      });
 
       if (!!this.recipe) {
         this.form.title = this.recipe.title;
@@ -327,7 +327,7 @@
         }
 
         const submissionMethod = !!this.recipe ? api.updateRecipe : api.addRecipe;
-        submissionMethod(data, function(success, response) {
+        submissionMethod(data, (success, response) => {
           if (success) {
             if (!!this.recipe) {
               this.success = true;
@@ -343,17 +343,17 @@
             this.errorMsg = response.data.message;
             this.submitting = false;
           }
-        }.bind(this));
+        });
       },
       onDelete(event) {
-        api.deleteRecipe(this.recipe.id, function(success, response) {
+        api.deleteRecipe(this.recipe.id, (success, response) => {
           if (success) {
             window.location.href = '/recipes';
           }
           else {
             this.errorMsg = 'There was a problem when attempting to delete the recipe';
           }
-        }.bind(this));
+        });
       }
     }
   }

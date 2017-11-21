@@ -73,7 +73,7 @@
         this.resetErrors();
         this.submitting = true;
 
-        api.login(this.form, function(success, response) {
+        api.login(this.form, (success, response) => {
           if (success) {
             window.location.href = this.next || '/recipes';
           }
@@ -85,7 +85,7 @@
             this.state.password = response.data.content.passwordState;
             this.submitting = false;
           }
-        }.bind(this));
+        });
       }
     }
   }

@@ -80,12 +80,12 @@
   export default {
     name: 'view-recipe-page',
     mounted: function() {
-      utils.getCurrentUserInfo(function(success, response) {
+      utils.getCurrentUserInfo((success, response) => {
         this.user = response;
-        api.getRecipe(this.$route.params.id, function(success, response) {
+        api.getRecipe(this.$route.params.id, (success, response) => {
           this.recipe = success ? response.content : -1;
-        }.bind(this));
-      }.bind(this));
+        });
+      });
     },
     data: function() {
       return {
