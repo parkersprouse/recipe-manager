@@ -172,7 +172,7 @@
             <div class="field">
               <label class="label">Additional Notes</label>
               <div class="control">
-                <textarea class="textarea" v-model="form.notes" type="text" placeholder="Additional Notes" rows="5"></textarea>
+                <textarea class="textarea" v-model="form.notes" type="text" placeholder="Notes, links, etc." rows="5"></textarea>
               </div>
             </div>
           </div>
