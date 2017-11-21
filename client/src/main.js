@@ -19,7 +19,9 @@ import '@/assets/css/custom.css';
 
 Vue.config.productionTip = false;
 
-// Globally register any components we may need
+// Globally register any components we may need.
+// I know you don't have to globally register all components, but this is
+//   how I first learned to do it and just haven't adjusted my implementation.
 Vue.component('navigation-bar', Navbar);
 Vue.component('pagination', Pagination);
 Vue.component('checklist-toggle', ChecklistToggle);
