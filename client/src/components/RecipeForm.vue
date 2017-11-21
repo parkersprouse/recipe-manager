@@ -42,12 +42,14 @@
                 <textarea class="textarea" v-model="form.description" type="text" placeholder="Description" rows="3"></textarea>
               </div>
             </div>
+            <!--
             <div class="field">
               <div style="display: inline-block;">
                 <input class="is-checkbox" id="private-checkbox" type="checkbox" name="private-checkbox" checked="checked" v-model="form.private" />
                 <label for="private-checkbox" style="margin-right: 0.25rem; padding-right: 0;">Private?</label>
               </div>
             </div>
+            -->
           </div>
         </article>
       </div>

@@ -64,7 +64,9 @@
       </div>
 
       <div class="has-text-right">
-        <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info"><i class="fa fa-pencil-square-o btn-icon"></i> Edit</a>
+        <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">
+          <i class="fa fa-pencil-square-o btn-icon"></i> Edit
+        </a>
       </div>
 
     </div>
