@@ -302,6 +302,7 @@ a.navbar-item:hover {
 
 .view-recipe-body {
   margin-bottom: 1.5rem;
+  border-radius: 5px;
 }
 
 .view-recipe-body > .tooltip {

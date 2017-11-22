@@ -57,7 +57,7 @@
           <article class="tile is-child box">
             <p class="title">Additional Notes</p>
             <div class="content">
-              <p style="white-space: pre-line;" v-html="linkifyString(recipe.notes)"></p>
+              <p style="white-space: pre-line;" v-html="linkifiedNotes"></p>
             </div>
           </article>
         </div>
@@ -90,13 +90,15 @@
     data: function() {
       return {
         user: null,
-        recipe: null,
-        linkifyString: utils.linkifyString
+        recipe: null
       }
     },
     computed: {
       readableDate: function() {
         return utils.makeDateReadable(this.recipe.date);
+      },
+      linkifiedNotes: function() {
+        return utils.linkifyString(this.recipe.notes);
       }
     }
   }
