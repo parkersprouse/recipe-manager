@@ -257,6 +257,10 @@ a.navbar-item:hover {
   display: flex;
 }
 
+.recipe-bottom-container {
+  margin-top: -0.75rem;
+}
+
 .require-field-notice {
   text-align: right;
 }
@@ -327,7 +331,7 @@ a.navbar-item:hover {
   a,
   .button,
   .navbar,
-  .recipe-top-container,
+  .recipe-bottom-container,
   .header-title {
     display: none;
   }

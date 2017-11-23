@@ -33,9 +33,6 @@
 <script>
   export default {
     name: 'landing-page',
-    mounted: function() {
-      console.log(Modernizr.input.list);
-    },
     data: function() {
       return {
         displayLogin: true,

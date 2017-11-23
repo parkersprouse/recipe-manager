@@ -14,7 +14,7 @@ import utils from '@/utils/utils';
 Vue.use(Router);
 
 function mustBeLoggedIn(to, from, next) {
-  utils.isLoggedIn(function(loggedIn) {
+  utils.isLoggedIn((loggedIn) => {
     if (!loggedIn)
       next({ path: '/', query: { n: to.fullPath } });
     else
@@ -23,7 +23,7 @@ function mustBeLoggedIn(to, from, next) {
 }
 
 function mustBeLoggedOut(to, from, next) {
-  utils.isLoggedIn(function(loggedIn) {
+  utils.isLoggedIn((loggedIn) => {
     if (loggedIn)
       next('/recipes');
     else
@@ -47,37 +47,37 @@ export default new Router({
       path: '/profile/edit',
       component: Container,
       beforeEnter: mustBeLoggedIn,
-      props: (route) => ({content: EditProfilePage})
+      props: (route) => ({ content: EditProfilePage })
     },
     {
       path: '/recipes',
       component: Container,
       beforeEnter: mustBeLoggedIn,
-      props: (route) => ({content: RecipesPage})
+      props: (route) => ({ content: RecipesPage })
     },
     {
       path: '/recipes/add',
       component: Container,
       beforeEnter: mustBeLoggedIn,
-      props: (route) => ({content: AddRecipePage})
+      props: (route) => ({ content: AddRecipePage })
     },
     {
       path: '/recipes/search',
       component: Container,
       beforeEnter: mustBeLoggedIn,
-      props: (route) => ({content: RecipeSearchResultsPage})
+      props: (route) => ({ content: RecipeSearchResultsPage })
     },
     {
       path: '/recipes/:id',
       component: Container,
       beforeEnter: mustBeLoggedIn,
-      props: (route) => ({content: ViewRecipePage})
+      props: (route) => ({ content: ViewRecipePage })
     },
     {
       path: '/recipes/:id/edit',
       component: Container,
       beforeEnter: mustBeLoggedIn,
-      props: (route) => ({content: EditRecipePage})
+      props: (route) => ({ content: EditRecipePage })
     },
     {
       path: '/logout',

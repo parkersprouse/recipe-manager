@@ -9,6 +9,9 @@ const _ = require('lodash');
 function addOrUpdateRecipe(func, req, res, next) {
   const title = req.body.title;
   const description = req.body.description || null;
+  const prepTime = req.body.prepTime || null;
+  const cookTime = req.body.cookTime || null;
+  const servingSize = req.body.servingSize || null;
   const ingredients = req.body.ingredients;
   const steps = req.body.steps;
   const id = req.body.id;
@@ -69,6 +72,9 @@ function addOrUpdateRecipe(func, req, res, next) {
     const data = {
       title: title,
       description: description,
+      prepTime: prepTime,
+      cookTime: cookTime,
+      servingSize: servingSize,
       ingredients: ingredients,
       steps: steps,
       id: id,
@@ -78,15 +84,15 @@ function addOrUpdateRecipe(func, req, res, next) {
     };
 
     let query = 'insert into recipes ' +
-                '(title, description, ingredients, steps, user_id, private, notes, date) ' +
-                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}, ${private}, ${notes}, ${date}) ' +
+                '(title, description, ingredients, steps, user_id, private, notes, date, prep_time, cook_time, serving_size) ' +
+                'values (${title}, ${description}, ${ingredients}, ${steps}, ${id}, ${private}, ${notes}, ${date}, ${prepTime}, ${cookTime}, ${servingSize}) ' +
                 'returning *';
 
     if (func === 'update') {
       query = 'update recipes set ' +
               'title = ${title}, description = ${description}, ingredients = ${ingredients}, ' +
-              'steps = ${steps}, private = ${private}, notes = ${notes} ' +
-              'where id = ${id} returning *';
+              'steps = ${steps}, private = ${private}, notes = ${notes}, prep_time = ${prepTime}, ' +
+              'cook_time = ${cookTime}, serving_size = ${servingSize} where id = ${id} returning *';
     }
 
     db.one(query, data)

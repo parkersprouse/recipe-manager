@@ -6,10 +6,22 @@
     <div v-else>
 
       <div class="recipe-top-container">
-        <div class="top-right">
-          <span class="tag is-white" v-if="!!recipe.date">
-            Added {{ readableDate }}
-          </span>
+        <div class="columns" style="width: 100%;">
+          <div class="column has-text-centered" v-if="!!recipe.prep_time">
+            <span class="tag is-white">
+              Prep Time:&nbsp;<span class="has-text-weight-bold">{{ recipe.prep_time }}</span>
+            </span>
+          </div>
+          <div class="column has-text-centered" v-if="!!recipe.cook_time">
+            <span class="tag is-white">
+              Cook Time:&nbsp;<span class="has-text-weight-bold">{{ recipe.cook_time }}</span>
+            </span>
+          </div>
+          <div class="column has-text-centered" v-if="!!recipe.serving_size">
+            <span class="tag is-white">
+              Serving Size:&nbsp;<span class="has-text-weight-bold">{{ recipe.serving_size }}</span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -63,10 +75,17 @@
         </div>
       </div>
 
-      <div class="has-text-right">
-        <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">
-          <i class="fa fa-pencil-square-o btn-icon"></i> Edit
-        </a>
+      <div class="recipe-bottom-container">
+        <div class="is-pulled-right">
+          <a :href="'/recipes/' + recipe.id + '/edit'" class="button is-info">
+            <i class="fa fa-pencil-square-o btn-icon"></i> Edit
+          </a>
+        </div>
+        <div>
+          <span class="tag is-white">
+            Added {{ readableDate }}
+          </span>
+        </div>
       </div>
 
     </div>

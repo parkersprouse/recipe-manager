@@ -33,15 +33,43 @@
             <div class="field">
               <label class="label">Title <span class="required-field-marker">*</span></label>
               <div class="control">
-                <input class="input" :class="!state.title ? 'is-danger' : ''" v-model="form.title" type="text" placeholder="Title">
+                <input class="input" :class="!state.title ? 'is-danger' : ''" v-model="form.title" type="text" placeholder="Ex: My Delicious Recipe" />
               </div>
             </div>
             <div class="field">
               <label class="label">Description</label>
               <div class="control">
-                <textarea class="textarea" v-model="form.description" type="text" placeholder="Description" rows="3"></textarea>
+                <textarea class="textarea" v-model="form.description" type="text" placeholder="Ex: This might be the best thing you've ever tasted" rows="3"></textarea>
               </div>
             </div>
+
+            <div class="columns">
+              <div class="column">
+                <div class="field">
+                  <label class="label">Prep Time</label>
+                  <div class="control">
+                    <input class="input" v-model="form.prepTime" type="text" placeholder="Ex: 15 minutes" />
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div class="field">
+                  <label class="label">Cook Time</label>
+                  <div class="control">
+                    <input class="input" v-model="form.cookTime" type="text" placeholder="Ex: 1 hour" />
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div class="field">
+                  <label class="label">Serving Size</label>
+                  <div class="control">
+                    <input class="input" v-model="form.servingSize" type="text" placeholder="Ex: 2" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!--
             <div class="field">
               <div style="display: inline-block;">
@@ -68,7 +96,7 @@
               </div>
               <div class="control is-expanded">
                 <!-- <dynamic-textarea v-model="form.steps[i]" rows="1" max-rows="5" class="textarea" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step"></dynamic-textarea> -->
-                <input v-model="form.steps[i]" type="input" class="input" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Step" />
+                <input v-model="form.steps[i]" type="input" class="input" :class="!state.steps[i] ? 'is-danger' : ''" placeholder="Ex: Crack the eggs in a bowl and whisk" />
               </div>
               <div class="control">
                 <button class="button is-danger" :class="form.steps.length > 1 && !isMobile ? 'tooltip' : ''" type="button" @click="remove(i, elementType.STEP)" :disabled="form.steps.length < 2" data-tooltip="Remove Step">
@@ -223,6 +251,9 @@
         this.form.description = this.recipe.description;
         this.form.private = this.recipe.private;
         this.form.notes = this.recipe.notes;
+        this.form.prepTime = this.recipe.prep_time;
+        this.form.cookTime = this.recipe.cook_time;
+        this.form.servingSize = this.recipe.serving_size;
 
         let stepsStates = [];
         for (let i in this.recipe.steps)
@@ -255,6 +286,9 @@
         form: {
           title: '',
           description: '',
+          prepTime: '',
+          cookTime: '',
+          servingSize: '',
           steps: [''],
           ingredients: [{ name: '', measurement: '', amount: '' }],
           ingredientOptions: [
@@ -313,6 +347,9 @@
         const data = {
           title: this.form.title,
           description: this.form.description,
+          prepTime: this.form.prepTime,
+          cookTime: this.form.cookTime,
+          servingSize: this.form.servingSize,
           steps: this.form.steps,
           ingredients: {},
           id: !!this.recipe ? this.recipe.id : this.user.id,

@@ -21,7 +21,7 @@
           <a class="navbar-item" href="/logout" v-if="isBurgerActive">Logout</a>
           <div class="navbar-item has-dropdown is-hoverable" v-if="!isBurgerActive">
             <a class="navbar-link" href="/profile">
-              User <i class="fa fa-angle-down" aria-hidden="true" style="margin-left: 0.35rem;"></i>
+              {{ !!user ? user.email : user }} <i class="fa fa-angle-down" aria-hidden="true" style="margin-left: 0.35rem;"></i>
             </a>
             <div class="navbar-dropdown is-right">
               <a class="navbar-item" href="/profile/edit">Edit Profile</a>
@@ -35,11 +35,19 @@
 </template>
 
 <script>
+  import utils from '@/utils/utils';
+
   export default {
     name: 'navigation-bar',
+    mounted: function() {
+      utils.getCurrentUserInfo((success, response) => {
+        this.user = success ? response : null;
+      });
+    },
     data: function() {
       return {
-        isBurgerActive: false
+        isBurgerActive: false,
+        user: null
       }
     },
     methods: {
