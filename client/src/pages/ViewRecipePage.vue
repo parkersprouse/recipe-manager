@@ -5,25 +5,26 @@
     <div v-else-if="recipe.private && recipe.user_id !== user.id" class="has-text-centered">This recipe has been set to private</div>
     <div v-else>
 
-      <div class="recipe-top-container">
-        <div class="columns" style="width: 100%;">
-          <div class="column has-text-centered" v-if="!!recipe.prep_time" :class="isMobile ? 'is-paddingless' : ''">
-            <span class="tag is-white">
-              Prep Time:&nbsp;<span class="has-text-weight-bold">{{ recipe.prep_time }}</span>
-            </span>
-          </div>
-          <div class="column has-text-centered" v-if="!!recipe.cook_time" :class="isMobile ? 'is-paddingless' : ''">
-            <span class="tag is-white">
-              Cook Time:&nbsp;<span class="has-text-weight-bold">{{ recipe.cook_time }}</span>
-            </span>
-          </div>
-          <div class="column has-text-centered" v-if="!!recipe.serving_size" :style="isMobile ? 'padding: 0 0 0.75rem 0' : ''">
-            <span class="tag is-white">
-              Serving Size:&nbsp;<span class="has-text-weight-bold">{{ recipe.serving_size }}</span>
-            </span>
+      <nav class="level">
+        <div class="level-item has-text-centered" v-if="!!recipe.prep_time">
+          <div>
+            <p class="heading">Prep Time</p>
+            <p class="title">{{ recipe.prep_time }}</p>
           </div>
         </div>
-      </div>
+        <div class="level-item has-text-centered" v-if="!!recipe.cook_time">
+          <div>
+            <p class="heading">Cook Time</p>
+            <p class="title">{{ recipe.cook_time }}</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered" v-if="!!recipe.serving_size">
+          <div>
+            <p class="heading">Serving Size</p>
+            <p class="title">{{ recipe.serving_size }}</p>
+          </div>
+        </div>
+      </nav>
 
       <section class="hero is-primary view-recipe-body">
         <div class="hero-body">

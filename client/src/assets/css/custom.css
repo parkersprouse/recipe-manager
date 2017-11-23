@@ -113,6 +113,15 @@ input::-webkit-calendar-picker-indicator:hover {
   margin-right: 1.5rem;
 }
 
+.level:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.level .level-item .title {
+  border-bottom: none;
+  font-size: 1.25rem;
+}
+
 .navbar {
   margin-bottom: 2rem;
   border-top: 1px solid rgb(219, 219, 219);
@@ -326,6 +335,13 @@ a.navbar-item:hover {
 }
 
 @media print {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+  }
+
   input,
   button,
   a,
@@ -339,6 +355,7 @@ a.navbar-item:hover {
   .section {
     margin-top: 0;
     margin-bottom: 0;
+    width: 100vw;
   }
 
   .hero-body {
@@ -349,7 +366,7 @@ a.navbar-item:hover {
     color: black;
   }
 
-  .section>.container>.columns>.column {
+  .section > .container > .columns > .column {
     padding: none;
     border: none;
   }
@@ -364,7 +381,7 @@ a.navbar-item:hover {
     margin-left: 0;
     margin-right: 0;
     padding: none;
-    width: 100%;
-    max-width: 100%;
+    width: 100vw;
+    max-width: 100vw;
   }
 }
