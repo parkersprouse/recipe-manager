@@ -7,17 +7,17 @@
 
       <div class="recipe-top-container">
         <div class="columns" style="width: 100%;">
-          <div class="column has-text-centered" v-if="!!recipe.prep_time">
+          <div class="column has-text-centered" v-if="!!recipe.prep_time" :class="isMobile ? 'is-paddingless' : ''">
             <span class="tag is-white">
               Prep Time:&nbsp;<span class="has-text-weight-bold">{{ recipe.prep_time }}</span>
             </span>
           </div>
-          <div class="column has-text-centered" v-if="!!recipe.cook_time">
+          <div class="column has-text-centered" v-if="!!recipe.cook_time" :class="isMobile ? 'is-paddingless' : ''">
             <span class="tag is-white">
               Cook Time:&nbsp;<span class="has-text-weight-bold">{{ recipe.cook_time }}</span>
             </span>
           </div>
-          <div class="column has-text-centered" v-if="!!recipe.serving_size">
+          <div class="column has-text-centered" v-if="!!recipe.serving_size" :style="isMobile ? 'padding: 0 0 0.75rem 0' : ''">
             <span class="tag is-white">
               Serving Size:&nbsp;<span class="has-text-weight-bold">{{ recipe.serving_size }}</span>
             </span>
@@ -109,7 +109,8 @@
     data: function() {
       return {
         user: null,
-        recipe: null
+        recipe: null,
+        isMobile: utils.isMobile()
       }
     },
     computed: {

@@ -58,10 +58,24 @@
             </div>
           </div>
           <footer class="card-footer">
-            <div class="card-footer-item recipe-card-date" v-if="!!item.date">
-              <span class="tag is-white">
-                Added {{ makeDateReadable(item.date) }}
-              </span>
+            <div class="card-footer-item">
+              <div class="columns" style="width: 100%;">
+                <div class="column has-text-centered" v-if="!!item.prep_time" :class="isMobile ? 'is-paddingless' : ''">
+                  <span class="tag is-white">
+                    Prep Time:&nbsp;<span class="has-text-weight-bold">{{ item.prep_time }}</span>
+                  </span>
+                </div>
+                <div class="column has-text-centered" v-if="!!item.cook_time" :class="isMobile ? 'is-paddingless' : ''">
+                  <span class="tag is-white">
+                    Cook Time:&nbsp;<span class="has-text-weight-bold">{{ item.cook_time }}</span>
+                  </span>
+                </div>
+                <div class="column has-text-centered" v-if="!!item.serving_size" :class="isMobile ? 'is-paddingless' : ''">
+                  <span class="tag is-white">
+                    Serving Size:&nbsp;<span class="has-text-weight-bold">{{ item.serving_size }}</span>
+                  </span>
+                </div>
+              </div>
             </div>
           </footer>
         </div>
@@ -96,7 +110,6 @@
 <script>
   import utils from '@/utils/utils';
   import api from '@/utils/api';
-  import moment from 'moment';
 
   export default {
     name: 'recipes-page',
@@ -138,9 +151,6 @@
       performSearch() {
         if (this.query !== '')
           window.location.href = '/recipes/search?q=' + this.query + '&n=' + this.perPage;
-      },
-      makeDateReadable(date) {
-        return utils.makeDateReadable(date);
       }
     },
     watch: {
