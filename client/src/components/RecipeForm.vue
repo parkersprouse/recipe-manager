@@ -89,7 +89,7 @@
           <div class="content">
             <label class="label">Steps <span class="required-field-marker">*</span></label>
             <div class="field is-grouped is-grouped-centered" v-for="(step, i) in form.steps">
-              <div class="control">
+              <div class="control" v-if="!isMobile">
                 <a class="button is-static">
                   {{ i + 1 }}
                 </a>
@@ -125,18 +125,13 @@
 
               <div v-if="isMobile" style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
-                  <div class="control">
-                    <a class="button is-static">
-                      {{ i + 1 }}
-                    </a>
-                  </div>
                   <div class="control is-expanded">
                     <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="#" />
                   </div>
                   <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
-                      <option v-for="item in form.ingredientOptions" :title="item.title">{{ item.value }}</option>
+                      <option v-for="item in form.ingredientOptions" :value="item.value">{{ item.value }}</option>
                     </datalist>
                   </div>
                 </div>
@@ -166,7 +161,7 @@
                   <div class="control" style="width: 110px;">
                     <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
-                      <option v-for="item in form.ingredientOptions" :value="item.value" :title="item.title">{{ item.value }}</option>
+                      <option v-for="item in form.ingredientOptions" :value="item.value">{{ item.value }}</option>
                     </datalist>
                   </div>
                   <div class="control is-expanded">
@@ -301,7 +296,8 @@
             { value: 'oz', title: 'Ounce' },
             { value: 'pt', title: 'Pint' },
             { value: 'tbsp', title: 'Tablespoon' },
-            { value: 'tsp', title: 'Teaspoon' }
+            { value: 'tsp', title: 'Teaspoon' },
+            { value: 'whole', title: 'Whole' }
           ],
           private: false,
           notes: ''
