@@ -28,11 +28,11 @@
 
       <section class="hero is-primary view-recipe-body">
         <div class="hero-body">
-          <div class="container">
+          <div class="container" style="width: inherit;">
             <h1 class="title">
               {{ recipe.title }}
             </h1>
-            <h2 class="subtitle" v-if="recipe.description">
+            <h2 class="subtitle" style="" v-if="recipe.description">
               {{ recipe.description }}
             </h2>
             <h2 class="subtitle" v-else>
@@ -78,7 +78,7 @@
           <article class="tile is-child box">
             <p class="title">Additional Notes</p>
             <div class="content">
-              <p style="white-space: pre-line;" v-html="linkifiedNotes"></p>
+              <p style="white-space: pre-line; word-break: break-all;" v-html="linkifiedNotes"></p>
             </div>
           </article>
         </div>
