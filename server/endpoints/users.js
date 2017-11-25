@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt-nodejs');
 const config = require('../config');
 const constants = require('../constants');
 const db = require('../db').db;
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 const utils = require('../utils.js');
 const validator = require('validator');
 
@@ -130,7 +130,7 @@ function updateUser(req, res, next) {
             .then(function (data) {
               // after updating, we have to re-create the auth token cookie with the new data
               const payload = utils.generateJwtPayload(data);
-              const token = jwt.encode(payload, config.jwtSecret);
+              const token = jwt.sign(payload, config.jwtSecret);
               res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: false });
               res.status(constants.http_ok)
                 .json({
@@ -256,7 +256,7 @@ function updateUserPassword(req, res, next) {
           db.one(query, { pw_hash: pw_hash, id: req.body.id })
             .then(function (data) {
               const payload = utils.generateJwtPayload(data);
-              const token = jwt.encode(payload, config.jwtSecret);
+              const token = jwt.sign(payload, config.jwtSecret);
               res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: false });
               res.status(constants.http_ok)
                 .json({

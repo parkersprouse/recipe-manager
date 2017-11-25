@@ -280,7 +280,7 @@ a.navbar-item:hover {
 }
 
 .tag {
-  cursor: default;
+  cursor: inherit;
 }
 
 .textarea {

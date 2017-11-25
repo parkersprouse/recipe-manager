@@ -1,14 +1,14 @@
 const config = require('../config');
 const constants = require('../constants');
 const db = require('../db').db;
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 
 
 // public functions
 
 function verifyAuthToken(req, res, next) {
   try {
-    const decoded = jwt.decode(req.body.token, config.jwtSecret);
+    const decoded = jwt.verify(req.body.token, config.jwtSecret);
 
     db.one('select * from users where lower(email) = lower($1)', decoded.email)
       .then(function (data) {
