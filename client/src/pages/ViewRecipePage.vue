@@ -26,7 +26,7 @@
         </div>
       </nav>
 
-      <section class="hero is-primary view-recipe-body">
+      <section class="hero is-info is-bold view-recipe-body">
         <div class="hero-body">
           <div class="container" style="width: inherit;">
             <h1 class="title">

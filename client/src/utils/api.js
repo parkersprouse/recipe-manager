@@ -79,7 +79,7 @@ module.exports = {
   },
 
   verifyAuthToken: function(token, callback) {
-    performPost('/api/misc/verifyauthtoken', { token: token }, callback)
+    performPost('/api/misc/verifyauthtoken', { token: token }, callback);
   },
 
   getRecipe: function(id, callback) {

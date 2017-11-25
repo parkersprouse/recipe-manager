@@ -4,14 +4,14 @@ const constants = require('./constants');
 const moment = require('moment');
 
 const cookies = new Cookies();
-const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
 module.exports = {
 
   isLoggedIn: function(callback) {
     const token = cookies.get('token');
     if (!!token) {
-      api.verifyAuthToken(token, function(success, response) {
+      api.verifyAuthToken(token, (success, response) => {
+        if (!success) cookies.remove('token');
         callback(success);
       });
     }
@@ -28,7 +28,7 @@ module.exports = {
   getCurrentUserInfo: function(callback) {
     const token = cookies.get('token');
     if (!!token) {
-      api.verifyAuthToken(token, function(success, response) {
+      api.verifyAuthToken(token, (success, response) => {
         if (success)
           callback(true, response.content);
         else
@@ -49,7 +49,7 @@ module.exports = {
   },
 
   linkifyString: function(str) {
-    return str.replace(urlRegex, (url) => {
+    return str.replace(constants.urlRegex, (url) => {
       return '<a href="' + url + '" target="_blank">' + url + '</a>';
     });
   }
