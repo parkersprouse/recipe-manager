@@ -126,10 +126,10 @@
               <div v-if="isMobile" style="margin-bottom: 0.75rem;">
                 <div class="field is-grouped is-grouped-centered">
                   <div class="control is-expanded">
-                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="#" />
+                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Ex: 1/2" />
                   </div>
                   <div class="control" style="width: 110px;">
-                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Ex: lb" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
                       <option v-for="item in form.ingredientOptions" :value="item.value">{{ item.value }}</option>
                     </datalist>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="field is-grouped is-grouped-centered">
                   <div class="control is-expanded">
-                    <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
+                    <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ex: Flour" />
                   </div>
                   <div class="control">
                     <button class="button is-danger" :class="form.ingredients.length > 1 && !isMobile ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
@@ -156,16 +156,16 @@
                     </a>
                   </div>
                   <div class="control" style="width: 110px;">
-                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Amount" />
+                    <input class="input" :class="!state.ingredients[i].amount ? 'is-danger' : ''" v-model="form.ingredients[i].amount" type="text" placeholder="Ex: 1/2" />
                   </div>
                   <div class="control" style="width: 110px;">
-                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Measure" v-model="form.ingredients[i].measurement" />
+                    <input class="input" :class="!state.ingredients[i].measurement ? 'is-danger' : ''" type="text" list="ingreds" placeholder="Ex: lb" v-model="form.ingredients[i].measurement" />
                     <datalist id="ingreds">
                       <option v-for="item in form.ingredientOptions" :value="item.value">{{ item.value }}</option>
                     </datalist>
                   </div>
                   <div class="control is-expanded">
-                    <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ingredient" />
+                    <input class="input" :class="!state.ingredients[i].name ? 'is-danger' : ''" v-model="form.ingredients[i].name" type="text" placeholder="Ex: Flour" />
                   </div>
                   <div class="control">
                     <button class="button is-danger" :class="form.ingredients.length > 1 ? 'tooltip' : ''" type="button" @click="remove(i, elementType.INGREDIENT)" :disabled="form.ingredients.length < 2" data-tooltip="Remove Ingredient">
@@ -211,17 +211,15 @@
       <div class="modal-background" @click="showModal(false)"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Delete Recipe?</p>
-          <!-- <button class="delete" aria-label="close" @click="showModal(false)" type="button"></button> -->
+          <p class="modal-card-title">Delete Recipe</p>
         </header>
         <section class="modal-card-body">
-          Are you sure you want to delete this recipe?<br />
-          <strong>This cannot be undone!</strong>
+          Are you sure you want to delete this recipe?
+          <div class="has-text-right" style="margin-top: 1rem;">
+            <button class="button is-danger" @click="onDelete" type="button">Yes</button>
+            <button class="button is-info" @click="showModal(false)" type="button">No</button>
+          </div>
         </section>
-        <footer class="modal-card-foot flex-right">
-          <button class="button is-danger" @click="onDelete" type="button">Yes</button>
-          <button class="button is-info" @click="showModal(false)" type="button">No</button>
-        </footer>
       </div>
     </div>
 
