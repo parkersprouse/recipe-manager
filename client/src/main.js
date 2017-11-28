@@ -11,6 +11,7 @@ import DynamicTextArea from '@/components/DynamicTextArea';
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
 import RecipeForm from '@/components/RecipeForm';
+import MeasurementCalculator from '@/components/MeasurementCalculator';
 import router from '@/router';
 
 import '@/assets/css/font-awesome.min.css';
@@ -29,6 +30,7 @@ Vue.component('dynamic-textarea', DynamicTextArea);
 Vue.component('login-form', LoginForm);
 Vue.component('register-form', RegisterForm);
 Vue.component('recipe-form', RecipeForm);
+Vue.component('measurement-calculator', MeasurementCalculator);
 
 new Vue({
   el: '#app',

@@ -8,6 +8,7 @@ import ViewRecipePage from '@/pages/ViewRecipePage';
 import AddRecipePage from '@/pages/AddRecipePage';
 import EditRecipePage from '@/pages/EditRecipePage';
 import RecipeSearchResultsPage from '@/pages/RecipeSearchResultsPage';
+import ConvertorPage from '@/pages/ConvertorPage';
 import NotFound from '@/pages/404.vue';
 import utils from '@/utils/utils';
 
@@ -78,6 +79,12 @@ export default new Router({
       component: Container,
       beforeEnter: mustBeLoggedIn,
       props: (route) => ({ content: EditRecipePage })
+    },
+    {
+      path: '/convert',
+      component: Container,
+      beforeEnter: mustBeLoggedIn,
+      props: (route) => ({ content: ConvertorPage })
     },
     {
       path: '/logout',
