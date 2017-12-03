@@ -4,7 +4,7 @@
 
     <div class="columns">
       <div class="column">
-        <table class="table is-bordered is-narrow is-striped is-hoverable is-fullwidth">
+        <table class="table is-bordered is-narrow is-hoverable is-fullwidth">
           <thead>
             <tr>
               <th colspan="2">Quick Reference Chart</th>
@@ -42,11 +42,12 @@
   }
 </script>
 
-<style>
-th {
-  text-align: center !important;
-}
-tr > td:first-child {
-  text-align: right !important;
-}
+<style scoped>
+  th {
+    text-align: center !important;
+    background-color: #fafafa !important;
+  }
+  tr > td:first-child {
+    text-align: right !important;
+  }
 </style>

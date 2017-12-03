@@ -286,6 +286,7 @@
           ingredients: [{ name: '', measurement: '', amount: '' }],
           ingredientOptions: [
             { value: 'c', title: 'Cup' },
+            { value: 'gal', title: 'Gallon' },
             { value: 'g', title: 'Gram' },
             { value: 'kg', title: 'Kilogram' },
             { value: 'l', title: 'Liter' },
