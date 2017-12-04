@@ -18,18 +18,19 @@
     <table class="table is-bordered is-narrow is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th>Conversion Results</th>
+          <th colspan="2">Conversion Results</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>{{ result.cup }} Cup(s)</td></tr>
-        <tr><td>{{ result.gallon }} Gallon(s)</td></tr>
-        <tr><td>{{ result.liter }} Liter(s)</td></tr>
-        <tr><td>{{ result.milliliter }} Milliliter(s)</td></tr>
-        <tr><td>{{ result.ounce }} Ounce(s)</td></tr>
-        <tr><td>{{ result.pint }} Pint(s)</td></tr>
-        <tr><td>{{ result.tablespoon }} Tablespoon(s)</td></tr>
-        <tr><td>{{ result.teaspoon }} Teaspoon(s)</td></tr>
+        <tr><td>Cup</td><td>{{ result.cup }}</td></tr>
+        <tr><td>Gallon</td><td>{{ result.gallon }}</td></tr>
+        <tr><td>Liter</td><td>{{ result.liter }}</td></tr>
+        <tr><td>Milliliter</td><td>{{ result.milliliter }}</td></tr>
+        <tr><td>Ounce</td><td>{{ result.ounce }}</td></tr>
+        <tr><td>Pint</td><td>{{ result.pint }}</td></tr>
+        <tr><td>Quart</td><td>{{ result.quart }}</td></tr>
+        <tr><td>Tablespoon</td><td>{{ result.tablespoon }}</td></tr>
+        <tr><td>Teaspoon</td><td>{{ result.teaspoon }}</td></tr>
       </tbody>
     </table>
   </div>
@@ -51,6 +52,7 @@
           'Milliliter',
           'Ounce',
           'Pint',
+          'Quart',
           'Tablespoon',
           'Teaspoon'
         ],
@@ -61,6 +63,7 @@
           milliliter: 0,
           ounce: 0,
           pint: 0,
+          quart: 0,
           tablespoon: 0,
           teaspoon: 0
         }
@@ -85,68 +88,113 @@
         this.result.milliliter = 0;
         this.result.ounce = 0;
         this.result.pint = 0;
+        this.result.quart = 0;
         this.result.tablespoon = 0;
         this.result.teaspoon = 0;
       },
       recalculate() {
         this.resetValues();
+        
+        const numericValue = this.convertToNumeric(this.valueToConvert);
+        if (numericValue === null)
+          return;
 
-        const trimmedValue = validator.blacklist(this.valueToConvert.trim(), ' ');
+        switch(this.measurement) {
+          case this.measurements[0]: // Cup
+            this.calculateCup(numericValue);
+            break;
+          case this.measurements[1]: // Gallon
+            this.calculateGallon(numericValue);
+            break;
+          case this.measurements[2]: // Liter
+            this.calculateLiter(numericValue);
+            break;
+          case this.measurements[3]: // Milliliter
+            this.calculateMilliliter(numericValue);
+            break;
+          case this.measurements[4]: // Ounce
+            this.calculateOunce(numericValue);
+            break;
+          case this.measurements[5]: // Pint
+            this.calculatePint(numericValue);
+            break;
+          case this.measurements[6]: // Quart
+            this.calculateQuart(numericValue);
+            break;
+          case this.measurements[7]: // Tablespoon
+            this.calculateTablespoon(numericValue);
+            break;
+          case this.measurements[8]: // Teaspoon
+            this.calculateTeaspoon(numericValue);
+            break;
+        }
+      },
+      convertToNumeric(value) {
+        const trimmedValue = validator.blacklist(value.trim(), ' ');
         let numericValue = 0;
-
         if (trimmedValue.indexOf('/') > -1) {
           const halves = trimmedValue.split('/');
           if (halves.length > 2)
-            return;
+            return null;
           else {
             if (!validator.isFloat(halves[0]) || !validator.isFloat(halves[1]))
-              return;
+              return null;
             numericValue = parseFloat(halves[0]) / parseFloat(halves[1]);
           }
         }
         else {
           if (!validator.isFloat(trimmedValue))
-            return;
+            return null;
           numericValue = parseFloat(trimmedValue);
         }
 
-        if (Number.isNaN(numericValue) || numericValue < 0)
-          return;
+        if (numericValue < 0)
+          return null;
 
-        switch(this.measurement) {
-          case this.measurements[0]: // Cup
-            this.result.cup = numericValue;
-            this.result.gallon = numericValue / 16;
-            this.result.liter = numericValue / 0.24;
-            this.result.milliliter = numericValue * 240;
-            this.result.ounce = numericValue * 8;
-            this.result.pint = numericValue / 2;
-            this.result.tablespoon = numericValue * 16;
-            this.result.teaspoon = numericValue * 48;
-            break;
-          case this.measurements[1]: // Gallon
-            this.result.cup = numericValue * 16;
-            this.result.gallon = numericValue;
-            break;
-          case this.measurements[2]: // Liter
-            this.result.liter = numericValue;
-            break;
-          case this.measurements[3]: // Milliliter
-            this.result.milliliter = numericValue;
-            break;
-          case this.measurements[4]: // Ounce
-            this.result.ounce = numericValue;
-            break;
-          case this.measurements[5]: // Pint
-            this.result.pint = numericValue;
-            break;
-          case this.measurements[6]: // Tablespoon
-            this.result.tablespoon = numericValue;
-            break;
-          case this.measurements[7]: // Teaspoon
-            this.result.teaspoon = numericValue;
-            break;
-        }
+        return numericValue;
+      },
+      calculateCup(value) {
+        this.result.cup = value;
+        this.result.gallon = value / 16;
+        this.result.liter = value / 0.24;
+        this.result.milliliter = value * 240;
+        this.result.ounce = value * 8;
+        this.result.pint = value / 2;
+        this.result.quart = value / 4;
+        this.result.tablespoon = value * 16;
+        this.result.teaspoon = value * 48;
+      },
+      calculateGallon(value) {
+        this.result.cup = value * 16;
+        this.result.gallon = value;
+        this.result.liter = value * 3.785;
+        this.result.milliliter = value * 3785;
+        this.result.ounce = value * 128;
+        this.result.pint = value * 8;
+        this.result.quart = value * 4;
+        this.result.tablespoon = value * 256;
+        this.result.teaspoon = value * 768;
+      },
+      calculateLiter(value) {
+        this.result.liter = value;
+      },
+      calculateMilliliter(value) {
+        this.result.milliliter = value;
+      },
+      calculateOunce(value) {
+        this.result.ounce = value;
+      },
+      calculatePint(value) {
+        this.result.pint = value;
+      },
+      calculateQuart(value) {
+        this.result.quart = value;
+      },
+      calculateTablespoon(value) {
+        this.result.tablespoon = value;
+      },
+      calculateTeaspoon(value) {
+        this.result.teaspoon = value;
       }
     }
   }
@@ -154,9 +202,11 @@
 
 <style scoped>
   th {
+    text-align: center !important;
     background-color: #fafafa !important;
   }
-  th, td {
-    text-align: center !important;
+  tr > td:first-child {
+    text-align: right !important;
+    width: 50%;
   }
 </style>
