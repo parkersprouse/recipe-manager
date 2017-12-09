@@ -15,6 +15,7 @@
         <div class="navbar-start">
           <a class="navbar-item" href="/recipes">My Recipes</a>
           <a class="navbar-item" href="/recipes/add">Add Recipe</a>
+          <a class="navbar-item" href="/convert">Measurement Calculator</a>
         </div>
         <div class="navbar-end">
           <a class="navbar-item" href="/profile/edit" v-if="isBurgerActive">Edit Profile</a>

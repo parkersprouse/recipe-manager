@@ -17,15 +17,13 @@
             <tr><td>1/2 Cup</td><td>8 Tablespoons</td></tr>
             <tr><td>3/4 Cup</td><td>12 Tablespoons</td></tr>
             <tr><td>1 Cup</td><td>16 Tablespoons</td></tr>
-            <tr><td>1 Gallon</td><td></td></tr>
-            <tr><td>1 Liter</td><td></td></tr>
-            <tr><td>1 Milliliter</td><td></td></tr>
-            <tr><td>1 Ounce</td><td></td></tr>
-            <tr><td>1 Pint</td><td></td></tr>
-            <tr><td>1 Pound</td><td>16 Ounces</td></tr>
-            <tr><td>1 Quart</td><td></td></tr>
-            <tr><td>1 Tablespoon</td><td></td></tr>
-            <tr><td>1 Teaspoon</td><td></td></tr>
+            <tr><td>1 Cup</td><td>8 Ounces</td></tr>
+            <tr><td>3 Teaspoons</td><td>1 Tablespoon</td></tr>
+            <tr><td>1 Pint</td><td>2 Cups</td></tr>
+            <tr><td>1 Quart</td><td>2 Pints</td></tr>
+            <tr><td>1 Quart</td><td>4 Cups</td></tr>
+            <tr><td>1 Gallon</td><td>4 Quarts</td></tr>
+            <tr><td>1 Gallon</td><td>16 Cups</td></tr>
           </tbody>
         </table>
       </div>
