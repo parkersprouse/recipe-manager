@@ -94,7 +94,7 @@
       },
       recalculate() {
         this.resetValues();
-        
+
         const numericValue = this.convertToNumeric(this.valueToConvert);
         if (numericValue === null)
           return;
@@ -176,24 +176,80 @@
         this.result.teaspoon = value * 768;
       },
       calculateLiter(value) {
+        this.result.cup = value * 4.23;
+        this.result.gallon = value / 3.7854;
         this.result.liter = value;
+        this.result.milliliter = value * 1000;
+        this.result.ounce = value * 33.81;
+        this.result.pint = value * 2.11;
+        this.result.quart = value * 1.06;
+        this.result.tablespoon = value * 67.63;
+        this.result.teaspoon = value * 202.9;
       },
       calculateMilliliter(value) {
+        this.result.cup = value * 0.0042;
+        this.result.gallon = value * 0.0003;
+        this.result.liter = value / 1000;
         this.result.milliliter = value;
+        this.result.ounce = value * 0.034;
+        this.result.pint = value * 0.002;
+        this.result.quart = value * 0.001;
+        this.result.tablespoon = value * 0.07;
+        this.result.teaspoon = value * 0.2;
       },
       calculateOunce(value) {
+        this.result.cup = value * 0.125;
+        this.result.gallon = value * 0.008;
+        this.result.liter = value * 0.03;
+        this.result.milliliter = value * 29.6;
         this.result.ounce = value;
+        this.result.pint = value * 0.0625;
+        this.result.quart = value * 0.0313;
+        this.result.tablespoon = value * 2;
+        this.result.teaspoon = value * 6;
       },
       calculatePint(value) {
+        this.result.cup = value * 2;
+        this.result.gallon = value * 0.125;
+        this.result.liter = value * 0.47;
+        this.result.milliliter = value * 473;
+        this.result.ounce = value * 16;
         this.result.pint = value;
+        this.result.quart = value * 0.5;
+        this.result.tablespoon = value * 32;
+        this.result.teaspoon = value * 96;
       },
       calculateQuart(value) {
+        this.result.cup = value * 4;
+        this.result.gallon = value * 0.25;
+        this.result.liter = value * 0.95;
+        this.result.milliliter = value * 946;
+        this.result.ounce = value * 32;
+        this.result.pint = value * 2;
         this.result.quart = value;
+        this.result.tablespoon = value * 64;
+        this.result.teaspoon = value * 192;
       },
       calculateTablespoon(value) {
+        this.result.cup = value * 0.0625;
+        this.result.gallon = value * 0.004;
+        this.result.liter = value * 0.015;
+        this.result.milliliter = value * 15;
+        this.result.ounce = value * 0.5;
+        this.result.pint = value * 0.03125;
+        this.result.quart = value * 0.016;
         this.result.tablespoon = value;
+        this.result.teaspoon = value * 3;
       },
       calculateTeaspoon(value) {
+        this.result.cup = value * 0.0208;
+        this.result.gallon = value * 0.0013;
+        this.result.liter = value * 0.00493;
+        this.result.milliliter = value * 4.93;
+        this.result.ounce = value * 0.17;
+        this.result.pint = value * 0.0104;
+        this.result.quart = value * 0.005;
+        this.result.tablespoon = value / 3;
         this.result.teaspoon = value;
       }
     }
