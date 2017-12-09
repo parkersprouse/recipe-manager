@@ -25,8 +25,8 @@
               {{ !!user ? user.email : user }} <i class="fa fa-angle-down" aria-hidden="true" style="margin-left: 0.35rem;"></i>
             </a>
             <div class="navbar-dropdown is-right">
-              <a class="navbar-item" href="/profile/edit" style="justify-content: center; padding-right: 1rem; padding-left: 1rem;">Edit Profile</a>
-              <a class="navbar-item" href="/logout" style="justify-content: center; padding-right: 1rem; padding-left: 1rem;">Logout</a>
+              <a class="navbar-item navbar-dropdown-item" href="/profile/edit">Edit Profile</a>
+              <a class="navbar-item navbar-dropdown-item" href="/logout">Logout</a>
             </div>
           </div>
         </div>

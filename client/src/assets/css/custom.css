@@ -135,6 +135,12 @@ input::-webkit-calendar-picker-indicator:hover {
   margin-right: -2rem;
 }
 
+.navbar-dropdown-item {
+  justify-content: center !important;
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}
+
 .navbar-end {
   margin-right: -0.01rem;
 }
